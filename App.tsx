@@ -11,7 +11,7 @@ const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 const prefix = Linking.createURL('/');
 
 export default function App() {
-	const [isReady, setIsReady] = useState(false);
+	const [isReady, setIsReady] = useState(__DEV__ ? false : true);
 	const [initialState, setInitialState] = useState();
 
 	const linking = {
