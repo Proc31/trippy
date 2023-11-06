@@ -20,7 +20,6 @@ const trippyTheme = {
 	...DefaultTheme,
 	colors: {
 		...DefaultTheme.colors,
-		background: 'rgb(255, 0, 0)',
 	},
 };
 
