@@ -1,15 +1,26 @@
 import * as React from 'react';
-import { Text, View, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import { AuthContext } from './Contexts';
-import Generator from './components/Generator';
 
-export default function Home() {
+export default function Home({ navigation }) {
 	const { signOut } = React.useContext(AuthContext);
 
 	return (
 		<>
 			<View>
 				<Button title="Sign out" onPress={signOut} />
+			</View>
+			<View
+				style={{
+					flex: 1,
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<Button
+					title="Move to user index section"
+					onPress={() => navigation.navigate('UserIndex')}
+				/>
 			</View>
 		</>
 	);

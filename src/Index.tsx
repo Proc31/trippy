@@ -4,6 +4,7 @@ import { AuthContext } from './Contexts';
 import Home from './Home';
 import SignIn from './SignIn';
 import SplashScreen from './SplashSreen';
+import UserIndex from './components/UserIndex';
 
 const Stack = createNativeStackNavigator();
 
@@ -102,7 +103,10 @@ export default function Index() {
 					/>
 				) : (
 					// User is signed in
-					<Stack.Screen name="Home" component={Home} />
+					<>
+						<Stack.Screen name="Home" component={Home} />
+						<Stack.Screen name="UserIndex" component={UserIndex} />
+					</>
 				)}
 			</Stack.Navigator>
 		</AuthContext.Provider>
