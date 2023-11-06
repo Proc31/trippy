@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import TripCard from "./TripCard";
-const trips = [
+const placeHolder = [
   {
     tripName: "Blue John Mines Adventure",
     date: new Date("2023-08-15"),
@@ -32,6 +32,7 @@ const trips = [
   },
 ];
 const TripList = () => {
+     const [trips, setTrips] = useState(placeHolder)
   return (
     <ScrollView>
       {trips.map((trip, index) => {
