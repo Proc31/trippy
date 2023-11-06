@@ -1,0 +1,602 @@
+{
+    "schools": {
+        "1": {
+            "name": "Apptown High School"
+        }
+    },
+    "teachers": {
+        "c_harrison": {
+            "username": "c_harrison",
+            "first_name": "Chloe",
+            "surname": "Harrison",
+            "school": "1",
+            "trips": {
+                "2": "true"
+            }
+        },
+        "b_hassan": {
+            "username": "b_hassan",
+            "first_name": "Bilal",
+            "surname": "Hassan",
+            "school": "1",
+            "trips": {
+                "1": "true"
+            }
+        }
+    },
+    "students": {
+        "2": {
+            "username": "g_roberts",
+            "first_name": "Grace",
+            "surname": "Roberts",
+            "school": "1",
+            "guardian": {
+                "username": "a_roberts",
+                "first_name": "Alexander",
+                "surname": "Roberts"
+            }
+        },
+        "3": {
+            "username": "o_parker",
+            "first_name": "Olivia",
+            "surname": "Parker",
+            "school": "1",
+            "guardian": {
+                "username": "w_parker",
+                "first_name": "William",
+                "surname": "Parker"
+            }
+        },
+        "5": {
+            "username": "n_iqbal",
+            "first_name": "Nazia",
+            "surname": "Iqbal",
+            "school": "1",
+            "guardian": {
+                "username": "s_iqbal",
+                "first_name": "Saira",
+                "surname": "Iqbal"
+            }
+        },
+        "6": {
+            "username": "d_mitchell",
+            "first_name": "Daniel",
+            "surname": "Mitchell",
+            "school": "1",
+            "guardian": {
+                "username": "b_mitchell",
+                "first_name": "Benjamin",
+                "surname": "Mitchell"
+            }
+        },
+        "7": {
+            "username": "s_ahmed",
+            "first_name": "Saira",
+            "surname": "Ahmed",
+            "school": "1",
+            "guardian": {
+                "username": "n_ahmed",
+                "first_name": "Nida",
+                "surname": "Ahmed"
+            }
+        },
+        "8": {
+            "username": "e_cooper",
+            "first_name": "Ethan",
+            "surname": "Cooper",
+            "school": "1",
+            "guardian": {
+                "username": "c_cooper",
+                "first_name": "Christopher",
+                "surname": "Cooper"
+            }
+        },
+        "9": {
+            "username": "m_carter",
+            "first_name": "Mia",
+            "surname": "Carter",
+            "school": "1",
+            "guardian": {
+                "username": "d_carter",
+                "first_name": "Daniel",
+                "surname": "Carter"
+            }
+        },
+        "10": {
+            "username": "a_brooks",
+            "first_name": "Amelia",
+            "surname": "Brooks",
+            "school": "1",
+            "guardian": {
+                "username": "m_brooks",
+                "first_name": "Michael",
+                "surname": "Brooks"
+            },
+            "trips": {
+                "1": {
+                    "inventory": {
+                        "1": {
+                            "item": "clothes for two days",
+                            "checked": "true"
+                        },
+                        "2": {
+                            "item": "a lot of money for overpriced snacks",
+                            "checked": "true"
+                        }
+                    }
+                }
+            }
+        },
+        "11": {
+            "username": "e_dawson",
+            "first_name": "Emily",
+            "surname": "Dawson",
+            "school": "1",
+            "guardian": {
+                "username": "s_dawson",
+                "first_name": "Samuel",
+                "surname": "Dawson"
+            },
+            "trips": {
+                "1": {
+                    "inventory": {
+                        "1": {
+                            "item": "clothes for two days",
+                            "checked": "true"
+                        },
+                        "2": {
+                            "item": "a lot of money for overpriced snacks",
+                            "checked": "true"
+                        }
+                    }
+                }
+            }
+        },
+        "12": {
+            "username": "j_anderson",
+            "first_name": "James",
+            "surname": "Anderson",
+            "school": "1",
+            "guardian": {
+                "username": "a_anderson",
+                "first_name": "Andrew",
+                "surname": "Anderson"
+            }
+        },
+        "13": {
+            "username": "n_sheikh",
+            "first_name": "Nida",
+            "surname": "Sheikh",
+            "school": "1",
+            "guardian": {
+                "username": "a_sheikh",
+                "first_name": "Ayesha",
+                "surname": "Sheikh"
+            }
+        },
+        "14": {
+            "username": "w_foster",
+            "first_name": "William",
+            "surname": "Foster",
+            "school": "1",
+            "guardian": {
+                "username": "j_foster",
+                "first_name": "Joseph",
+                "surname": "Foster"
+            }
+        },
+        "15": {
+            "username": "a_siddiqui",
+            "first_name": "Ayesha",
+            "surname": "Siddiqui",
+            "school": "1",
+            "guardian": {
+                "username": "a_siddiqui",
+                "first_name": "Adnan",
+                "surname": "Siddiqui"
+            }
+        },
+        "16": {
+            "username": "l_bennett",
+            "first_name": "Liam",
+            "surname": "Bennett",
+            "school": "1",
+            "guardian": {
+                "username": "e_bennett",
+                "first_name": "Emma",
+                "surname": "Bennett"
+            }
+        },
+        "17": {
+            "username": "s_turner",
+            "first_name": "Sophia",
+            "surname": "Turner",
+            "school": "1",
+            "guardian": {
+                "username": "o_turner",
+                "first_name": "Olivia",
+                "surname": "Turner"
+            },
+            "trips": {
+                "1": {
+                    "inventory": {
+                        "1": {
+                            "item": "clothes for two days",
+                            "checked": "true"
+                        },
+                        "2": {
+                            "item": "a lot of money for overpriced snacks",
+                            "checked": "true"
+                        }
+                    }
+                }
+            }
+        },
+        "18": {
+            "username": "a_malik",
+            "first_name": "Adnan",
+            "surname": "Malik",
+            "school": "1",
+            "guardian": {
+                "username": "a_malik",
+                "first_name": "Arif",
+                "surname": "Malik"
+            }
+        },
+        "19": {
+            "username": "s_foster",
+            "first_name": "Samuel",
+            "surname": "Foster",
+            "school": "1",
+            "guardian": {
+                "username": "s_foster",
+                "first_name": "Sophia",
+                "surname": "Foster"
+            }
+        },
+        "20": {
+            "username": "l_watson",
+            "first_name": "Lily",
+            "surname": "Watson",
+            "school": "1",
+            "guardian": {
+                "username": "a_watson",
+                "first_name": "Ava",
+                "surname": "Watson"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "21": {
+            "username": "h_reed",
+            "first_name": "Henry",
+            "surname": "Reed",
+            "school": "1",
+            "guardian": {
+                "username": "i_reed",
+                "first_name": "Isabella",
+                "surname": "Reed"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "22": {
+            "username": "n_peterson",
+            "first_name": "Noah",
+            "surname": "Peterson",
+            "school": "1",
+            "guardian": {
+                "username": "m_peterson",
+                "first_name": "Mia",
+                "surname": "Peterson"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "23": {
+            "username": "a_rizvi",
+            "first_name": "Arif",
+            "surname": "Rizvi",
+            "school": "1",
+            "guardian": {
+                "username": "a_rizvi",
+                "first_name": "Amina",
+                "surname": "Rizvi"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "24": {
+            "username": "j_wilson",
+            "first_name": "Jack",
+            "surname": "Wilson",
+            "school": "1",
+            "guardian": {
+                "username": "c_wilson",
+                "first_name": "Charlotte",
+                "surname": "Wilson"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "25": {
+            "username": "b_hayes",
+            "first_name": "Benjamin",
+            "surname": "Hayes",
+            "school": "1",
+            "guardian": {
+                "username": "a_hayes",
+                "first_name": "Abigail",
+                "surname": "Hayes"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "26": {
+            "username": "h_mitchell",
+            "first_name": "Harper",
+            "surname": "Mitchell",
+            "school": "1",
+            "guardian": {
+                "username": "g_mitchell",
+                "first_name": "Grace",
+                "surname": "Mitchell"
+            },
+            "trips": {
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "27": {
+            "username": "a_khan",
+            "first_name": "Amina",
+            "surname": "Khan",
+            "school": "1",
+            "guardian": {
+                "username": "s_khan",
+                "first_name": "Shahbaz",
+                "surname": "Khan"
+            },
+            "trips": {
+                "1": {
+                    "inventory": {
+                        "1": {
+                            "item": "clothes for two days",
+                            "checked": "true"
+                        },
+                        "2": {
+                            "item": "a lot of money for overpriced snacks",
+                            "checked": "true"
+                        }
+                    }
+                },
+                "2": {
+                    "inventory": {
+                        "1": {
+                            "item": "wellies",
+                            "checked": "false"
+                        },
+                        "2": {
+                            "item": "compass",
+                            "checked": "false"
+                        }
+                    }
+                }
+            }
+        },
+        "28": {
+            "username": "s_qureshi",
+            "first_name": "Shahbaz",
+            "surname": "Qureshi",
+            "school": "1",
+            "guardian": {
+                "username": "f_qureshi",
+                "first_name": "Farhan",
+                "surname": "Qureshi"
+            }
+        },
+        "29": {
+            "username": "f_ali",
+            "first_name": "Farhan",
+            "surname": "Ali",
+            "school": "1",
+            "guardian": {
+                "username": "b_ali",
+                "first_name": "Bilal",
+                "surname": "Ali"
+            }
+        },
+        "30": {
+            "username": "a_simmons",
+            "first_name": "Ava",
+            "surname": "Simmons",
+            "school": "1",
+            "guardian": {
+                "username": "e_simmons",
+                "first_name": "Emily",
+                "surname": "Simmons"
+            }
+        }
+    },
+    "trips": {
+        "1": {
+            "name": "London Theatre 2023",
+            "description": "Year 9 trip to see Everybody's Talking About Jamie in the West End.",
+            "organiser": "b_hassan",
+            "school": "1",
+            "date": "07/03/2023",
+            "consent_deadline": "10/12/2022",
+            "payment_deadline": "20/02/2023",
+            "cost": "£200",
+            "status": "completed",
+            "inventory": {
+                "1": "clothes for two days",
+                "2": "a lot of money for overpriced snacks"
+            },
+            "students": {
+                "10": {
+                    "invited": "01/11/2022",
+                    "consent": "05/11/2022",
+                    "paid": "13/02/2023"
+                },
+                "11": {
+                    "invited": "01/11/2022",
+                    "consent": "09/11/2022",
+                    "paid": "03/02/2023"
+                },
+                "17": {
+                    "invited": "01/11/2022",
+                    "consent": "02/11/2022",
+                    "paid": "13/01/2023"
+                },
+                "27": {
+                    "invited": "01/11/2022",
+                    "consent": "12/11/2022",
+                    "paid": "12/02/2023"
+                }
+            }
+        },
+        "2": {
+            "name": "Castleton Y9 Geog Field Trip 2023",
+            "description": "Year 9 Geography GCSE Field Trip to Castleton.",
+            "organiser": "c_harrison",
+            "school": "1",
+            "date": "07/12/2023",
+            "consent_deadline": "20/11/2022",
+            "payment_deadline": "10/12/2022",
+            "cost": "£20",
+            "status": "planning",
+            "inventory": {
+                "1": "wellies",
+                "2": "compass"
+            },
+            "students": {
+                "20": {
+                    "invited": "01/11/2023",
+                    "consent": "02/11/2023",
+                    "paid": "03/11/2023"
+                },
+                "21": {
+                    "invited": "01/11/2023",
+                    "consent": "02/11/2023"
+                },
+                "22": {
+                    "invited": "01/11/2023",
+                    "consent": "03/11/2023",
+                    "paid": "06/11/2023"
+                },
+                "23": {
+                    "invited": "01/11/2023",
+                    "consent": "06/11/2023"
+                },
+                "24": {
+                    "invited": "01/11/2023"
+                },
+                "25": {
+                    "invited": "01/11/2023",
+                    "consent": "04/11/2023"
+                },
+                "26": {
+                    "invited": "01/11/2023"
+                },
+                "27": {
+                    "invited": "01/11/2023",
+                    "consent": "05/11/2023"
+                }
+            }
+        }
+    },
+    "headcounts": {
+        "20230307T080422": {
+            "trip": "1",
+            "students": {
+                "10": "true",
+                "11": "true",
+                "17": "true",
+                "27": "true"
+            }
+        }
+    }
+}
