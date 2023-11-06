@@ -44,7 +44,7 @@ export default function App() {
 	}, [isReady]);
 
 	if (!isReady) {
-		return null;
+		return <Text>Loading...</Text>;
 	}
 
 	return (
