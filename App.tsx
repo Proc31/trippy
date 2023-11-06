@@ -70,7 +70,7 @@ export default function App() {
 				AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
 			}
 			linking={linking}
-			fallback={<Text>Loading...</Text>}
+			fallback={<SplashScreen />}
 		>
 			<PaperProvider>
 				<Index />
