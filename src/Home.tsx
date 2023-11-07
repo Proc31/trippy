@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Button } from 'react-native';
 import { AuthContext } from './Contexts';
+import TripList from './components/TripList';
 
 export default function Home({ navigation }) {
 	const { signOut } = React.useContext(AuthContext);
@@ -21,6 +22,7 @@ export default function Home({ navigation }) {
 					title="Move to user index section"
 					onPress={() => navigation.navigate('UserIndex')}
 				/>
+				<TripList/>
 			</View>
 		</>
 	);

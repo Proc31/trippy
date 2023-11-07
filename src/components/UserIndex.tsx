@@ -24,6 +24,7 @@ export default function UserIndex() {
     invitestudents: InviteStudents,
   });
 
+
   return (
     <BottomNavigation
       navigationState={{ index, routes }}
