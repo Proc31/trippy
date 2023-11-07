@@ -5,7 +5,9 @@ import TripList from './components/TripList';
 
 
 export default function Home({ navigation }) {
-	const { signOut } = React.useContext(AuthContext);
+  const { signOut } = React.useContext(AuthContext);
+
+	
 
 	return (
 		<>
