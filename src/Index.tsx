@@ -6,6 +6,8 @@ import SignIn from "./SignIn";
 import SplashScreen from "./SplashSreen";
 import UserIndex from "./components/UserIndex";
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 const Stack = createNativeStackNavigator();
 
 export default function Index() {
@@ -62,13 +64,25 @@ export default function Index() {
 
   const authContext = React.useMemo(
     () => ({
-      signIn: async (data) => {
+      signIn: async ({ email, password, auth }) => {
+        try {
+          const response = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
+          console.log(response);
+          dispatch({ type: "SIGN_IN", token: response });
+          alert("Check your email");
+        } catch (error: any) {
+          console.log(error);
+          alert("Sign in failed:" + error.message);
+        }
+
         // In a production app, we need to send some data (usually username, password) to server and get a token
         // We will also need to handle errors if sign in failed
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
-
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
       },
       signOut: () => dispatch({ type: "SIGN_OUT" }),
       signUp: async (data) => {
