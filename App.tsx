@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { AppRegistry, Platform, useColorScheme } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +25,7 @@ const trippyTheme = {
 };
 
 export default function App() {
-	const [isReady, setIsReady] = useState(__DEV__ ? false : true);
+	const [isReady, setIsReady] = useState(__DEV__  ? false : true);
 	const [initialState, setInitialState] = useState();
 	const scheme = useColorScheme();
 
