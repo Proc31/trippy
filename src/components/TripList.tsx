@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import TripCard from "./TripCard";
+import AddTripCard from "./AddTripcard";
 const placeHolder = [
   {
     tripName: "Blue John Mines Adventure",
@@ -31,13 +32,21 @@ const placeHolder = [
       "Embark on a breathtaking voyage to the heart of a marine sanctuary, where you'll witness the majestic beauty of whales in their natural habitat...",
   },
 ];
+
 const TripList = () => {
-     const [trips, setTrips] = useState(placeHolder)
+  const [trips, setTrips] = useState(placeHolder);
+
+  const handleAddTrip = (newTrip) => {
+    const updatedTrips = [...trips, newTrip];
+    setTrips(updatedTrips);
+  };
+
   return (
     <ScrollView>
       {trips.map((trip, index) => {
         return <TripCard key={index} trip={trip} />;
       })}
+      <AddTripCard onPress={handleAddTrip} />
     </ScrollView>
   );
 };
