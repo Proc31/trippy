@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Checkbox, TextInput, Button } from 'react-native-paper';
 
-const dummyItems = [
+type Item = {
+  name: string;
+  status: boolean;
+}
+
+const dummyItems: Item[] = [
   {
     "name": "Skis",
     "status": false
@@ -85,14 +90,15 @@ const dummyItems = [
   },
 ];
 
-const getItems = () => {
+const getItems = (): Promise<Item[]> => {
     return new Promise((resolve, reject) => {
         resolve(dummyItems)
     })
 }
 
-export default InventoryChecklist = () => {
-  const [items, setItems] = useState(null);
+
+const InventoryChecklist = () => {
+  const [items, setItems] = useState<Item[] | null>(null);
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -105,11 +111,13 @@ export default InventoryChecklist = () => {
     })
   }, [])
 
-  const handleItemCheck = (itemIndex) => {
+  const handleItemCheck = (itemIndex: number) => {
     // Update the checked status in the state
-    const updatedItems = [...items];
-    updatedItems[itemIndex].status = !updatedItems[itemIndex].status;
-    setItems(updatedItems);
+    if(items) {
+      const updatedItems = [...items];
+      updatedItems[itemIndex].status = !updatedItems[itemIndex].status;
+      setItems(updatedItems);
+    }
   };
 
   const handleAddItem = () => {
@@ -118,18 +126,36 @@ export default InventoryChecklist = () => {
         name: text,
         status: false,
       };
-      const updatedItems = [...items, newItem];
+      const updatedItems = [...(items || []), newItem];
       setItems(updatedItems);
       setText("");
     }
   }
 
-  const handleDeleteItem = (itemIndex) => {
-    const updatedItems = [...items];
-    updatedItems.splice(itemIndex, 1);
-      setItems(updatedItems);
+  const handleDeleteItem = (itemIndex: number) => {
+    if (items) {
+      const updatedItems = [...items];
+      updatedItems.splice(itemIndex, 1);
+        setItems(updatedItems);
+    }
     // need to handle API after this
   };
+
+  type ItemProps = {
+    item: Item;
+    index: number
+  }
+
+  const RenderItem = ({ item, index }: ItemProps) => (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <Checkbox
+        status={item.status ? 'checked' : 'unchecked'}
+        onPress={() => handleItemCheck(index)}
+      />
+      <Text style={{ marginLeft: 16 }}>{item.name}</Text>
+      {item.status ? <Button icon="delete" mode="text" textColor="red" onPress={() => handleDeleteItem(index)} >Delete</Button> : null}
+    </View>
+  )
 
   return (
     <View style={{maxHeight:600}}>
@@ -144,17 +170,10 @@ export default InventoryChecklist = () => {
       <FlatList style={{borderWidth: 3, borderColor: '#73B5D4', marginTop: 20 }}
         data={items}
         keyExtractor={(item, index) => `${item.name}-${index}`}
-        renderItem={({ item, index }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Checkbox
-              status={item.status ? 'checked' : 'unchecked'}
-              onPress={() => handleItemCheck(index)}
-            />
-            <Text style={{ marginLeft: 16 }}>{item.name}</Text>
-            {item.status ? <Button icon="delete" mode="text" textColor="red" onPress={() => handleDeleteItem(index)} >Delete</Button> : null}
-          </View>
-        )}
+        renderItem={({item, index}) => <RenderItem item={item} index={index}/>}
       />
     </View>
   );
 };
+
+export default InventoryChecklist;
