@@ -71,9 +71,7 @@ export default function Index() {
             email,
             password
           );
-          console.log(response);
           dispatch({ type: "SIGN_IN", token: response });
-          alert("Check your email");
         } catch (error: any) {
           console.log(error);
           alert("Sign in failed:" + error.message);
