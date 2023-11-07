@@ -6,6 +6,7 @@ import SignIn from "./SignIn";
 import SplashScreen from "./SplashSreen";
 import UserIndex from "./components/UserIndex";
 
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();

@@ -40,11 +40,21 @@ const TripList = () => {
     const updatedTrips = [...trips, newTrip];
     setTrips(updatedTrips);
   };
+  const handleEditTrip = (editedTrip) => {
+
+    //TODO: ui is in place functionality not implemented.
+    const updatedTrips = [...trips, editedTrip];
+    setTrips(updatedTrips);
+  };
+
+  const handleDeleteTrip = () => {
+    console.log("deleted");
+  };
 
   return (
     <ScrollView>
       {trips.map((trip, index) => {
-        return <TripCard key={index} trip={trip} />;
+        return <TripCard key={index} trip={trip} handleEditTrip={handleEditTrip} handleDeleteTrip={handleDeleteTrip} />;
       })}
       <AddTripCard onPress={handleAddTrip} />
     </ScrollView>
