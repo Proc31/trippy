@@ -3,6 +3,7 @@ import { View, Button } from 'react-native';
 import { AuthContext } from './Contexts';
 import TripList from './components/TripList';
 
+
 export default function Home({ navigation }) {
 	const { signOut } = React.useContext(AuthContext);
 

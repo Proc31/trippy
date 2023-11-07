@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 
-const TripForm = ({ onSubmit, onCancel }) => {
-  const [tripName, setTripName] = useState("");
-  const [location, setLocation] = useState("");
-  const [dateString, setDateString] = useState("");
-  const [description, setDescription] = useState("");
+const TripEditForm = ({ onSubmit, trip }) => {
+  const currentDate = trip.date.toLocaleDateString().split("T")
+  const editDate = currentDate[0]
+  console.log(editDate)
+  const [tripName, setTripName] = useState(trip.tripName);
+  const [location, setLocation] = useState(trip.location);
+  const [dateString, setDateString] = useState(editDate);
+  const [description, setDescription] = useState(trip.description);
+  
   const handleSubmit = () => {
     onSubmit({ tripName, location, date: new Date(dateString), description });
-  };
-  const handleDateChange = (date) => {
-   
-    setDateString(date.toISOString().split('T')[0]);
   };
 
   return (
@@ -36,14 +36,11 @@ const TripForm = ({ onSubmit, onCancel }) => {
         value={description}
         onChangeText={(text) => setDescription(text)}
       />
-      <Button mode="contained" onPress={handleSubmit} style={{ margin: 4 }}>
+      <Button mode="contained" onPress={handleSubmit}>
         Submit
-      </Button>
-      <Button mode="contained" onPress={onCancel}>
-        Cancel
       </Button>
     </React.Fragment>
   );
 };
 
-export default TripForm;
+export default TripEditForm;

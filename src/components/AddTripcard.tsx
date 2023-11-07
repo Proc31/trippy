@@ -11,9 +11,14 @@ const AddTripCard = ({ onPress }) => {
       setModalVisible(true);
       
     };
+
+    const handleCancel = () => {
+      setModalVisible(false);
+      
+    };
+
     const handleFormSubmit = formData => {
         
-        console.log('Form submitted with data:', formData);
         onPress(formData); 
         setModalVisible(false); 
       };
@@ -33,7 +38,7 @@ const AddTripCard = ({ onPress }) => {
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
                 <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Add New Trip</Text>
-                <AddTripForm onSubmit={handleFormSubmit} />
+                <AddTripForm onSubmit={handleFormSubmit} onCancel={handleCancel} />
               </View>
             </View>
           </Modal>
