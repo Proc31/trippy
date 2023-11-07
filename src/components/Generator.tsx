@@ -13,8 +13,8 @@ export default function Generator() {
 				Brightness.setBrightnessAsync(1);
 			}
 		})();
-		return () => {
-			Brightness.restoreSystemBrightnessAsync();
+		return async () => {
+			await Brightness.restoreSystemBrightnessAsync();
 		};
 	}, []);
 
