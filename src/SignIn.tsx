@@ -27,7 +27,6 @@ export default function SignIn() {
 				title="Sign in"
 				onPress={() => signIn({ email, password, auth })}
 			/>
-			<Button title="DB Test" onPress={getGuardians} />
 		</View>
 	);
 }
