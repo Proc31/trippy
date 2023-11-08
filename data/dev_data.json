@@ -11,7 +11,7 @@
             "email": "c_harrison@sambrady.co.uk",
             "school": "1",
             "trips": {
-                "2": "true"
+                "2": true
             }
         },
         "bedWzc6jQlefQb1KKxsRFH4VX2y1": {
@@ -20,7 +20,7 @@
             "email": "b_hassan@sambrady.co.uk",
             "school": "1",
             "trips": {
-                "1": "true"
+                "1": true
             }
         }
     },
@@ -30,82 +30,66 @@
             "surname": "Roberts",
             "email": "g_roberts@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "NKgKuTCwE2OTaT0fZKM5N1WZem82"
-            }
+            "guardian": "NKgKuTCwE2OTaT0fZKM5N1WZem82"
         },
         "S6GrxJYBdSXrPvfMAC7Y4Uae2pI2": {
             "first_name": "Olivia",
             "surname": "Parker",
             "email": "o_parker@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "TJ3GNy7rj7YpigAjpJlU6XE7RWu2"
-            }
+            "guardian": "TJ3GNy7rj7YpigAjpJlU6XE7RWu2"
         },
         "VzfHIx8ZFfMt4fynthdjLwlRGXv2": {
             "first_name": "Nazia",
             "surname": "Iqbal",
             "email": "n_iqbal@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "Ar45HfZimyMrevozbofcauCFVho1"
-            }
+            "guardian": "Ar45HfZimyMrevozbofcauCFVho1"
         },
         "1kdZXd4h3YfC3Re6CFZ6BSRRRmx2": {
             "first_name": "Daniel",
             "surname": "Mitchell",
             "email": "d_mitchell@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "JZ7dTnXK18eSfeMLbTugXhtjReA2"
-            }
+            "guardian": "JZ7dTnXK18eSfeMLbTugXhtjReA2"
         },
         "UhrjAetRkGWhAKQeT6vh7KX2VwB2": {
             "first_name": "Saira",
             "surname": "Ahmed",
             "email": "s_ahmed@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "o8HwHjC9URRtJKRCArhVaNzKO0B2"
-            }
+            "guardian": "o8HwHjC9URRtJKRCArhVaNzKO0B2"
         },
         "CO3F1h1PpDdphqnwrZx37MMEQ4J3": {
             "first_name": "Ethan",
             "surname": "Cooper",
             "email": "e_cooper@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "JgxzdZbY79f5qVwPLKsI4EJ0tDv2"
-            }
+            "guardian": "JgxzdZbY79f5qVwPLKsI4EJ0tDv2"
         },
         "rocMnnPwWLWln61rB31Z18IYc0W2": {
             "first_name": "Mia",
             "surname": "Carter",
             "email": "m_carter@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "qRK8I5wvUcWGCKY9gJ3stvbhTz13"
-            }
+            "guardian": "qRK8I5wvUcWGCKY9gJ3stvbhTz13"
         },
         "Ril2KaQrsOfZaEExJwjCbJns0hq2": {
             "first_name": "Amelia",
             "surname": "Brooks",
             "email": "a_brooks@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "X9yytC85zvMDNC1w8NiyGEVmTzE3"
-            },
+            "guardian": "X9yytC85zvMDNC1w8NiyGEVmTzE3",
             "trips": {
                 "1": {
                     "inventory": {
                         "1": {
                             "item_name": "clothes for two days",
-                            "checked": "true"
+                            "checked": true
                         },
                         "2": {
                             "item_name": "a lot of money for overpriced snacks",
-                            "checked": "true"
+                            "checked": true
                         }
                     }
                 }
@@ -116,19 +100,17 @@
             "surname": "Dawson",
             "email": "e_dawson@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "tRsXVjy1aEQZWqzw46A7z2vANtz1"
-            },
+            "guardian": "tRsXVjy1aEQZWqzw46A7z2vANtz1",
             "trips": {
                 "1": {
                     "inventory": {
                         "1": {
                             "item_name": "clothes for two days",
-                            "checked": "true"
+                            "checked": true
                         },
                         "2": {
                             "item_name": "a lot of money for overpriced snacks",
-                            "checked": "true"
+                            "checked": true
                         }
                     }
                 }
@@ -139,64 +121,52 @@
             "surname": "Anderson",
             "email": "j_anderson@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "49yU8n82Kra7GR9qRMXqSShJxFB3"
-            }
+            "guardian": "49yU8n82Kra7GR9qRMXqSShJxFB3"
         },
         "8M9KGq8ET1cczsK7ohVMj7vXqbn2": {
             "first_name": "Nida",
             "surname": "Sheikh",
             "email": "n_sheikh@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "LPDm8pu3xUYsCGKjfSfUQYtkFwe2"
-            }
+            "guardian": "LPDm8pu3xUYsCGKjfSfUQYtkFwe2"
         },
         "qMKqfMksMJSK6OAZl1h004s6TLw2": {
             "first_name": "William",
             "surname": "Foster",
             "school": "1",
             "email": "w_foster@sambrady.co.uk",
-            "guardian": {
-                "id": "XvKjtbLvPpVfa9Gkj00xpbWEn923"
-            }
+            "guardian": "XvKjtbLvPpVfa9Gkj00xpbWEn923"
         },
         "3kLFeHf4QhOozZNtlvetsUNmGuA3": {
             "first_name": "Ayesha",
             "surname": "Siddiqui",
             "school": "1",
             "email": "a_siddiqui@sambrady.co.uk",
-            "guardian": {
-                "id": "3kLFeHf4QhOozZNtlvetsUNmGuA3"
-            }
+            "guardian": "3kLFeHf4QhOozZNtlvetsUNmGuA3"
         },
         "CkApvBv1m5WoyBcKvi2LITG9xty1": {
             "first_name": "Liam",
             "surname": "Bennett",
             "school": "1",
             "email": "l_bennet@sambrady.co.uk",
-            "guardian": {
-                "id": "uqk5DhCw4JatghymG1AD6mHXZcs2"
-            }
+            "guardian": "uqk5DhCw4JatghymG1AD6mHXZcs2"
         },
         "LBtzX1dUbZfdmWb2hn9hFJRwUWP2": {
             "first_name": "Sophia",
             "surname": "Turner",
             "email": "s_turner@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "eV7LfVn60cdpHvS7MyTycRzB8VD2"
-            },
+            "guardian": "eV7LfVn60cdpHvS7MyTycRzB8VD2",
             "trips": {
                 "1": {
                     "inventory": {
                         "1": {
                             "item_name": "clothes for two days",
-                            "checked": "true"
+                            "checked": true
                         },
                         "2": {
                             "item_name": "a lot of money for overpriced snacks",
-                            "checked": "true"
+                            "checked": true
                         }
                     }
                 }
@@ -207,37 +177,31 @@
             "surname": "Malik",
             "email": "a_malik@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "HYP9GOdF2aYHiieTtIDeHXugEsr1"
-            }
+            "guardian": "HYP9GOdF2aYHiieTtIDeHXugEsr1"
         },
         "Znn0Iw9iIzZ7sFKYddqV3nhwari1": {
             "first_name": "Samuel",
             "surname": "Foster",
             "email": "s_foster@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "WzfhFR6O37bdEO0btihDaIRIBj22"
-            }
+            "guardian": "WzfhFR6O37bdEO0btihDaIRIBj22"
         },
         "F5cUKyjSk5MfjMVO1S50ZCk9fBJ2": {
             "first_name": "Lily",
             "surname": "Watson",
             "email": "l_watson@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "oyJKm4bli8buhUeX4dNTDwi7yEh2"
-            },
+            "guardian": "oyJKm4bli8buhUeX4dNTDwi7yEh2",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -248,19 +212,17 @@
             "surname": "Reed",
             "email": "h_reed@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "CuaqtrhJxSXVOWzrIic8vkdwP5O2"
-            },
+            "guardian": "CuaqtrhJxSXVOWzrIic8vkdwP5O2",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -271,19 +233,17 @@
             "surname": "Peterson",
             "email": "n_peterson@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "fGPepYrpuGPEv5g8RkrFzzsoY5A3"
-            },
+            "guardian": "fGPepYrpuGPEv5g8RkrFzzsoY5A3",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -294,19 +254,17 @@
             "surname": "Rizvi",
             "email": "a_rizvi@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "1SUVmHDNfkRH01A8ImTHmVFoVer1"
-            },
+            "guardian": "1SUVmHDNfkRH01A8ImTHmVFoVer1",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -317,19 +275,17 @@
             "surname": "Wilson",
             "email": "j_wilson@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "UYvdLZsO19YDX4LvaLzJ5HJ7sgV2"
-            },
+            "guardian": "UYvdLZsO19YDX4LvaLzJ5HJ7sgV2",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -340,19 +296,17 @@
             "surname": "Hayes",
             "email": "b_hayes@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "Y0rwdVPcRbgP9USmp503NDrVkhE3"
-            },
+            "guardian": "Y0rwdVPcRbgP9USmp503NDrVkhE3",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -363,19 +317,17 @@
             "surname": "Mitchell",
             "email": "h_mitchell@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "YIfbxd7Ai1TsoZuTZFX9IdVrw5E2"
-            },
+            "guardian": "YIfbxd7Ai1TsoZuTZFX9IdVrw5E2",
             "trips": {
                 "2": {
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -386,19 +338,17 @@
             "surname": "Khan",
             "email": "a_khan@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "O8jlo9yaftPhyz5H6xGirmfNsdb2"
-            },
+            "guardian": "O8jlo9yaftPhyz5H6xGirmfNsdb2",
             "trips": {
                 "1": {
                     "inventory": {
                         "1": {
                             "item_name": "clothes for two days",
-                            "checked": "true"
+                            "checked": true
                         },
                         "2": {
                             "item_name": "a lot of money for overpriced snacks",
-                            "checked": "true"
+                            "checked": true
                         }
                     }
                 },
@@ -406,11 +356,11 @@
                     "inventory": {
                         "1": {
                             "item_name": "wellies",
-                            "checked": "false"
+                            "checked": false
                         },
                         "2": {
                             "item_name": "compass",
-                            "checked": "false"
+                            "checked": false
                         }
                     }
                 }
@@ -421,27 +371,21 @@
             "surname": "Qureshi",
             "email": "s_qureshi@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "wI9BhRqIAHOXhE45N1p26xFnjLH3"
-            }
+            "guardian": "wI9BhRqIAHOXhE45N1p26xFnjLH3"
         },
         "w0zNC1jlfJcVx52PYkwgzEwDoJF2": {
             "first_name": "Farhan",
             "surname": "Ali",
             "email": "f_ali@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "nj6KzZkYCxOwrg7EZbRY5A7axur1"
-            }
+            "guardian": "nj6KzZkYCxOwrg7EZbRY5A7axur1"
         },
         "WxprURck6xRYEdEmUPj0pm6UyMN2": {
             "first_name": "Ava",
             "surname": "Simmons",
             "email": "a_simmons@sambrady.co.uk",
             "school": "1",
-            "guardian": {
-                "id": "8L3Dx2X1gdcYxN2ikoPaOpsvAM03"
-            }
+            "guardian": "8L3Dx2X1gdcYxN2ikoPaOpsvAM03"
         }
     },
     "trips": {
@@ -536,10 +480,10 @@
         "20230307T080422": {
             "trip": "1",
             "students": {
-                "Ril2KaQrsOfZaEExJwjCbJns0hq2": "true",
-                "XZpXXUBjoBdyEFHrNNG3NiGc7oS2": "true",
-                "LBtzX1dUbZfdmWb2hn9hFJRwUWP2": "true",
-                "sijtI7P9rGVIWQE5ipaH6DxaMU12": "true"
+                "Ril2KaQrsOfZaEExJwjCbJns0hq2": true,
+                "XZpXXUBjoBdyEFHrNNG3NiGc7oS2": true,
+                "LBtzX1dUbZfdmWb2hn9hFJRwUWP2": true,
+                "sijtI7P9rGVIWQE5ipaH6DxaMU12": true
             }
         }
     },
