@@ -21,12 +21,12 @@ export default function StudentList({
 
     setCheckedItems(newCheckedItems); //this resets the checked items on the ui
   };
-
+  const studentsTest = students.map((student) => {});
   return (
     <ScrollView style={styles.container}>
       {title}
       {students.map((student, index) => (
-        <View key={student.id} style={styles.checkboxContainer}>
+        <View key={index + 43} style={styles.checkboxContainer}>
           <Checkbox
             key={index + 100}
             status={checkedItems.includes(student.id) ? "checked" : "unchecked"}

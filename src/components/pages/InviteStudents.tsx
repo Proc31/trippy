@@ -21,6 +21,7 @@ export default function InviteStudents() {
             studentArr.push({ id: key, ...value }); // Collate data into an array of objects
           }
         }
+
         setStudents(studentArr); // Update the state with fetched data
       });
     };
