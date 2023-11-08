@@ -14,6 +14,18 @@ export function getGuardians() {
 	});
 }
 
+export function getStudents() {
+	const ref = Firebase.ref(db, 'students');
+	Firebase.onValue(ref, (snapshot) => {
+		const data = snapshot.val();
+		const keys = Object.keys(data);
+		const result = keys.map((student) => {
+			return { [student]: data[student] };
+		});
+		return result;
+	});
+}
+
 export function getTrips() {
 	const ref = Firebase.ref(db, 'trips');
 	Firebase.onValue(ref, (snapshot) => {
