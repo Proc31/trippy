@@ -41,3 +41,12 @@ export function getSingleTeacher(id) {
 		return result;
 	});
 }
+
+export function getUserRole(id) {
+	const ref = Firebase.ref(db, `users/${id}`);
+	Firebase.onValue(ref, (snapshot) => {
+		const data = snapshot.val();
+		const result = data.role;
+		return result;
+	});
+}
