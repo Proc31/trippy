@@ -16,6 +16,7 @@ export default function SendStudentInvites({
       invitedCopy.push(students.find((student) => student.id === studentId));
     });
     setCheckedItems([]);
+    //TODO now i just need to add post api to send the invites to the trip id
     console.log(invitedCopy); // this current will get an array of student objects which we can send the invites from
   }
 

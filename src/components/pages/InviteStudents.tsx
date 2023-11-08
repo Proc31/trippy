@@ -1,25 +1,31 @@
 import StudentList from "../StudentList";
 import { Text, View } from "react-native";
 import SendStudentInvites from "../SendStudentInvites";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { database } from "../../../firebase/config";
+import { ref, onValue } from "@firebase/database";
+import { snap } from "react-native-paper-dates/lib/typescript/Time/timeUtils";
+import { type } from "metro/src/integration_tests/basic_bundle/TypeScript";
 
 export default function InviteStudents() {
-  const students = [
-    { id: 1, studentName: "Harry Robinson" },
-    { id: 2, studentName: "Emma Johnson" },
-    { id: 3, studentName: "Oliver Williams" },
-    { id: 4, studentName: "Ava Brown" },
-    { id: 5, studentName: "Jack Jones" },
-    { id: 6, studentName: "Sophia Garcia" },
-    { id: 7, studentName: "William Martinez" },
-    { id: 8, studentName: "Isabella Miller" },
-    { id: 9, studentName: "Ethan Davis" },
-    { id: 10, studentName: "Mia Rodriguez" },
-    { id: 12124, studentName: "William Martinez" },
-    { id: 124112415, studentName: "Isabella Miller" },
-    { id: 125121231312315, studentName: "Ethan Davis" },
-    { id: 105555555, studentName: "Mia Rodriguez" },
-  ];
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const studentArr = [];
+      const studentsRef = ref(database, "students");
+      onValue(studentsRef, (snapshot) => {
+        const data = snapshot.val();
+        for (let key in data) {
+          if (data.hasOwnProperty(key)) {
+            const value = data[key];
+            studentArr.push({ id: key, ...value }); // Collate data into an array of objects
+          }
+        }
+        setStudents(studentArr); // Update the state with fetched data
+      });
+    };
+    fetchData();
+  }, []);
   const [checkedItems, setCheckedItems] = useState([]);
   const [invited, setInvited] = useState([]);
   return [

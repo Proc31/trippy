@@ -1,26 +1,32 @@
 import StudentList from "../StudentList";
 import { Text, View } from "react-native";
 import SendStudentInvites from "../SendStudentInvites";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RemoveStudentBtn from "../RemoveStudentBtn";
+import { onValue, ref } from "@firebase/database";
+import { database } from "../../../firebase/config";
 
 export default function EditStudents() {
-  const students = [
-    { id: 1, studentName: "Harry Robinson" },
-    { id: 2, studentName: "Emma Johnson" },
-    { id: 3, studentName: "Oliver Williams" },
-    { id: 4, studentName: "Ava Brown" },
-    { id: 5, studentName: "Jack Jones" },
-    { id: 6, studentName: "Sophia Garcia" },
-    { id: 7, studentName: "William Martinez" },
-    { id: 8, studentName: "Isabella Miller" },
-    { id: 9, studentName: "Ethan Davis" },
-    { id: 10, studentName: "Mia Rodriguez" },
-    { id: 12124, studentName: "William Martinez" },
-    { id: 124112415, studentName: "Isabella Miller" },
-    { id: 125121231312315, studentName: "Ethan Davis" },
-    { id: 105555555, studentName: "Mia Rodriguez" },
-  ];
+  const [students, setStudents] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const studentArr = [];
+      const tripRef = await ref(database, "trips/1/students");
+      onValue(tripRef, (snapshot) => {
+        const data = snapshot.val();
+
+        for (let key in data) {
+          const studentsRef = ref(database, `students/${key}`);
+          onValue(studentsRef, (snapshot) => {
+            const studentData = snapshot.val();
+            [studentData].forEach((student) => studentArr.push(student));
+          });
+        }
+        setStudents(studentArr); // Update the state with fetched data
+      });
+    };
+    fetchData();
+  }, []);
   const [checkedItems, setCheckedItems] = useState([]);
   const [indexToRemove, setIndexes] = useState([]);
   return [
