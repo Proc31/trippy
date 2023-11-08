@@ -38,14 +38,7 @@ export function getTrips() {
 	});
 }
 
-export function getSingleTrip(id) {
-	const ref = Firebase.ref(db, `trips/${id}`);
-	Firebase.onValue(ref, (snapshot) => {
-		const result = snapshot.val();
-		console.log(result);
-		return result;
-	});
-}
+
 
 export function getSingleStudent(id) {
 	const ref = Firebase.ref(db, `students/${id}`);
@@ -70,4 +63,20 @@ export function getUserRole(id) {
 		const result = data.role;
 		return result;
 	});
+}
+
+export async function getSingleTrip(id) {
+	const ref = Firebase.ref(db, `trips/${id}`);
+	const result = await Firebase.get(ref);
+	return result;
+}
+
+export async function getTripStudents(id) {
+	const data = await getSingleTrip(id);
+	const students = data.val().students;
+	const keys = Object.keys(students);
+	const result = keys.map((student) => {
+		return { [student]: students[student] };
+	});
+	return result;
 }
