@@ -26,7 +26,6 @@ export default function SignIn() {
 				title="Sign in"
 				onPress={() => signIn({ email, password, auth })}
 			/>
-
 		</View>
 	);
 }
