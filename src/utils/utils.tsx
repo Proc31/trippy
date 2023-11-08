@@ -68,3 +68,10 @@ export async function getTripStudents(id) {
 	});
 	return result;
 }
+
+export async function getTripInventory(id) {
+	const data = await getSingleTrip(id);
+	const result = data.val().inventory;
+	result.splice(0, 1); //First item of array is undefined, why is this?
+	return result;
+}
