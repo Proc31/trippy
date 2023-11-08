@@ -9,6 +9,7 @@ export default function StudentList({
   students,
 }) {
   const handleCheckboxChange = (id) => {
+    //this gets passed the student id
     const currentIndex = checkedItems.indexOf(id);
     const newCheckedItems = [...checkedItems];
 
@@ -18,17 +19,14 @@ export default function StudentList({
       newCheckedItems.splice(currentIndex, 1);
     }
 
-    setCheckedItems(newCheckedItems);
+    setCheckedItems(newCheckedItems); //this resets the checked items on the ui
   };
 
   return (
     <ScrollView style={styles.container}>
       {title}
       {students.map((student, index) => (
-        <View
-          key={student.id + student.studentName}
-          style={styles.checkboxContainer}
-        >
+        <View key={student.id} style={styles.checkboxContainer}>
           <Checkbox
             key={index + 100}
             status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
@@ -46,7 +44,7 @@ export default function StudentList({
               padding: 5,
             }}
           >
-            {student.studentName}
+            {student.first_name + " " + student.surname}
           </Text>
         </View>
       ))}
