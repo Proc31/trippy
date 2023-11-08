@@ -16,7 +16,6 @@ export default function EditStudents() {
         const data = snapshot.val();
 
         for (let key in data) {
-          console.log(key);
           const studentsRef = ref(database, `students/${key}`);
           onValue(studentsRef, (snapshot) => {
             const studentData = snapshot.val();
