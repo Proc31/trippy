@@ -25,7 +25,7 @@ export default function Home({ navigation }) {
 					title="Move to user index section"
 					onPress={() => navigation.navigate('UserIndex')}
 				/>
-				<TripList/>
+				<TripList />
 			</View>
 		</>
 	);
