@@ -25,3 +25,11 @@ export function getTrips() {
 		return result;
 	});
 }
+
+export function getSingleStudent(id) {
+	const ref = Firebase.ref(db, `students/${id}`);
+	Firebase.onValue(ref, (snapshot) => {
+		const result = snapshot.val();
+		return result;
+	});
+}
