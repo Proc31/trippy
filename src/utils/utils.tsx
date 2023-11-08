@@ -33,3 +33,11 @@ export function getSingleStudent(id) {
 		return result;
 	});
 }
+
+export function getSingleTeacher(id) {
+	const ref = Firebase.ref(db, `teachers/${id}`);
+	Firebase.onValue(ref, (snapshot) => {
+		const result = snapshot.val();
+		return result;
+	});
+}
