@@ -100,11 +100,11 @@
                 "1": {
                     "inventory": {
                         "1": {
-                            "item": "clothes for two days",
+                            "item_name": "clothes for two days",
                             "checked": "true"
                         },
                         "2": {
-                            "item": "a lot of money for overpriced snacks",
+                            "item_name": "a lot of money for overpriced snacks",
                             "checked": "true"
                         }
                     }
@@ -123,11 +123,11 @@
                 "1": {
                     "inventory": {
                         "1": {
-                            "item": "clothes for two days",
+                            "item_name": "clothes for two days",
                             "checked": "true"
                         },
                         "2": {
-                            "item": "a lot of money for overpriced snacks",
+                            "item_name": "a lot of money for overpriced snacks",
                             "checked": "true"
                         }
                     }
@@ -191,11 +191,11 @@
                 "1": {
                     "inventory": {
                         "1": {
-                            "item": "clothes for two days",
+                            "item_name": "clothes for two days",
                             "checked": "true"
                         },
                         "2": {
-                            "item": "a lot of money for overpriced snacks",
+                            "item_name": "a lot of money for overpriced snacks",
                             "checked": "true"
                         }
                     }
@@ -232,11 +232,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -255,11 +255,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -278,11 +278,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -301,11 +301,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -324,11 +324,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -347,11 +347,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -370,11 +370,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
@@ -393,11 +393,11 @@
                 "1": {
                     "inventory": {
                         "1": {
-                            "item": "clothes for two days",
+                            "item_name": "clothes for two days",
                             "checked": "true"
                         },
                         "2": {
-                            "item": "a lot of money for overpriced snacks",
+                            "item_name": "a lot of money for overpriced snacks",
                             "checked": "true"
                         }
                     }
@@ -405,11 +405,11 @@
                 "2": {
                     "inventory": {
                         "1": {
-                            "item": "wellies",
+                            "item_name": "wellies",
                             "checked": "false"
                         },
                         "2": {
-                            "item": "compass",
+                            "item_name": "compass",
                             "checked": "false"
                         }
                     }
