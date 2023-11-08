@@ -38,6 +38,15 @@ export function getTrips() {
 	});
 }
 
+export function getSingleTrip(id) {
+	const ref = Firebase.ref(db, `trips/${id}`);
+	Firebase.onValue(ref, (snapshot) => {
+		const result = snapshot.val();
+		console.log(result);
+		return result;
+	});
+}
+
 export function getSingleStudent(id) {
 	const ref = Firebase.ref(db, `students/${id}`);
 	Firebase.onValue(ref, (snapshot) => {

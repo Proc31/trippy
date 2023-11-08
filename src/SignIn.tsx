@@ -2,6 +2,7 @@ import * as React from "react";
 import { Button, TextInput, View } from "react-native";
 import { AuthContext } from "./Contexts";
 import { FIREBASE_AUTH } from "../firebase/config";
+import { getSingleTrip } from './utils/utils';
 
 export default function SignIn() {
 	const [email, setEmail] = React.useState('');
@@ -26,6 +27,7 @@ export default function SignIn() {
 				title="Sign in"
 				onPress={() => signIn({ email, password, auth })}
 			/>
+			<Button title="db" onPress={() => getSingleTrip(1)} />
 		</View>
 	);
 }
