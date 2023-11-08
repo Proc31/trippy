@@ -2,6 +2,7 @@ import * as Firebase from 'firebase/database';
 
 const db = Firebase.getDatabase();
 
+
 export async function getGuardians() {
 	const ref = Firebase.ref(db, 'guardians');
 	const data = await Firebase.get(ref);
@@ -74,4 +75,21 @@ export async function getTripInventory(id) {
 	const result = data.val().inventory;
 	result.splice(0, 1); //First item of array is undefined, why is this?
 	return result;
+}
+
+export async function createHeadCount(id) {
+	const ref = Firebase.ref(db, 'headcounts');
+	const data = await getTripStudents(id);
+	const students = data.map((student) => {
+		return Object.keys(student)[0];
+	});
+	const studentFormat = students.map((student) => {
+		return { [student]: false };
+	});
+	console.log(studentFormat);
+	const headCount = {
+		trip: id,
+		students: studentFormat,
+	};
+	Firebase.push(ref, headCount);
 }
