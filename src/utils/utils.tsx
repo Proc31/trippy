@@ -80,16 +80,31 @@ export async function getTripInventory(id) {
 export async function createHeadCount(id) {
 	const ref = Firebase.ref(db, 'headcounts');
 	const data = await getTripStudents(id);
-	const students = data.map((student) => {
+	const studentIds = data.map((student) => {
 		return Object.keys(student)[0];
 	});
-	const studentFormat = students.map((student) => {
-		return { [student]: false };
+	const students = {};
+	studentIds.forEach((student) => {
+		students[student] = false;
 	});
-	console.log(studentFormat);
 	const headCount = {
 		trip: id,
-		students: studentFormat,
+		students: students,
+		timestamp: Date.now(),
 	};
-	Firebase.push(ref, headCount);
+	const url = await Firebase.push(ref, headCount);
+	const headcount_id = url.toString().match(/[^/]+)$/);
+	console.log(headcount_id);
+	return headcount_id;
+}
+
+export async function setStudentPresent(student_id, headcount_id) {
+	const ref = Firebase.ref(db, `headcounts/${headcount_id}/${student_id}`);
+	// use direct add function to set bool
+}
+
+export async function getHeadCountStudents(headcount_id) {
+	const ref = Firebase.ref(db, `headcounts/${headcount_id}`);
+	const result = await Firebase.get(ref);
+	return result.students;
 }
