@@ -2,6 +2,7 @@ import { Button } from "react-native-paper";
 import React from "react";
 import { View } from "react-native";
 import RemoveStudentBtn from "./RemoveStudentBtn";
+import { addStudentsToTrip } from "../utils/utils";
 
 export default function SendStudentInvites({
   invited,
@@ -10,14 +11,18 @@ export default function SendStudentInvites({
   students,
 }) {
   function handleSubmit() {
-    const invitedCopy = [...invited];
+    const invitedStudentIds = [];
 
     checkedItems.forEach((studentId) => {
-      invitedCopy.push(students.find((student) => student.id === studentId));
+      students.map((student) => {
+        if (student.id === studentId) {
+        invitedStudentIds.push(student.id)
+        };
+      })
     });
+
     setCheckedItems([]);
-    //TODO now i just need to add post api to send the invites to the trip id
-    console.log(invitedCopy); // this current will get an array of student objects which we can send the invites from
+    addStudentsToTrip(invitedStudentIds, "1");
   }
 
   return (

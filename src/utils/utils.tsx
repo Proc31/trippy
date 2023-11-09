@@ -101,3 +101,15 @@ export async function getMultipleStudents(idsArray) {
 
   return students;
 }
+
+export async function addStudentsToTrip(studentIds, tripId) {
+  const todaysDate = new Date();
+  const students = studentIds.map((id) => {
+    const ref = Firebase.ref(db, `trips/${tripId}/students/` + id);
+    const set = Firebase.set;
+    set(ref, {
+      invited: Date.now(),
+    });
+    console.log(id, tripId);
+  });
+}
