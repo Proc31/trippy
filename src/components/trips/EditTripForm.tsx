@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 
 const TripEditForm = ({ onSubmit, trip }) => {
-  const currentDate = trip.date.toLocaleDateString().split("T")
-  const editDate = currentDate[0]
-  console.log(editDate)
+
   const [tripName, setTripName] = useState(trip.tripName);
   const [location, setLocation] = useState(trip.location);
   const [dateString, setDateString] = useState(editDate);
