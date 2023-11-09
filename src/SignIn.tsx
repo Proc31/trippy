@@ -4,8 +4,8 @@ import { AuthContext } from "./Contexts";
 import { FIREBASE_AUTH } from "../firebase/config";
 
 export default function SignIn() {
-	const [email, setEmail] = React.useState('');
-	const [password, setPassword] = React.useState('');
+	const [email, setEmail] = React.useState('d_mitchell@sambrady.co.uk');
+	const [password, setPassword] = React.useState('functionforce6');
 	const { signIn } = React.useContext(AuthContext);
 	const auth = FIREBASE_AUTH;
 
