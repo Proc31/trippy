@@ -3,8 +3,8 @@ import { Button, TextInput, View } from "react-native";
 import { useAuth } from "../firebase/auth/AuthContext";
 
 export default function SignIn() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("spuriousmeaning@gmail.com");
+  const [password, setPassword] = React.useState("myPass");
 
   const { login } = useAuth();
 

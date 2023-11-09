@@ -2,10 +2,14 @@ import * as React from "react";
 
 import { createContext, useContext, useState } from "react";
 
-import { User, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import {
+  User,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 import { FIREBASE_AUTH } from "firebase/config";
-import { Text } from "react-native";
 
 interface AuthContextData {
   user: User | null;
@@ -30,16 +34,16 @@ const AuthProvider: React.FC = ({ children }) => {
         password
       );
       setUser(userCredential.user);
-      setSignOut(false);
-      setLoading(false);
       console.log(user);
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      console.log("Got an err");
     }
+    return user;
   }
 
-  async function logout() {
-    await FIREBASE_AUTH.signOut();
+  function logout() {
+    signOut(FIREBASE_AUTH);
     setUser(null);
     setSignOut(true);
   }

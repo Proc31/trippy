@@ -11,6 +11,7 @@ import { PaperProvider, Text } from "react-native-paper";
 import * as Linking from "expo-linking";
 import Index from "./src/Index";
 import SplashScreen from "@/SplashSreen";
+import { AuthProvider } from "firebase/auth/AuthContext";
 
 const PERSISTENCE_KEY = "NAVIGATION_STATE_V1";
 
@@ -61,19 +62,21 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer
-      theme={scheme === "dark" ? DarkTheme : trippyTheme}
-      initialState={initialState}
-      onStateChange={(state) =>
-        AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-      }
-      linking={linking}
-      fallback={<SplashScreen />}
-    >
-      <PaperProvider>
-        <Index />
-      </PaperProvider>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer
+        theme={scheme === "dark" ? DarkTheme : trippyTheme}
+        initialState={initialState}
+        onStateChange={(state) =>
+          AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+        }
+        linking={linking}
+        fallback={<SplashScreen />}
+      >
+        <PaperProvider>
+          <Index />
+        </PaperProvider>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
