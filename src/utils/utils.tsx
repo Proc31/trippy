@@ -113,3 +113,17 @@ export async function getHeadCountStudents(headcount) {
 	const parsedResult = result.val();
 	return parsedResult.students;
 }
+
+
+export async function getMultipleStudents(idsArray) {
+  const studentPromises = idsArray.map((id) => getSingleStudent(id));
+
+  const students = await Promise.all(studentPromises);
+
+  return students;
+
+  export async function removeStudentsFromTrip(studentId, trip) {
+  const studentsRef = ref(db, `trips/${trip}/students`);
+  return update(studentsRef, {
+    [studentId]: null,
+  });
