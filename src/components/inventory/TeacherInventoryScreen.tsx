@@ -1,115 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Checkbox, TextInput, Button } from 'react-native-paper';
-import { ref, onValue, push } from 'firebase/database';
+import { TextInput, Button } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import { getTripInventory } from '@/utils/utils';
-import { useNavigation } from '@react-navigation/native';
 
 
-type Item = {
-  item_name: string;
-  checked: boolean;
-};
-
-// const tripInventoryRef = ref(database, 'trips/1/inventory')
 
 const TeacherInventoryScreen = () => {
-  const [inventory, setInventory] = useState<Item[] | null>(null);
-  const [text, setText] = useState('');
-  const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-  const [editedValue, setEditedValue] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+    const [inventory, setInventory] = useState([]);
+    const [text, setText] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
+    const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-
-
     getTripInventory(1)
     .then((data) => {
       setInventory(data)
-      console.log(inventory)
+      console.log('use Effect')
     })
     .catch((error) => {console.log(error)})
   }, [])
 
-    const handleEditPress = () => {
-        if (!isEditing) {
-            setEditedIndex(0);
-            } else {
-            setEditedIndex(-1);
-            }
+  const handleEditPress = () => {
+    if (!isEditing) {
+        setEditedIndex(0);
+        } else {
+        setEditedIndex(-1);
+        }
 
-        setIsEditing(!isEditing);
-    };
+    setIsEditing(!isEditing);
+};
 
-
-  const handleEditItemName = (index: number, editedName: string) => {
+  const handleEditItemName = (index: number, editedValue: string) => {
     // Update the item's name in the inventory
     if (inventory) {
-      const updatedInventory = [...inventory];
-      updatedInventory[index].item_name = editedName;
-      setInventory(updatedInventory);
-            setEditedIndex(-1); // Stop editing after saving
+        const updatedInventory = [...inventory];
+        updatedInventory[index] = editedValue;
+        setInventory(updatedInventory);
+        setEditedIndex(-1);
+        setIsEditing(false) // Stop editing after saving
     }
   };
 
-  const handleItemCheck = (itemIndex: number) => {
-    // Update the checked status in the state
-    if (inventory) {
-      const updatedInventory = [...inventory];
-      updatedInventory[itemIndex].checked = !updatedInventory[itemIndex].checked;
-      setInventory(updatedInventory);
-    }
-  };
+  const RenderItem = ({ item, index }) => {
+    const [checked, setChecked] = useState(false);
+    const [editedValue, setEditedValue] = useState(item);
 
-  const handleAddItem = () => {
-    if (text) {
-      const newItem = {
-        item_name: text,
-        checked: false,
-      };
-
-      push(itemsRef, newItem)
-        .then(() => {
-          const updatedItems = [...(inventory || []), newItem];
-          setInventory(updatedItems);
-          setText('');
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-  };
-
-  const handleDeleteItem = (itemIndex: number) => {
-    if (inventory) {
-      const updatedItems = [...inventory];
-      updatedItems.splice(itemIndex, 1);
-      setInventory(updatedItems);
-    }
-  };
-
-
-
-  type ItemProps = {
-    item: Item;
-    index: number
-  }
-
-
-  const RenderItem = ({ item, index }: ItemProps) => {
     const handlePress = () => {
-        setEditedIndex(index);
-        setEditedValue(item);
-    }
-    
+      setEditedIndex(index);
+      setEditedValue(item);
+    };
+
     return (
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Checkbox
-          status={item.checked ? 'checked' : 'unchecked'}
-          onPress={() => handleItemCheck(index)}
-        />
-        {editedIndex === index ? (
+      <View style={{ flexDirection: 'row', alignItems: 'center', position: 'relative' }}>
+      <Ionicons
+        name={checked ? 'ios-trash-bin' : 'ios-trash-bin-outline'}
+        size={24}
+        color="black"
+        onPress={() => {
+          setChecked(!checked)
+        }}
+      />
+
+        {editedIndex === index && isEditing ? (
           <TextInput
+          style={{ width: 200, height: 30, marginLeft: 16 }}
             value={editedValue}
             onChangeText={(text) => setEditedValue(text)}
           />
@@ -120,30 +76,35 @@ const TeacherInventoryScreen = () => {
           </TouchableWithoutFeedback>
         )}
 
-        {isEditing ? <Button
-          icon="lead-pencil"
-          mode="text"
-          textColor="blue"
-          onPress={handlePress}
-        >
-        </Button> : null }
+        {isEditing ? (
+          <Button
+            icon="lead-pencil"
+            mode="text"
+            textColor={editedIndex === index ? "green" : "blue"}
+            onPress={() => {
+                handleEditItemName(index, editedValue)
+                }
+            }   
+          >
+            {editedIndex === index ? "Save" : null}
+          </Button>
+        ) : null}
   
-        {item.checked ? (
+        {checked ? (
           <Button
             icon="delete"
             mode="text"
             textColor="red"
             onPress={() => handleDeleteItem(index)}
+            style={{position: 'absolute', right: 0, zIndex: 1}}
           >
             Delete
           </Button>
         ) : null}
       </View>
+
     );
   };
-
-
-
 
   return (
     <View style={{ maxHeight: 600 }}>
@@ -158,31 +119,32 @@ const TeacherInventoryScreen = () => {
           mode="contained"
           buttonColor="#73B5D4"
           textColor="black"
-          onPress={handleAddItem}
+          //onPress={handleAddItem}
           style={{ borderRadius: 5, marginLeft: 5 }}
         >
           Add
         </Button>
         <Button
-          icon="lead-pencil"
-          mode="text"
-          textColor="blue"
-          onPress={() => {
-            handleEditPress()
-          }}
+            icon="lead-pencil"
+            mode="contained"
+            textColor={isEditing? "white": "black"}
+            buttonColor={isEditing? "green": "#73B5D4"}
+            style={{ borderRadius: 5, marginLeft: 5 }}
+            onPress={() => {
+                handleEditPress()
+            }}
         >
-          Edit
+            {isEditing ? "Done" : "Edit"}
         </Button>
       </View>
       <FlatList
         style={{ borderWidth: 3, borderColor: '#73B5D4', marginTop: 20 }}
         data={inventory}
-        keyExtractor={(item, index) => `${item.item_name}-${index}`}
+        keyExtractor={(item, index) => `${item}-${index}`}
         renderItem={({ item, index }) => <RenderItem item={item} index={index} />}
-        extraData={editedIndex}
       />
     </View>
   );
-};
+}
 
 export default TeacherInventoryScreen;
