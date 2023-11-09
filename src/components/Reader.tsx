@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Text, Modal, Portal } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Image } from 'expo-image';
+import * as Haptics from 'expo-haptics';
 import MissingStudentList from './MissingStudentList';
 import {
 	createHeadCount,
@@ -12,8 +13,7 @@ import {
 const crosshairs = require('../../assets/crosshair.png');
 
 const TRIP_ID = 2; // TODO! GET AUTH CONTEXT
-const SCANNER_TIMEOUT = 1000;
-
+const SCANNER_TIMEOUT = 2000;
 const containerStyle = { backgroundColor: 'white', padding: 20 };
 
 export default function Reader() {
@@ -36,7 +36,6 @@ export default function Reader() {
 			setHasPermission(status === 'granted');
 		};
 		getBarCodeScannerPermissions();
-
 		fetchMissingStudents();
 	}, [headcount, missingStudents]);
 
@@ -53,23 +52,36 @@ export default function Reader() {
 			setMissingStudents(studentArray);
 		}
 	};
-
+	//Cleans up session
+	const closeSession = () => {
+		hideModal();
+		setHeadCount(null);
+		setScanned(true);
+	};
+	//Handles starting and stopping a headcount
 	const handleHeadCount = async () => {
 		if (!headcount) {
 			const headcount = await createHeadCount(TRIP_ID);
 			setHeadCount(headcount);
 			setScanned(false);
 		} else {
-			setHeadCount(null);
-			setScanned(true);
+			closeSession();
 		}
 	};
-
+	//Checks to see if scanned item is valid
+	const checkStudent = (student) => {
+		return missingStudents.includes(student);
+	};
+	//Handles a scan event
 	const handleBarCodeScanned = ({ data }) => {
 		setScanned(true);
-		setStudentPresent(data, headcount);
-		fetchMissingStudents();
-		setTimeout(() => setScanned(false), SCANNER_TIMEOUT); //Timeout duration between scans
+		const valid = checkStudent(data);
+		if (valid) {
+			setStudentPresent(data, headcount);
+			fetchMissingStudents();
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+		}
+		setTimeout(() => setScanned(false), SCANNER_TIMEOUT);
 	};
 
 	if (hasPermission === null) {
@@ -81,21 +93,29 @@ export default function Reader() {
 
 	return (
 		<>
-			{headcount ? (
-				<View>
-					<Text>Students Missing: {missingStudents.length} </Text>
-				</View>
-			) : (
-				<View>
-					<Text>No HeadCount Running!</Text>
-				</View>
-			)}
 			<View style={styles.container}>
+				{headcount ? (
+					<View style={styles.title}>
+						{missingStudents.length !== 0 ? (
+							<Text variant="labelMedium">
+								Students Missing: {missingStudents.length}
+							</Text>
+						) : (
+							<Text variant="labelMedium">
+								Head Count Complete!
+							</Text>
+						)}
+					</View>
+				) : (
+					<View style={styles.title}>
+						<Text variant="labelMedium">No Headcount Running!</Text>
+					</View>
+				)}
 				<BarCodeScanner
 					onBarCodeScanned={
 						scanned ? undefined : handleBarCodeScanned
 					}
-					style={StyleSheet.absoluteFillObject}
+					style={styles.camera}
 				/>
 				<Image
 					style={{
@@ -111,7 +131,11 @@ export default function Reader() {
 						onDismiss={hideModal}
 						contentContainerStyle={containerStyle}
 					>
-						<MissingStudentList missingStudents={missingStudents} />
+						<MissingStudentList
+							headcount={headcount}
+							hideModal={hideModal}
+							missingStudents={missingStudents}
+						/>
 					</Modal>
 				</Portal>
 			</View>
@@ -141,5 +165,18 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'center',
+	},
+	title: {
+		position: 'absolute',
+		justifyContent: 'center',
+		top: 10,
+		left: 128,
+	},
+	camera: {
+		position: 'absolute',
+		left: 0,
+		top: 40,
+		right: 0,
+		bottom: 0,
 	},
 });
