@@ -4,18 +4,11 @@ import { Checkbox, TextInput, Button } from 'react-native-paper';
 import { ref, onValue, push } from 'firebase/database';
 import { database }  from '../../../firebase/config'
 
-// import { onValueCreated } from "firebase-functions/v2/database";
-//const {onRequest} = require("firebase-functions/v2/https");
-//const {logger} = require("firebase-functions");
-
 
 type Item = {
   name: string;
   checked: boolean;
 }
-
-
-
 
 const InventoryChecklist = () => {
   const [inventory, setInventory] = useState<Item[] | null>(null);
