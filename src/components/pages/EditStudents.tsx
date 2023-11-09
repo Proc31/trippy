@@ -1,10 +1,9 @@
 import StudentList from "../StudentList";
 import { Text, View } from "react-native";
-import SendStudentInvites from "../SendStudentInvites";
 import React, { useEffect, useState } from "react";
+
 import RemoveStudentBtn from "../RemoveStudentBtn";
-import { onValue, ref } from "@firebase/database";
-import { database } from "../../../firebase/config";
+
 import {
   getMultipleStudents,
   getSingleTrip,
@@ -14,13 +13,14 @@ import { set } from "yaml/dist/schema/yaml-1.1/set";
 
 export default function EditStudents() {
   const [students, setStudents] = useState([]);
+  //TODO this needs to be changed to get the trip id from the user
+  const [trip, setTrip] = useState(1);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tripStudents = await getTripStudents(1);
+        const tripStudents = await getTripStudents(trip);
         const firstKeys = tripStudents.map((obj) => Object.keys(obj)[0]);
         const studentData = await getMultipleStudents(firstKeys);
-
         setStudents(studentData);
       } catch (err) {
         console.log(err);
@@ -49,9 +49,11 @@ export default function EditStudents() {
       setCheckedItems={setCheckedItems}
     />,
     <RemoveStudentBtn
+      setStudents={setStudents}
       checkedItems={checkedItems}
       students={students}
       setCheckedItems={setCheckedItems}
+      trip={trip}
     />,
   ];
 }
