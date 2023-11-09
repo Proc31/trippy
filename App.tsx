@@ -11,6 +11,10 @@ import { PaperProvider, Text } from "react-native-paper";
 import * as Linking from "expo-linking";
 import Index from "./src/Index";
 import SplashScreen from "@/SplashSreen";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 const PERSISTENCE_KEY = "NAVIGATION_STATE_V1";
 

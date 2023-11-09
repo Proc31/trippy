@@ -93,18 +93,21 @@ export async function createHeadCount(id) {
 		timestamp: Date.now(),
 	};
 	const url = await Firebase.push(ref, headCount);
-	const headcount_id = url.toString().match(/[^/]+)$/);
-	console.log(headcount_id);
-	return headcount_id;
+	const urlString = url.toString().match(/([^/]+)$/g);
+	return urlString[0];
 }
 
-export async function setStudentPresent(student_id, headcount_id) {
-	const ref = Firebase.ref(db, `headcounts/${headcount_id}/${student_id}`);
-	// use direct add function to set bool
+export async function setStudentPresent(student, headcount) {
+	const ref = Firebase.ref(db, `headcounts/${headcount}/students`);
+	const update = {
+		[student]: true,
+	};
+	Firebase.update(ref, update);
 }
 
-export async function getHeadCountStudents(headcount_id) {
-	const ref = Firebase.ref(db, `headcounts/${headcount_id}`);
+export async function getHeadCountStudents(headcount) {
+	const ref = Firebase.ref(db, `headcounts/${headcount}`);
 	const result = await Firebase.get(ref);
-	return result.students;
+	const parsedResult = result.val();
+	return parsedResult.students;
 }

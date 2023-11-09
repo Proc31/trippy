@@ -1,48 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import * as React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Text, Modal, Portal } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Image } from 'expo-image';
+import MissingStudentList from './MissingStudentList';
 import {
 	createHeadCount,
-	getHeadCountStudents,
-	getTripStudents,
 	setStudentPresent,
+	getHeadCountStudents,
 } from '@/utils/utils';
 const crosshairs = require('../../assets/crosshair.png');
 
-const TRIP_ID = 1; // TODO! GET AUTH CONTEXT
+const TRIP_ID = 2; // TODO! GET AUTH CONTEXT
+const SCANNER_TIMEOUT = 1000;
+
+const containerStyle = { backgroundColor: 'white', padding: 20 };
 
 export default function Reader() {
-	const [hasPermission, setHasPermission] = useState(null);
-	const [scanned, setScanned] = useState(true);
-	const [tripStudents, setTripStudents] = useState([]);
-	const [headcountId, setHeadCountId] = useState(null);
-	const [missing, setMissing] = useState(0);
+	// Camera control states
+	const [hasPermission, setHasPermission] = React.useState(null);
+	const [scanned, setScanned] = React.useState(true);
+	// Missing student states
+	const [missingStudents, setMissingStudents] = React.useState([]);
+	const [headcount, setHeadCount] = React.useState(null);
+	// Model state
+	const [visible, setVisible] = React.useState(false);
 
-	useEffect(() => {
+	const showModal = () => setVisible(true);
+	const hideModal = () => setVisible(false);
+
+	React.useEffect(() => {
+		// Function checks for camera permissions
 		const getBarCodeScannerPermissions = async () => {
 			const { status } = await BarCodeScanner.requestPermissionsAsync();
 			setHasPermission(status === 'granted');
 		};
 		getBarCodeScannerPermissions();
-		const getMissing = () => {
-			let count = 0;
-			for (const student in tripStudents) {
-				if (tripStudents[student] === false) {
-					count++;
+
+		fetchMissingStudents();
+	}, [headcount, missingStudents]);
+
+	// Function checks the database for missing students and updates state list
+	const fetchMissingStudents = async () => {
+		if (headcount) {
+			const studentArray = [];
+			const students = await getHeadCountStudents(headcount);
+			for (const student in students) {
+				if (students[student] === false) {
+					studentArray.push(student);
 				}
 			}
-			setMissing(count);
-		};
-		getMissing();
-		const students = await getHeadCountStudents(headcountId);
-	}, [tripStudents]);
+			setMissingStudents(studentArray);
+		}
+	};
 
-	const handleBarCodeScanned = ({ type, data }) => {
+	const handleHeadCount = async () => {
+		if (!headcount) {
+			const headcount = await createHeadCount(TRIP_ID);
+			setHeadCount(headcount);
+			setScanned(false);
+		} else {
+			setHeadCount(null);
+			setScanned(true);
+		}
+	};
+
+	const handleBarCodeScanned = ({ data }) => {
 		setScanned(true);
-		alert(`Barcode data: ${data}`); //TODO Send info to backend
-		setStudentPresent(data, headcountId);
-		setTimeout(() => setScanned(false), 2000); //Timeout duration between scans
+		setStudentPresent(data, headcount);
+		fetchMissingStudents();
+		setTimeout(() => setScanned(false), SCANNER_TIMEOUT); //Timeout duration between scans
 	};
 
 	if (hasPermission === null) {
@@ -54,9 +81,15 @@ export default function Reader() {
 
 	return (
 		<>
-			<View>
-				<Text>Students Missing: {missing} </Text>
-			</View>
+			{headcount ? (
+				<View>
+					<Text>Students Missing: {missingStudents.length} </Text>
+				</View>
+			) : (
+				<View>
+					<Text>No HeadCount Running!</Text>
+				</View>
+			)}
 			<View style={styles.container}>
 				<BarCodeScanner
 					onBarCodeScanned={
@@ -72,16 +105,32 @@ export default function Reader() {
 					}}
 					source={crosshairs}
 				/>
+				<Portal>
+					<Modal
+						visible={visible}
+						onDismiss={hideModal}
+						contentContainerStyle={containerStyle}
+					>
+						<MissingStudentList missingStudents={missingStudents} />
+					</Modal>
+				</Portal>
 			</View>
 			<View>
 				<Button
-					title="Start Head Count"
-					onPress={async () => {
-						const response = await createHeadCount(TRIP_ID);
-						setHeadCountId(response);
-						setScanned(false);
-					}}
-				/>
+					style={{ margin: 10 }}
+					mode="contained"
+					onPress={handleHeadCount}
+				>
+					{headcount ? 'Stop Head Count' : 'Start Head Count'}
+				</Button>
+				<Button
+					style={{ margin: 10 }}
+					mode="contained"
+					onPress={showModal}
+					disabled={headcount ? false : true}
+				>
+					View Missing Students
+				</Button>
 			</View>
 		</>
 	);
