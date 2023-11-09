@@ -1,14 +1,30 @@
 import { Button } from "react-native-paper";
 import { View } from "react-native";
 import React from "react";
-import { set } from "yaml/dist/schema/yaml-1.1/set";
-function RemoveStudentBtn({ setCheckedItems, checkedItems, students }) {
+import { removeStudentsFromTrip } from "@/utils/utils";
+import { getDatabase } from "firebase/database";
+
+const database = getDatabase();
+
+function RemoveStudentBtn({
+  setCheckedItems,
+  checkedItems,
+  students,
+  trip,
+  setStudents,
+}) {
   function handleSubmit() {
     const studentsToDelete = students.filter((student) =>
       checkedItems.includes(student.id),
     );
-    console.log(studentsToDelete); //this returns an array of student objects we need to remove from the tripe object
-    setCheckedItems([]);
+    studentsToDelete.forEach((student) => {
+      console.log("hello");
+      removeStudentsFromTrip(student.id, trip).then(() => {
+        setStudents(
+          students.filter((student) => !studentsToDelete.includes(student)),
+        );
+      });
+    });
   }
   return (
     <View

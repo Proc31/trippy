@@ -1,4 +1,5 @@
 import * as Firebase from "firebase/database";
+import { ref, update } from "@firebase/database";
 
 const db = Firebase.getDatabase();
 
@@ -100,4 +101,11 @@ export async function getMultipleStudents(idsArray) {
   const students = await Promise.all(studentPromises);
 
   return students;
+}
+
+export async function removeStudentsFromTrip(studentId, trip) {
+  const studentsRef = ref(db, `trips/${trip}/students`);
+  return update(studentsRef, {
+    [studentId]: null,
+  });
 }
