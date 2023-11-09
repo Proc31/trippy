@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import firebase from "firebase/compat";
 
 import {
   FB_API_KEY,
@@ -16,12 +15,6 @@ import {
   FB_MEASUREMENT_ID,
 } from "@env";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
 const firebaseConfig = {
   apiKey: FB_API_KEY,
   authDomain: FB_AUTH_DOMAIN,
@@ -33,7 +26,6 @@ const firebaseConfig = {
   measurementId: FB_MEASUREMENT_ID,
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 const analytic = getAnalytics();
