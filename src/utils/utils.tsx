@@ -80,32 +80,36 @@ export async function getTripInventory(id) {
 }
 
 export async function createHeadCount(id) {
-  const ref = Firebase.ref(db, "headcounts");
-  const data = await getTripStudents(id);
-  const students = data.map((student) => {
-    return Object.keys(student)[0];
-  });
-  const studentFormat = students.map((student) => {
-    return { [student]: false };
-  });
-  const headCount = {
-    trip: id,
-    students: studentFormat,
-  };
-  Firebase.push(ref, headCount);
+	const ref = Firebase.ref(db, 'headcounts');
+	const data = await getTripStudents(id);
+	const studentIds = data.map((student) => {
+		return Object.keys(student)[0];
+	});
+	const students = {};
+	studentIds.forEach((student) => {
+		students[student] = false;
+	});
+	const headCount = {
+		trip: id,
+		students: students,
+		timestamp: Date.now(),
+	};
+	const url = await Firebase.push(ref, headCount);
+	const urlString = url.toString().match(/([^/]+)$/g);
+	return urlString[0];
 }
 
-export async function getMultipleStudents(idsArray) {
-  const studentPromises = idsArray.map((id) => getSingleStudent(id));
-
-  const students = await Promise.all(studentPromises);
-
-  return students;
+export async function setStudentPresent(student, headcount) {
+	const ref = Firebase.ref(db, `headcounts/${headcount}/students`);
+	const update = {
+		[student]: true,
+	};
+	Firebase.update(ref, update);
 }
 
-export async function removeStudentsFromTrip(studentId, trip) {
-  const studentsRef = ref(db, `trips/${trip}/students`);
-  return update(studentsRef, {
-    [studentId]: null,
-  });
+export async function getHeadCountStudents(headcount) {
+	const ref = Firebase.ref(db, `headcounts/${headcount}`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return parsedResult.students;
 }
