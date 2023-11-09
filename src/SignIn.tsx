@@ -1,31 +1,23 @@
 import * as React from "react";
 import { Button, TextInput, View } from "react-native";
-import { AuthContext } from "./Contexts";
-import { FIREBASE_AUTH } from "../firebase/config";
+import { useAuth } from "../firebase/auth/AuthContext";
 
 export default function SignIn() {
-	const [email, setEmail] = React.useState('');
-	const [password, setPassword] = React.useState('');
-	const { signIn } = React.useContext(AuthContext);
-	const auth = FIREBASE_AUTH;
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-	return (
-		<View>
-			<TextInput
-				placeholder="Email"
-				value={email}
-				onChangeText={setEmail}
-			/>
-			<TextInput
-				placeholder="Password"
-				value={password}
-				onChangeText={setPassword}
-				secureTextEntry
-			/>
-			<Button
-				title="Sign in"
-				onPress={() => signIn({ email, password, auth })}
-			/>
-		</View>
-	);
+  const { login } = useAuth();
+
+  return (
+    <View>
+      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <Button title="Sign in" onPress={() => login(email, password)} />
+    </View>
+  );
 }
