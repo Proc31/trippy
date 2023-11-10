@@ -1,12 +1,12 @@
-import * as React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { BottomNavigation } from "react-native-paper";
-import Generator from "./Generator";
+import * as React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomNavigation } from 'react-native-paper';
+import Generator from './Generator';
 import InventoryScreen from "./InventoryScreen";
-import Reader from "./Reader";
-import EditStudents from "../components/pages/EditStudents";
-import InviteStudents from "@/components/pages/InviteStudents";
-import { CommonActions } from "@react-navigation/native";
+import Reader from './Reader';
+import EditStudents from '../components/pages/EditStudents';
+import InviteStudents from '@/components/pages/InviteStudents';
+import { CommonActions } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
