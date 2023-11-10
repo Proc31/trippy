@@ -10,7 +10,7 @@ import {
 import { PaperProvider, Text } from 'react-native-paper';
 import * as Linking from 'expo-linking';
 import Index from './src/Index';
-import SplashScreen from '@/SplashSreen';
+import Loading from '@/components/Loading';
 import { AuthProvider } from 'firebase/auth/AuthContext';
 import theme from '@/components/ux/Theme';
 import { LogBox } from 'react-native';
@@ -57,7 +57,7 @@ export default function App() {
 	}, [isReady]);
 
 	if (!isReady) {
-		return <SplashScreen />;
+		return <Loading />;
 	}
 
 	return (
@@ -69,7 +69,7 @@ export default function App() {
 					AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
 				}
 				linking={linking}
-				fallback={<SplashScreen />}
+				fallback={<Loading />}
 			>
 				<PaperProvider>
 					<Index />
