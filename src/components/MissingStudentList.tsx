@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { List, Button, Text } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { getMultipleStudents, setStudentPresent } from '@/utils/utils';
+import Loading from './Loading';
 
 export default function MissingStudentList({
 	missingStudents,
@@ -41,36 +42,41 @@ export default function MissingStudentList({
 	};
 
 	if (isLoading) {
-		return <></>;
+		return <Loading />;
 	} else {
 		return (
-			<View>
-				{localList.length !== 0 ? (
-					localList.map((student) => {
-						return (
-							<List.Item
-								key={student.id}
-								title={`${student.first_name} ${student.surname} `}
-								left={(props) => (
-									<List.Icon {...props} icon="barcode" />
-								)}
-								right={() => (
-									<Button
-										onPress={() => {
-											handleStudentButton(student.id);
-										}}
-									>
-										Mark as Present
-									</Button>
-								)}
-							/>
-						);
-					})
-				) : (
-					<View style={{ marginBottom: 2, alignItems: 'center' }}>
-						<Text variant="labelLarge">Everybody is Present!</Text>
-					</View>
-				)}
+			<View style={{ height: 400 }}>
+				<Text variant="titleLarge">Missing Students</Text>
+				<ScrollView>
+					{localList.length !== 0 ? (
+						localList.map((student) => {
+							return (
+								<List.Item
+									key={student.id}
+									title={`${student.first_name} ${student.surname} `}
+									left={(props) => (
+										<List.Icon {...props} icon="barcode" />
+									)}
+									right={() => (
+										<Button
+											onPress={() => {
+												handleStudentButton(student.id);
+											}}
+										>
+											Mark as Present
+										</Button>
+									)}
+								/>
+							);
+						})
+					) : (
+						<View style={{ marginBottom: 2, alignItems: 'center' }}>
+							<Text variant="labelLarge">
+								Everybody is Present!
+							</Text>
+						</View>
+					)}
+				</ScrollView>
 				<Button onPress={hideModal}>Close Window</Button>
 			</View>
 		);

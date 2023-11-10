@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { Button, Text, Modal, Portal } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Image } from 'expo-image';
 import * as Haptics from 'expo-haptics';
 import MissingStudentList from './MissingStudentList';
+import Loading from './Loading';
 import {
 	createHeadCount,
 	setStudentPresent,
 	getHeadCountStudents,
+	getSingleStudent,
 } from '@/utils/utils';
-const crosshairs = require('../../assets/crosshair.png');
 
 const TRIP_ID = 2; // TODO! GET AUTH CONTEXT
 const SCANNER_TIMEOUT = 2000;
@@ -68,27 +69,42 @@ export default function Reader() {
 			closeSession();
 		}
 	};
-	//Checks to see if scanned item is valid
+	// Checks to see if scanned item is valid
 	const checkStudent = (student) => {
 		return missingStudents.includes(student);
 	};
+
 	//Handles a scan event
-	const handleBarCodeScanned = ({ data }) => {
+	const handleBarCodeScanned = async ({ data }) => {
 		setScanned(true);
 		const valid = checkStudent(data);
 		if (valid) {
 			setStudentPresent(data, headcount);
+			const student = await getSingleStudent(data);
 			fetchMissingStudents();
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+			Alert.alert(
+				'Successful Read!',
+				`${student.first_name} ${student.surname} has been marked as present`,
+				[{ text: 'OK', onPress: () => {} }]
+			);
+		} else {
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+			Alert.alert(
+				'Invalid Student!',
+				'The student scanned is not on this trip!',
+				[{ text: 'OK', onPress: () => {} }]
+			);
 		}
 		setTimeout(() => setScanned(false), SCANNER_TIMEOUT);
 	};
 
+	// Loading Components
 	if (hasPermission === null) {
-		return <Text>Requesting for camera permission</Text>;
+		return <Loading />;
 	}
 	if (hasPermission === false) {
-		return <Text>No access to camera</Text>;
+		return <Loading />;
 	}
 
 	return (
@@ -123,13 +139,14 @@ export default function Reader() {
 						height: 300,
 						width: 300,
 					}}
-					source={crosshairs}
+					source={require('../../assets/crosshair.png')}
 				/>
 				<Portal>
 					<Modal
 						visible={visible}
 						onDismiss={hideModal}
 						contentContainerStyle={containerStyle}
+						style={{ margin: 0 }}
 					>
 						<MissingStudentList
 							headcount={headcount}
