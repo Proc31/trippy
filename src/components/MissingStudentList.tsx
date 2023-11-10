@@ -2,6 +2,7 @@ import * as React from 'react';
 import { List, Button, Text } from 'react-native-paper';
 import { View, ScrollView } from 'react-native';
 import { getMultipleStudents, setStudentPresent } from '@/utils/utils';
+import theme from './ux/Theme';
 import Loading from './Loading';
 
 export default function MissingStudentList({
@@ -55,10 +56,15 @@ export default function MissingStudentList({
 									key={student.id}
 									title={`${student.first_name} ${student.surname} `}
 									left={(props) => (
-										<List.Icon {...props} icon="barcode" />
+										<List.Icon
+											{...props}
+											icon="barcode"
+											theme={theme}
+										/>
 									)}
 									right={() => (
 										<Button
+											theme={theme}
 											onPress={() => {
 												handleStudentButton(student.id);
 											}}
@@ -77,7 +83,9 @@ export default function MissingStudentList({
 						</View>
 					)}
 				</ScrollView>
-				<Button onPress={hideModal}>Close Window</Button>
+				<Button theme={theme} onPress={hideModal}>
+					Close Window
+				</Button>
 			</View>
 		);
 	}
