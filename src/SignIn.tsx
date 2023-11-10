@@ -3,7 +3,7 @@ import { Button, TextInput, Tooltip } from 'react-native-paper';
 import { View } from 'react-native';
 import { useAuth } from '../firebase/auth/AuthContext';
 import { Image } from 'expo-image';
-import theme from './components/Theme';
+import theme from './components/ux/Theme';
 
 export default function SignIn() {
 	// States for login info
@@ -50,8 +50,8 @@ export default function SignIn() {
 				value={email}
 				onChangeText={setEmail}
 				mode="outlined"
-				style={{ width: 300, margin: 5 }}
 				theme={theme}
+				style={{ width: 300, margin: 5 }}
 				right={
 					<TextInput.Icon
 						icon="close"
