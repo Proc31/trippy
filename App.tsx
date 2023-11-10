@@ -2,13 +2,18 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { AppRegistry, Platform, useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { NavigationContainer, DarkTheme } from '@react-navigation/native';
-import { PaperProvider, Text } from 'react-native-paper';
-import * as Linking from 'expo-linking';
-import Index from './src/Index';
-import SplashScreen from '@/SplashSreen';
-import theme from './src/components/Theme';
-import { LogBox } from 'react-native';
+
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from "@react-navigation/native";
+import { PaperProvider, Text } from "react-native-paper";
+import * as Linking from "expo-linking";
+import Index from "./src/Index";
+import SplashScreen from "@/SplashSreen";
+import { AuthProvider } from "firebase/auth/AuthContext";
+
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -57,21 +62,25 @@ export default function App() {
 		return <SplashScreen />;
 	}
 
-	return (
-		<NavigationContainer
-			theme={scheme === 'dark' ? DarkTheme : theme}
-			initialState={initialState}
-			onStateChange={(state) =>
-				AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
-			}
-			linking={linking}
-			fallback={<SplashScreen />}
-		>
-			<PaperProvider>
-				<Index />
-			</PaperProvider>
-		</NavigationContainer>
-	);
+
+  return (
+    <AuthProvider>
+      <NavigationContainer
+        theme={scheme === "dark" ? DarkTheme : trippyTheme}
+        initialState={initialState}
+        onStateChange={(state) =>
+          AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))
+        }
+        linking={linking}
+        fallback={<SplashScreen />}
+      >
+        <PaperProvider>
+          <Index />
+        </PaperProvider>
+      </NavigationContainer>
+    </AuthProvider>
+  );
+
 }
 
 AppRegistry.registerComponent("trippy", () => App);
