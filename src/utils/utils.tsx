@@ -1,4 +1,39 @@
 import * as Firebase from "firebase/database";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
+import {
+  FB_API_KEY,
+  FB_AUTH_DOMAIN,
+  FB_DB_URL,
+  FB_PROJECT_ID,
+  FB_STORAGE_BUCKET,
+  FB_MESSAGING_SENDER_ID,
+  FB_APP_ID,
+  FB_MEASUREMENT_ID,
+} from "@env";
+
+const firebaseConfig = {
+  apiKey: FB_API_KEY,
+  authDomain: FB_AUTH_DOMAIN,
+  databaseURL: FB_DB_URL,
+  projectId: FB_PROJECT_ID,
+  storageBucket: FB_STORAGE_BUCKET,
+  messagingSenderId: FB_MESSAGING_SENDER_ID,
+  appId: FB_APP_ID,
+  measurementId: FB_MEASUREMENT_ID,
+};
+
+const app = initializeApp(firebaseConfig);
+
+const analytic = getAnalytics();
+export const database = getDatabase();
+export const FIREBASE_AUTH = getAuth(app);
+
+import { ref, update } from "@firebase/database";
 
 const db = Firebase.getDatabase();
 
@@ -58,7 +93,7 @@ export async function getSingleTeacher(id) {
 export async function getUserRole(id) {
   const ref = Firebase.ref(db, `users/${id}`);
   const result = await Firebase.get(ref);
-  return result;
+  return result.val();
 }
 
 export async function getTripStudents(id) {
@@ -81,24 +116,41 @@ export async function getTripInventory(id) {
 export async function createHeadCount(id) {
   const ref = Firebase.ref(db, "headcounts");
   const data = await getTripStudents(id);
-  const students = data.map((student) => {
+  const studentIds = data.map((student) => {
     return Object.keys(student)[0];
   });
-  const studentFormat = students.map((student) => {
-    return { [student]: false };
+  const students = {};
+  studentIds.forEach((student) => {
+    students[student] = false;
   });
   const headCount = {
     trip: id,
-    students: studentFormat,
+    students: students,
+    timestamp: Date.now(),
   };
-  Firebase.push(ref, headCount);
+  const url = await Firebase.push(ref, headCount);
+  const urlString = url.toString().match(/([^/]+)$/g);
+  return urlString[0];
+}
+
+export async function setStudentPresent(student, headcount) {
+  const ref = Firebase.ref(db, `headcounts/${headcount}/students`);
+  const update = {
+    [student]: true,
+  };
+  Firebase.update(ref, update);
+}
+
+export async function getHeadCountStudents(headcount) {
+  const ref = Firebase.ref(db, `headcounts/${headcount}`);
+  const result = await Firebase.get(ref);
+  const parsedResult = result.val();
+  return parsedResult.students;
 }
 
 export async function getMultipleStudents(idsArray) {
   const studentPromises = idsArray.map((id) => getSingleStudent(id));
-
   const students = await Promise.all(studentPromises);
-
   return students;
 }
 
@@ -125,19 +177,32 @@ export async function addStudentsToTrip(studentIds, tripId, trip) {
 }
 
 export async function addInventoryToStudent(studentId, tripId, trip) {
-
   const path = `students/${studentId}/trips/${tripId}/`;
-
   const set = Firebase.set;
   const inventory = trip.inventory;
 
     for (let key in inventory){
-
       const ref = Firebase.ref(db, path + `inventory/${key}/`);
       set(ref, {
           item_name: inventory[key],
           checked: false
       });
   }
-
 }
+
+export async function removeStudentsFromTrip(studentId, trip) {
+  const studentsRef = ref(db, `trips/${trip}/students`);
+  removeTripFromStudent(studentId, trip).then(() => {
+    return update(studentsRef, {
+      [studentId]: null,
+    });
+  });
+}
+
+export async function removeTripFromStudent(studentId, trip) {
+  const studentsRef = ref(db, `students/${studentId}/trips/`);
+  return update(studentsRef, {
+    [trip]: null,
+  });
+}
+
