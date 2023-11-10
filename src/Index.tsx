@@ -11,25 +11,24 @@ export default function Index() {
   const { user, isSignOut, isLoading } = useAuth();
 
   return (
-    <Stack.Navigator>
-      {!user ? (
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{
-            title: "Sign in",
-            animationTypeForReplace: isSignOut ? "pop" : "push",
-          }}
-        />
-      ) : (
-        // User is signed in
+		<Stack.Navigator>
+			{!user ? (
+				<Stack.Screen
+					name="SignIn"
+					component={SignIn}
+					options={{
+						headerShown: false,
+						animationTypeForReplace: isSignOut ? 'pop' : 'push',
+					}}
+				/>
+			) : (
+				// User is signed in
 
-        <>
-          <Stack.Screen name="Home" component={Home} />
-
-          <Stack.Screen name="UserIndex" component={UserIndex} />
-        </>
-      )}
-    </Stack.Navigator>
+				<>
+					<Stack.Screen name="Home" component={Home} />
+					<Stack.Screen name="UserIndex" component={UserIndex} />
+				</>
+			)}
+		</Stack.Navigator>
   );
 }
