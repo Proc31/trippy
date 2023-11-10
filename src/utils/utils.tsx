@@ -1,4 +1,5 @@
 import * as Firebase from "firebase/database";
+import { ref, update } from "@firebase/database";
 
 const db = Firebase.getDatabase();
 
@@ -81,23 +82,55 @@ export async function getTripInventory(id) {
 export async function createHeadCount(id) {
   const ref = Firebase.ref(db, "headcounts");
   const data = await getTripStudents(id);
-  const students = data.map((student) => {
+  const studentIds = data.map((student) => {
     return Object.keys(student)[0];
   });
-  const studentFormat = students.map((student) => {
-    return { [student]: false };
+  const students = {};
+  studentIds.forEach((student) => {
+    students[student] = false;
   });
   const headCount = {
     trip: id,
-    students: studentFormat,
+    students: students,
+    timestamp: Date.now(),
   };
-  Firebase.push(ref, headCount);
+  const url = await Firebase.push(ref, headCount);
+  const urlString = url.toString().match(/([^/]+)$/g);
+  return urlString[0];
+}
+
+export async function setStudentPresent(student, headcount) {
+  const ref = Firebase.ref(db, `headcounts/${headcount}/students`);
+  const update = {
+    [student]: true,
+  };
+  Firebase.update(ref, update);
+}
+
+export async function getHeadCountStudents(headcount) {
+  const ref = Firebase.ref(db, `headcounts/${headcount}`);
+  const result = await Firebase.get(ref);
+  const parsedResult = result.val();
+  return parsedResult.students;
 }
 
 export async function getMultipleStudents(idsArray) {
   const studentPromises = idsArray.map((id) => getSingleStudent(id));
-
   const students = await Promise.all(studentPromises);
-
   return students;
+}
+
+export async function removeStudentsFromTrip(studentId, trip) {
+  const studentsRef = ref(db, `trips/${trip}/students`);
+  removeTripFromStudent(studentId, trip).then(() => {
+    return update(studentsRef, {
+      [studentId]: null,
+    });
+  });
+}
+export async function removeTripFromStudent(studentId, trip) {
+  const studentsRef = ref(db, `students/${studentId}/trips/`);
+  return update(studentsRef, {
+    [trip]: null,
+  });
 }
