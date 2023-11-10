@@ -1,16 +1,17 @@
 import * as React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth, AuthProvider } from "../firebase/auth/AuthContext";
-import Home from "./Home";
-import SignIn from "./SignIn";
-import UserIndex from "./components/UserIndex";
+import { Text } from 'react-native-paper';
+import Home from './Home';
+import SignIn from './SignIn';
+import UserIndex from './components/UserIndex';
 
 const Stack = createNativeStackNavigator();
 
 export default function Index() {
-  const { user, isSignOut, isLoading } = useAuth();
+	const { user, isSignOut, isLoading } = useAuth();
 
-  return (
+	return (
 		<Stack.Navigator>
 			{!user ? (
 				<Stack.Screen
@@ -25,10 +26,16 @@ export default function Index() {
 				// User is signed in
 
 				<>
-					<Stack.Screen name="Home" component={Home} />
+					<Stack.Screen
+						name="Home"
+						component={Home}
+						options={{
+							headerShown: false,
+						}}
+					/>
 					<Stack.Screen name="UserIndex" component={UserIndex} />
 				</>
 			)}
 		</Stack.Navigator>
-  );
+	);
 }

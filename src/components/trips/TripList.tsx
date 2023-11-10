@@ -30,7 +30,6 @@ const TripList = ({ navigation, data }) => {
       setTrips(trips);
     });
   }, [data]);
-console.log(data)
   return (
     <ScrollView>
       {trips.map((tripObject, index) => {
