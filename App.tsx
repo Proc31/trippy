@@ -13,6 +13,7 @@ import Index from './src/Index';
 import SplashScreen from '@/SplashSreen';
 import { AuthProvider } from 'firebase/auth/AuthContext';
 import theme from '@/components/ux/Theme';
+import { LogBox } from 'react-native';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
