@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Card, Button, Text, Title, Subheading } from "react-native-paper";
-import TripEditForm from "./EditTripForm";
+import InventoryScreen from "../InventoryScreen";
 
-const TripCard = ({ trip, handleEditTrip, handleDeleteTrip }) => {
+const GuardianTripCard = ({
+  navigation,
+  tripId,
+  tripDetails,
+  handleEditTrip,
+  handleDeleteTrip,
+}) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditForm = () => {
@@ -14,28 +20,17 @@ const TripCard = ({ trip, handleEditTrip, handleDeleteTrip }) => {
     setIsEditing(false);
   };
 
-
-
   return (
     <Card style={{ margin: 16 }}>
-      <Button
-        icon="delete"
-        onPress={() => handleDeleteTrip()}
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          zIndex: 1,
-          margin: 1,
-        }}
-      />
       <Card.Content>
         <Title style={{ fontSize: 24, fontWeight: "bold" }}>
-          {trip.tripName}
+          {tripDetails.name}
         </Title>
-        <Subheading style={{ color: "blue" }}>{trip.location}</Subheading>
-        <Text variant="titleMedium">{trip.date.toLocaleDateString()}</Text>
-        <Text variant="bodyMedium">{trip.description}</Text>
+        <Text variant="titleMedium">{tripDetails.date}</Text>
+        <Subheading style={{ color: "blue" }}>
+          {tripDetails.location}
+        </Subheading>
+        <Text variant="bodyMedium">{tripDetails.description}</Text>
       </Card.Content>
       <Card.Cover
         style={{ padding: 6 }}
@@ -44,17 +39,23 @@ const TripCard = ({ trip, handleEditTrip, handleDeleteTrip }) => {
       <Card.Actions
         style={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Button style={{ marginRight: "auto", flex: 1 }}>Start</Button>
+        <Button
+          style={{ marginRight: "auto", flex: 1 }}
+          onPress={() => navigation.navigate("UserIndex")}
+        >
+          Start
+        </Button>
         <Button
           style={{ marginLeft: "auto", flex: 1 }}
           onPress={toggleEditForm}
         >
-          Edit
+          Inventory
         </Button>
       </Card.Actions>
+
       {isEditing && (
-        <TripEditForm
-          trip={trip}
+        <InventoryScreen
+          trip={tripDetails}
           onSubmit={handleSaveEdit}
           onCancel={toggleEditForm}
         />
@@ -63,4 +64,4 @@ const TripCard = ({ trip, handleEditTrip, handleDeleteTrip }) => {
   );
 };
 
-export default TripCard;
+export default GuardianTripCard;

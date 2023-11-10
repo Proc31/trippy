@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Button } from "react-native";
+
 import { useAuth } from "../firebase/auth/AuthContext";
 import TripList from "./components/TripList";
 
@@ -22,7 +23,7 @@ export default function Home({ navigation }) {
           title="Move to user index section"
           onPress={() => navigation.navigate("UserIndex")}
         />
-        <TripList />
+        <TripList/>
       </View>
     </>
   );
