@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { AppRegistry, Platform, useColorScheme } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import {
   NavigationContainer,
   DefaultTheme,
@@ -13,53 +14,54 @@ import Index from "./src/Index";
 import SplashScreen from "@/SplashSreen";
 import { AuthProvider } from "firebase/auth/AuthContext";
 
-const PERSISTENCE_KEY = "NAVIGATION_STATE_V1";
 
-const prefix = Linking.createURL("/");
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
-//Theme definition - Using default for now
-const trippyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-  },
-};
+const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
+
+const prefix = Linking.createURL('/');
+
+
 
 export default function App() {
-  const [isReady, setIsReady] = useState(__DEV__ ? false : true);
-  const [initialState, setInitialState] = useState();
-  const scheme = useColorScheme();
+	const [isReady, setIsReady] = useState(__DEV__ ? false : true);
+	const [initialState, setInitialState] = useState();
+	const scheme = useColorScheme();
 
-  const linking = {
-    prefixes: [prefix],
-  };
+	const linking = {
+		prefixes: [prefix],
+	};
 
-  useEffect(() => {
-    const restoreState = async () => {
-      try {
-        const initialUrl = await Linking.getInitialURL();
-        if (Platform.OS !== "web" && initialUrl == null) {
-          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
-          const state = savedStateString
-            ? JSON.parse(savedStateString)
-            : undefined;
+	useEffect(() => {
+		const restoreState = async () => {
+			try {
+				const initialUrl = await Linking.getInitialURL();
+				if (Platform.OS !== 'web' && initialUrl == null) {
+					const savedStateString = await AsyncStorage.getItem(
+						PERSISTENCE_KEY
+					);
+					const state = savedStateString
+						? JSON.parse(savedStateString)
+						: undefined;
 
-          if (state !== undefined) {
-            setInitialState(state);
-          }
-        }
-      } finally {
-        setIsReady(true);
-      }
-    };
-    if (!isReady) {
-      restoreState();
-    }
-  }, [isReady]);
+					if (state !== undefined) {
+						setInitialState(state);
+					}
+				}
+			} finally {
+				setIsReady(true);
+			}
+		};
+		if (!isReady) {
+			restoreState();
+		}
+	}, [isReady]);
 
-  if (!isReady) {
-    return <SplashScreen />;
-  }
+	if (!isReady) {
+		return <SplashScreen />;
+	}
+
 
   return (
     <AuthProvider>
@@ -78,6 +80,7 @@ export default function App() {
       </NavigationContainer>
     </AuthProvider>
   );
+
 }
 
 AppRegistry.registerComponent("trippy", () => App);
