@@ -1,18 +1,27 @@
-import * as React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation } from 'react-native-paper';
-import Generator from './Generator';
+import * as React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BottomNavigation } from "react-native-paper";
+import Generator from "./Generator";
 import InventoryScreen from "./inventory/TeacherInventoryScreen";
-import Reader from './Reader';
-import EditStudents from '../components/pages/EditStudents';
-import InviteStudents from '@/components/pages/InviteStudents';
-import { CommonActions } from '@react-navigation/native';
-import InventoryChecklist from './inventory/InventoryCheckList';
-import TeacherInventoryScreen from './inventory/TeacherInventoryScreen';
+import Reader from "./Reader";
+import EditStudents from "../components/pages/EditStudents";
+import InviteStudents from "@/components/pages/InviteStudents";
+import { CommonActions } from "@react-navigation/native";
+import InventoryChecklist from "./inventory/InventoryCheckList";
+import TeacherInventoryScreen from "./inventory/TeacherInventoryScreen";
+import { useState } from "react";
+import { useAuth } from "firebase/auth/AuthContext";
+import { getUserRole } from "@/utils/utils";
 const Tab = createBottomTabNavigator();
 
-export default function UserIndex({ userRole }) {
-  userRole = "teacher";
+export default function UserIndex() {
+  const [userRole, setUserRole] = useState("student");
+  const { user } = useAuth();
+  const id = user.uid;
+  React.useEffect(() => {
+    getUserRole(id).then((role) => setUserRole(role.role));
+    console.log(userRole);
+  }, [user]);
 
   let GeneratorComponent,
     ReaderComponent,
@@ -103,6 +112,15 @@ export default function UserIndex({ userRole }) {
         />
       )}
     >
+      {InventoryComponent && (
+        <Tab.Screen
+          name="Inventory"
+          component={InventoryComponent}
+          options={{
+            tabBarLabel: "Inventory",
+          }}
+        />
+      )}
       {GeneratorComponent && (
         <Tab.Screen
           name="generator"
@@ -121,15 +139,6 @@ export default function UserIndex({ userRole }) {
           }}
         />
       )}
-      {InventoryComponent && (
-        <Tab.Screen
-          name="Inventory"
-          component={InventoryComponent}
-          options={{
-            tabBarLabel: "Inventory",
-          }}
-        />
-      )}      
 
       {EditStudentsComponent && (
         <Tab.Screen
@@ -151,4 +160,4 @@ export default function UserIndex({ userRole }) {
       )}
     </Tab.Navigator>
   );
-        }
+}

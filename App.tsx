@@ -12,7 +12,6 @@ import * as Linking from 'expo-linking';
 import Index from './src/Index';
 import SplashScreen from '@/SplashSreen';
 import { AuthProvider } from 'firebase/auth/AuthContext';
-import { LogBox } from 'react-native';
 import theme from '@/components/ux/Theme';
 
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
