@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { AppRegistry, Platform, useColorScheme } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { LogBox } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
 	NavigationContainer,
 	DefaultTheme,
@@ -16,15 +15,12 @@ import { AuthProvider } from 'firebase/auth/AuthContext';
 import { LogBox } from 'react-native';
 import theme from '@/components/ux/Theme';
 
-
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE_V1';
 
 const prefix = Linking.createURL('/');
-
-
 
 export default function App() {
 	const [isReady, setIsReady] = useState(__DEV__ ? false : true);
@@ -64,8 +60,7 @@ export default function App() {
 		return <SplashScreen />;
 	}
 
-
-  return (
+	return (
 		<AuthProvider>
 			<NavigationContainer
 				theme={scheme === 'dark' ? DarkTheme : theme}
@@ -81,8 +76,7 @@ export default function App() {
 				</PaperProvider>
 			</NavigationContainer>
 		</AuthProvider>
-  );
-
+	);
 }
 
 AppRegistry.registerComponent("trippy", () => App);
