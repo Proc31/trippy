@@ -84,10 +84,17 @@ export async function getSingleStudent(id) {
 }
 
 export async function getSingleTeacher(id) {
-  const ref = Firebase.ref(db, `teachers/${id}`);
-  const result = await Firebase.get(ref);
-  const parsedResult = result.val();
-  return parsedResult;
+	const ref = Firebase.ref(db, `teachers/${id}`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return { id: id, ...parsedResult };
+}
+
+export async function getSingleGuardian(id) {
+	const ref = Firebase.ref(db, `guardians/${id}`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return { id: id, ...parsedResult };
 }
 
 export async function getUserRole(id) {

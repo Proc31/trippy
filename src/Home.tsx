@@ -3,7 +3,12 @@ import { View, Button } from "react-native";
 import { useState } from "react";
 import { useAuth } from "../firebase/auth/AuthContext";
 import TripList from './components/trips/TripList';
-import { getSingleStudent, getSingleTeacher, getUserRole } from './utils/utils';
+import {
+	getSingleGuardian,
+	getSingleStudent,
+	getSingleTeacher,
+	getUserRole,
+} from './utils/utils';
 import { Appbar } from 'react-native-paper';
 import Loading from './components/Loading';
 import DropDown from 'react-native-paper-dropdown';
@@ -30,7 +35,12 @@ export default function Home({ navigation }) {
 				break;
 			case 'teacher':
 				getSingleTeacher(id).then((teacher) => {
-					setUserInfo(teacher);
+					setUserInfo(teacher.first_name);
+				});
+				break;
+			case 'guardian':
+				getSingleGuardian(id).then((guardian) => {
+					setUserInfo(guardian.first_name);
 				});
 				break;
 			default:
