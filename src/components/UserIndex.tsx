@@ -2,16 +2,17 @@ import * as React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation } from 'react-native-paper';
 import Generator from './Generator';
-import InventoryScreen from "./InventoryScreen";
+import InventoryScreen from "./inventory/TeacherInventoryScreen";
 import Reader from './Reader';
 import EditStudents from '../components/pages/EditStudents';
 import InviteStudents from '@/components/pages/InviteStudents';
 import { CommonActions } from '@react-navigation/native';
-
+import InventoryChecklist from './inventory/InventoryCheckList';
+import TeacherInventoryScreen from './inventory/TeacherInventoryScreen';
 const Tab = createBottomTabNavigator();
 
 export default function UserIndex({ userRole }) {
-  userRole = "student";
+  userRole = "teacher";
 
   let GeneratorComponent,
     ReaderComponent,
@@ -23,21 +24,21 @@ export default function UserIndex({ userRole }) {
     case "student":
       GeneratorComponent = Generator;
       ReaderComponent = null;
-      InventoryComponent = InventoryScreen;
+      InventoryComponent = InventoryChecklist;
       EditStudentsComponent = null;
       InviteStudentsComponent = null;
       break;
     case "guardian":
       GeneratorComponent = null;
       ReaderComponent = null;
-      InventoryComponent = InventoryScreen;
+      InventoryComponent = InventoryChecklist;
       EditStudentsComponent = null;
       InviteStudentsComponent = null;
       break;
     case "teacher":
       GeneratorComponent = null;
       ReaderComponent = Reader;
-      InventoryComponent = InventoryScreen;
+      InventoryComponent = TeacherInventoryScreen;
       EditStudentsComponent = EditStudents;
       InviteStudentsComponent = InviteStudents;
       break;
@@ -128,7 +129,8 @@ export default function UserIndex({ userRole }) {
             tabBarLabel: "Inventory",
           }}
         />
-      )}
+      )}      
+
       {EditStudentsComponent && (
         <Tab.Screen
           name="Edit Students"
@@ -149,4 +151,4 @@ export default function UserIndex({ userRole }) {
       )}
     </Tab.Navigator>
   );
-}
+        }

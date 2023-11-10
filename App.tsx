@@ -1,7 +1,8 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { AppRegistry, Platform, useColorScheme } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LogBox } from "react-native";
 import {
 	NavigationContainer,
 	DefaultTheme,

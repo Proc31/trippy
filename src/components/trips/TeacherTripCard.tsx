@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Card, Button, Text, Title, Subheading } from "react-native-paper";
 import TripEditForm from "./EditTripForm";
 
-const TeacherTripCard = ({ tripId, tripDetails, handleEditTrip, handleDeleteTrip }) => {
-  console.log(tripDetails)
+const TeacherTripCard = ({
+  navigation,
+  tripId,
+  tripDetails,
+  handleEditTrip,
+  handleDeleteTrip,
+}) => {
+  console.log(tripDetails);
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditForm = () => {
@@ -33,7 +39,9 @@ const TeacherTripCard = ({ tripId, tripDetails, handleEditTrip, handleDeleteTrip
           {tripDetails.name}
         </Title>
         <Text variant="titleMedium">{tripDetails.date}</Text>
-        <Subheading style={{ color: "blue" }}>{tripDetails.location}</Subheading>
+        <Subheading style={{ color: "blue" }}>
+          {tripDetails.location}
+        </Subheading>
         <Text variant="bodyMedium">{tripDetails.description}</Text>
       </Card.Content>
       <Card.Cover
@@ -43,7 +51,10 @@ const TeacherTripCard = ({ tripId, tripDetails, handleEditTrip, handleDeleteTrip
       <Card.Actions
         style={{ display: "flex", justifyContent: "space-between" }}
       >
-        <Button style={{ marginRight: "auto", flex: 1 }}>
+        <Button
+          style={{ marginRight: "auto", flex: 1 }}
+          onPress={() => navigation.navigate("UserIndex")}
+        >
           Start
         </Button>
         <Button
@@ -66,4 +77,3 @@ const TeacherTripCard = ({ tripId, tripDetails, handleEditTrip, handleDeleteTrip
 };
 
 export default TeacherTripCard;
-

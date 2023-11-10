@@ -93,7 +93,7 @@ export async function getSingleTeacher(id) {
 export async function getUserRole(id) {
   const ref = Firebase.ref(db, `users/${id}`);
   const result = await Firebase.get(ref);
-  return result;
+  return result.val();
 }
 
 export async function getTripStudents(id) {
