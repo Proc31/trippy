@@ -9,7 +9,6 @@ const TeacherTripCard = ({
   handleEditTrip,
   handleDeleteTrip,
 }) => {
-  console.log(tripDetails);
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditForm = () => {
@@ -25,7 +24,7 @@ const TeacherTripCard = ({
     <Card style={{ margin: 16 }}>
       <Button
         icon="delete"
-        onPress={() => handleDeleteTrip(tripId)}
+        onPress={() => handleDeleteTrip()}
         style={{
           position: "absolute",
           top: 0,

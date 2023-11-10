@@ -30,8 +30,9 @@ const TripList = ({ navigation, data }) => {
       setTrips(trips);
     });
   }, [data]);
-console.log(data)
+
   return (
+    <>
     <ScrollView>
       {trips.map((tripObject, index) => {
         const tripId = Object.keys(tripObject)[0];
@@ -64,8 +65,9 @@ console.log(data)
         }
       })}
       
-      <AddTripCard onPress={handleAddTrip} />
+      {userRole === 'teacher' ? <AddTripCard onPress={handleAddTrip} /> : null }
     </ScrollView>
+    </>
   );
 };
 export default TripList;
