@@ -7,8 +7,8 @@ import theme from './components/ux/Theme';
 
 export default function SignIn() {
 	// States for login info
-	const [email, setEmail] = React.useState('spuriousmeaning@gmail.com');
-	const [password, setPassword] = React.useState('myPass');
+	const [email, setEmail] = React.useState('o_parker@sambrady.co.uk');
+	const [password, setPassword] = React.useState('functionforce6');
 	// UI States
 	const [showPassword, setShowPassword] = React.useState(false);
 
