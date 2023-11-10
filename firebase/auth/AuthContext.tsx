@@ -2,12 +2,7 @@ import * as React from "react";
 
 import { createContext, useContext, useState } from "react";
 
-import {
-  User,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
+import { User, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 import { FIREBASE_AUTH } from "firebase/config";
 
@@ -21,7 +16,11 @@ interface AuthContextData {
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
-const AuthProvider: React.FC = ({ children }) => {
+const AuthProvider: React.FC = ({
+  children,
+}: {
+  children?: React.FC | React.FC[];
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isSignOut, setSignOut] = useState<boolean>(false);
@@ -34,7 +33,6 @@ const AuthProvider: React.FC = ({ children }) => {
         password
       );
       setUser(userCredential.user);
-      console.log(user);
       setLoading(false);
     } catch (err) {
       console.log("Got an err");
