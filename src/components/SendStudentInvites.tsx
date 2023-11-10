@@ -22,7 +22,7 @@ export default function SendStudentInvites({
     });
 
     setCheckedItems([]);
-    addStudentsToTrip(invitedStudentIds, "1");
+    addStudentsToTrip(invitedStudentIds, "1", {name: "London Theatre 2023", inventory: {1: "wellies", 2: "compass"}});
   }
 
   return (

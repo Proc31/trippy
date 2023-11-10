@@ -102,14 +102,24 @@ export async function getMultipleStudents(idsArray) {
   return students;
 }
 
-export async function addStudentsToTrip(studentIds, tripId) {
+export async function addStudentsToTrip(studentIds, tripId, trip) {
   const todaysDate = new Date();
-  const students = studentIds.map((id) => {
-    const ref = Firebase.ref(db, `trips/${tripId}/students/` + id);
+  const inventory = trip.inventory;
+  const students = studentIds.map((studentId) => {
+    const studentsRef = Firebase.ref(
+      db,
+      `trips/${tripId}/students/` + studentId
+    );
+    const tripsRef = Firebase.ref(db, `students/${studentId}/` + `trips/${tripId}/`);
     const set = Firebase.set;
-    set(ref, {
+    //add student to trip
+    set(studentsRef, {
       invited: Date.now(),
     });
-    console.log(id, tripId);
+    // add trip to student
+    set(tripsRef, {
+      name: trip.name,
+    });
+    //add inventory to student
   });
 }
