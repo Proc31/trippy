@@ -154,6 +154,42 @@ export async function getMultipleStudents(idsArray) {
   return students;
 }
 
+export async function addStudentsToTrip(studentIds, tripId, trip) {
+  const todaysDate = new Date();
+  const students = studentIds.map((studentId) => {
+    const studentsRef = Firebase.ref(
+      db,
+      `trips/${tripId}/students/` + studentId
+    );
+    const tripsRef = Firebase.ref(db, `students/${studentId}/` + `trips/${tripId}/`);
+    const set = Firebase.set;
+    //add student to trip
+    set(studentsRef, {
+      invited: Date.now(),
+    });
+    // add trip to student
+    set(tripsRef, {
+      name: trip.name,
+    });
+    //add inventory to student
+    addInventoryToStudent(studentId, tripId, trip);
+  });
+}
+
+export async function addInventoryToStudent(studentId, tripId, trip) {
+  const path = `students/${studentId}/trips/${tripId}/`;
+  const set = Firebase.set;
+  const inventory = trip.inventory;
+
+    for (let key in inventory){
+      const ref = Firebase.ref(db, path + `inventory/${key}/`);
+      set(ref, {
+          item_name: inventory[key],
+          checked: false
+      });
+  }
+}
+
 export async function removeStudentsFromTrip(studentId, trip) {
   const studentsRef = ref(db, `trips/${trip}/students`);
   removeTripFromStudent(studentId, trip).then(() => {
@@ -162,9 +198,11 @@ export async function removeStudentsFromTrip(studentId, trip) {
     });
   });
 }
+
 export async function removeTripFromStudent(studentId, trip) {
   const studentsRef = ref(db, `students/${studentId}/trips/`);
   return update(studentsRef, {
     [trip]: null,
   });
 }
+
