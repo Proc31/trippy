@@ -1,11 +1,19 @@
-import * as React from "react";
+import * as React  from "react";
 import { View, Button } from "react-native";
-
+import { useState } from "react";
 import { useAuth } from "../firebase/auth/AuthContext";
-import TripList from "./components/TripList";
-
+import TripList from "./components/trips/TripList";
+import { getUserRole } from "./utils/utils";
 export default function Home({ navigation }) {
   const { logout } = useAuth();
+  const [userRole, setUserRole] = useState()
+
+  const {user} = useAuth()
+  const id = user.uid
+  getUserRole(id).then((role)=>
+    setUserRole(role.role)
+
+  )
 
   return (
     <>
@@ -23,7 +31,7 @@ export default function Home({ navigation }) {
           title="Move to user index section"
           onPress={() => navigation.navigate("UserIndex")}
         />
-        <TripList/>
+        <TripList data={userRole} navigation={navigation}/>
       </View>
     </>
   );

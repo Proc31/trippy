@@ -9,16 +9,7 @@ const GuardianTripCard = ({
   handleEditTrip,
   handleDeleteTrip,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
 
-  const toggleEditForm = () => {
-    setIsEditing(!isEditing);
-  };
-
-  const handleSaveEdit = (editedTrip) => {
-    handleEditTrip(editedTrip);
-    setIsEditing(false);
-  };
 
   return (
     <Card style={{ margin: 16 }}>
@@ -43,23 +34,10 @@ const GuardianTripCard = ({
           style={{ marginRight: "auto", flex: 1 }}
           onPress={() => navigation.navigate("UserIndex")}
         >
-          Start
-        </Button>
-        <Button
-          style={{ marginLeft: "auto", flex: 1 }}
-          onPress={toggleEditForm}
-        >
-          Inventory
+          Info
         </Button>
       </Card.Actions>
 
-      {isEditing && (
-        <InventoryScreen
-          trip={tripDetails}
-          onSubmit={handleSaveEdit}
-          onCancel={toggleEditForm}
-        />
-      )}
     </Card>
   );
 };
