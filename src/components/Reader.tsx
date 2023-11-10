@@ -6,6 +6,7 @@ import { Image } from 'expo-image';
 import * as Haptics from 'expo-haptics';
 import MissingStudentList from './MissingStudentList';
 import Loading from './Loading';
+import theme from './ux/Theme';
 import {
 	createHeadCount,
 	setStudentPresent,
@@ -158,6 +159,7 @@ export default function Reader() {
 			</View>
 			<View>
 				<Button
+					theme={theme}
 					style={{ margin: 10 }}
 					mode="contained"
 					onPress={handleHeadCount}
@@ -165,6 +167,7 @@ export default function Reader() {
 					{headcount ? 'Stop Head Count' : 'Start Head Count'}
 				</Button>
 				<Button
+					theme={theme}
 					style={{ margin: 10 }}
 					mode="contained"
 					onPress={showModal}
