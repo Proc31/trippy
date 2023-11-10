@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Button } from "react-native";
 
 import { useAuth } from "../firebase/auth/AuthContext";
-import TripList from "./components/TripList";
+import TripList from './components/trips/TripList';
 
 export default function Home({ navigation }) {
   const { logout } = useAuth();
