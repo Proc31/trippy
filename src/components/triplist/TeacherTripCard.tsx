@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Card, Button, Text, Title, Subheading } from "react-native-paper";
-import TripEditForm from "./EditTripForm";
+import React, { useState } from 'react';
+import { Card, Button, Text, Title, Subheading } from 'react-native-paper';
+import TripEditForm from './EditTripForm';
+import { router } from 'expo-router';
 
 const TeacherTripCard = ({
-	navigation,
 	tripId,
 	tripDetails,
 	handleEditTrip,

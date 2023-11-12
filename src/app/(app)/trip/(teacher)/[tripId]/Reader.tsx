@@ -4,9 +4,9 @@ import { Button, Text, Modal, Portal } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Image } from 'expo-image';
 import * as Haptics from 'expo-haptics';
-import MissingStudentList from './MissingStudentList';
-import Loading from './Loading';
-import theme from './ux/Theme';
+import MissingStudentList from '@/components/barcodeReader/MissingStudentList';
+import Loading from '@/components/global/Loading';
+import theme from '@/utils/theme';
 import {
 	createHeadCount,
 	setStudentPresent,
@@ -140,7 +140,7 @@ export default function Reader() {
 						height: 300,
 						width: 300,
 					}}
-					source={require('../../assets/crosshair.png')}
+					source={require('@/assets/crosshair.png')}
 				/>
 				<Portal>
 					<Modal
