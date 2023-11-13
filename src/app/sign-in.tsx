@@ -5,6 +5,7 @@ import { Image } from 'expo-image';
 import theme from '../utils/theme';
 import { useSession } from '@/auth/ctx';
 import { router } from 'expo-router';
+import { getSingleTrip } from '@/utils/utils';
 
 export default function SignIn() {
 	// States for login info
@@ -93,7 +94,6 @@ export default function SignIn() {
 				mode="outlined"
 				secureTextEntry={!showPassword}
 				style={{ width: 300, margin: 5 }}
-				theme={theme}
 				right={
 					<TextInput.Icon
 						icon={showPassword ? 'eye-off' : 'eye'}
@@ -105,7 +105,6 @@ export default function SignIn() {
 				mode="contained"
 				onPress={handleSignIn}
 				style={{ width: 300, margin: 20 }}
-				theme={theme}
 			>
 				Sign In
 			</Button>
@@ -115,7 +114,6 @@ export default function SignIn() {
 					debugSignIn('teacher');
 				}}
 				style={{ width: 300, margin: 20 }}
-				theme={theme}
 			>
 				Teacher
 			</Button>
@@ -125,7 +123,6 @@ export default function SignIn() {
 					debugSignIn('student');
 				}}
 				style={{ width: 300, margin: 20 }}
-				theme={theme}
 			>
 				Student
 			</Button>
@@ -135,9 +132,17 @@ export default function SignIn() {
 					debugSignIn('guardian');
 				}}
 				style={{ width: 300, margin: 20 }}
-				theme={theme}
 			>
 				Guardian
+			</Button>
+			<Button
+				mode="contained"
+				onPress={() => {
+					getSingleTrip('-Nj7tP5gUCm6DEWIqQHx');
+				}}
+				style={{ width: 300, margin: 20 }}
+			>
+				DB Test
 			</Button>
 		</View>
 	);
