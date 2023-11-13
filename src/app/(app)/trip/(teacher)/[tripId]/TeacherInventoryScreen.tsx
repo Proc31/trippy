@@ -5,18 +5,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory, getSingleTrip } from "@/utils/utils";
 import { database } from "@/utils/config";
 import { push, ref, child } from "firebase/database";
-
 import { update } from "@firebase/database";
+import { useGlobalSearchParams } from "expo-router";
+
+
 
 const TeacherInventoryScreen = () => {
   const [inventory, setInventory] = useState([]);
   const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-  const [tripId, setTripId] = useState(1);
+	const { tripId } = useGlobalSearchParams();
 
   useEffect(() => {
-    getTripInventory(1)
+    getTripInventory(tripId)
       .then((data) => {
         const itemsArray = [];
         for (let key in data) {
@@ -58,7 +60,6 @@ const TeacherInventoryScreen = () => {
       }
       )
     }).then(() => {
-      console.log(updates)
       return update(ref(database), updates)
     }).catch((error) => console.log(error))
 
@@ -73,7 +74,7 @@ const TeacherInventoryScreen = () => {
       setInventory(updatedItems);
       //delete on trip
       let inventKey = "";
-      const tripData = getTripInventory(1).then((data) => {
+      getTripInventory(tripId).then((data) => {
         const tripRef = ref(database, "/trips/1/inventory");
         inventKey = findKey(inventory[itemIndex], data);
         return update(tripRef, {
@@ -109,7 +110,7 @@ const TeacherInventoryScreen = () => {
 
   const handleEditItemName = (index: number, editedValue: string, item) => {
     // Update the item's name in the inventory
-    const tripRef = ref(database, `trips/1/inventory`);
+    const tripRef = ref(database, `trips/${tripId}/inventory`);
     const updates = {};
 
     if (inventory) {
