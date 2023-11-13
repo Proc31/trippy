@@ -18,7 +18,7 @@ export default function AppLayout() {
 	return (
 		<>
 			<Header title={tripTitle} signOut={signOut} />
-			<Tabs screenOptions={{ headerShown: false }}>
+			<Tabs screenOptions={{ headerShown: false, unmountOnBlur: true }}>
 				<Tabs.Screen
 					name="checkList"
 					options={{ title: 'Trip Checklist' }}

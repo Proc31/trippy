@@ -3,6 +3,7 @@ import Loading from '@/components/global/Loading';
 import * as React from 'react';
 import { View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import * as Brightness from 'expo-brightness';
 
 export default function Generator() {
 	const { session } = useSession();
@@ -16,18 +17,17 @@ export default function Generator() {
 		setIsLoading(false);
 	}, []);
 
-	// BRIGHTNESS DOES NOT LOWER!
-	// React.useEffect(() => {
-	// 	(async () => {
-	// 		const { status } = await Brightness.requestPermissionsAsync();
-	// 		if (status === 'granted') {
-	// 			Brightness.setBrightnessAsync(1);
-	// 		}
-	// 	})();
-	// 	return async () => {
-	// 		await Brightness.restoreSystemBrightnessAsync();
-	// 	};
-	// }, []);
+	React.useEffect(() => {
+		(async () => {
+			const { status } = await Brightness.requestPermissionsAsync();
+			if (status === 'granted') {
+				Brightness.setBrightnessAsync(1);
+			}
+		})();
+		return async () => {
+			await Brightness.restoreSystemBrightnessAsync();
+		};
+	}, []);
 
 	if (isLoading) {
 		return <Loading />;
