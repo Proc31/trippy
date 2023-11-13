@@ -230,3 +230,10 @@ export async function getUserData(id) {
 	}
 	return { ...user, role: userRole.role };
 }
+
+export async function postNewTrip(trip) {
+
+  const ref = Firebase.ref(db, "trips");
+  const url = await Firebase.push(ref, trip);
+  
+}
