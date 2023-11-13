@@ -6,7 +6,6 @@ import { getTripInventory, getSingleTrip } from "@/utils/utils";
 import { database } from "@/utils/config";
 import { push, ref, child } from "firebase/database";
 
-
 import { update } from "@firebase/database";
 
 const TeacherInventoryScreen = () => {
@@ -42,28 +41,32 @@ const TeacherInventoryScreen = () => {
     if (addText) {
       const updatedInventory = [...inventory, addText];
       setInventory(updatedInventory);
-
     }
 
-    const newItemKey = push(child(ref(database), `trips/${tripId}/inventory`)).key //todo implement non-hardcoded trip id
+    const newItemKey = push(
+      child(ref(database), `trips/${tripId}/inventory`),
+    ).key; //todo implement non-hardcoded trip id
     const updates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
 
-    getSingleTrip(tripId).then((data) => {
-      const students = data.val().students;
-      const keys = Object.keys(students);
-      keys.forEach((itemKey) => {
-        updates[`students/${itemKey}/trips/${tripId}/inventory/` + newItemKey] = addText
-      }
-      )
-    }).then(() => {
-      console.log(updates)
-      return update(ref(database), updates)
-    }).catch((error) => console.log(error))
+    getSingleTrip(tripId)
+      .then((data) => {
+        const students = data.val().students;
+        const keys = Object.keys(students);
+        keys.forEach((itemKey) => {
+          updates[
+            `students/${itemKey}/trips/${tripId}/inventory/` + newItemKey
+          ] = addText;
+        });
+      })
+      .then(() => {
+        console.log(updates);
+        return update(ref(database), updates);
+      })
+      .catch((error) => console.log(error));
 
-    
     setAddText(""); //do this last
-  }
+  };
 
   const handleDeleteItem = (itemIndex: number) => {
     if (inventory) {
@@ -72,33 +75,27 @@ const TeacherInventoryScreen = () => {
       updatedItems.splice(itemIndex, 1);
       setInventory(updatedItems);
       //delete on trip
+      let inventKey = "";
       const tripData = getTripInventory(1).then((data) => {
         const tripRef = ref(database, "/trips/1/inventory");
-        const inventKey = findKey(inventory[itemIndex], data);
+        inventKey = findKey(inventory[itemIndex], data);
         return update(tripRef, {
           [inventKey]: null,
         }).then(() => {
-          const students = ref(database, "trips/1/students"); //todo implement non-hardcoded trip id
-          for (const key in students) {
-            const studentData = ref(
-              database,
-              `students/${key}/trips/1/inventory`,
-            ); //todo none hardcoded trip id
-            for (const key2 in studentData) {
-              if (studentData[key].item_name === inventory[itemIndex]) {
-                const updatePath = ref(
-                  database,
-                  `students/${key}/trips/1/inventory/`,
-                );
-                update(updatePath, {
-                  [key2]: null,
-                });
-              }
-            }
-          }
+          getSingleTrip(tripId).then((data) => {
+            const updates = {};
+            const students = data.val().students;
+            const keys = Object.keys(students);
+            keys.forEach((studentKey) => {
+              updates[
+                `students/${studentKey}/trips/${tripId}/inventory/${inventKey}`
+              ] = null;
+            });
+            console.log(updates);
+            return update(ref(database), updates);
+          });
         });
       });
-      //delete on each student
     }
     // need to handle API after this
   };
