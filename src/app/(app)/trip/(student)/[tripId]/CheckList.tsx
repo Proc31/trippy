@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import { Checkbox, TextInput, Button } from "react-native-paper";
 import { ref, onValue, push } from "firebase/database";
-import { database } from '@/utils/config'
+import { database } from '@/utils/config';
+
 
 type Item = {
   name: string;

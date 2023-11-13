@@ -5,6 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory, getSingleTrip } from "@/utils/utils";
 import { database } from "@/utils/config";
 import { push, ref, child } from "firebase/database";
+
+
 import { update } from "@firebase/database";
 
 const TeacherInventoryScreen = () => {

@@ -1,11 +1,5 @@
 import * as React from 'react';
 import { View } from 'react-native';
-import {
-	getSingleGuardian,
-	getSingleStudent,
-	getSingleTeacher,
-	getUserRole,
-} from '../../utils/utils';
 import { Appbar } from 'react-native-paper';
 import { useSession } from '@/auth/ctx';
 import TripList from '@/components/triplist/TripList';
@@ -13,38 +7,17 @@ import Loading from '@/components/global/Loading';
 
 export default function Home() {
 	// User Info States
-	const [userRole, setUserRole] = React.useState('');
-	const [userInfo, setUserInfo] = React.useState('');
+	const [user, setUser] = React.useState({});
 	// UX States
 	const [isLoading, setIsLoading] = React.useState(true);
 
 	const { signOut, session } = useSession();
 
 	React.useEffect(() => {
-		getUserRole(session).then((role) => {
-			setUserRole(role.role);
-		});
-		switch (userRole) {
-			case 'student':
-				getSingleStudent(session).then((student) => {
-					setUserInfo(student.first_name);
-				});
-				break;
-			case 'teacher':
-				getSingleTeacher(session).then((teacher) => {
-					setUserInfo(teacher.first_name);
-				});
-				break;
-			case 'guardian':
-				getSingleGuardian(session).then((guardian) => {
-					setUserInfo(guardian.first_name);
-				});
-				break;
-			default:
-				break;
-		}
+		const parsedSession = JSON.parse(session);
+		setUser(parsedSession);
 		setIsLoading(false);
-	}, [userRole]);
+	}, []);
 
 	if (isLoading) {
 		return <Loading />;
@@ -53,7 +26,7 @@ export default function Home() {
 	return (
 		<>
 			<Appbar.Header>
-				<Appbar.Content title={`Welcome, ${userInfo}`} />
+				<Appbar.Content title={`Welcome, ${user.first_name}`} />
 				<Appbar.Action icon="logout" onPress={signOut} />
 			</Appbar.Header>
 			<View
@@ -63,7 +36,7 @@ export default function Home() {
 					justifyContent: 'center',
 				}}
 			>
-				<TripList data={userRole} />
+				<TripList data={user.role} />
 			</View>
 		</>
 	);
