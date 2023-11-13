@@ -212,3 +212,28 @@ export async function removeTripFromStudent(studentId, trip) {
   });
 }
 
+export async function getUserData(id) {
+	const userRole = await getUserRole(id);
+	let user;
+	switch (userRole.role) {
+		case 'student':
+			user = await getSingleStudent(id);
+			break;
+		case 'teacher':
+			user = await getSingleTeacher(id);
+			break;
+		case 'guardian':
+			user = await getSingleGuardian(id);
+			break;
+		default:
+			break;
+	}
+	return { ...user, role: userRole.role };
+}
+
+export async function postNewTrip(trip) {
+
+  const ref = Firebase.ref(db, "trips");
+  const url = await Firebase.push(ref, trip);
+  
+}

@@ -1,23 +1,37 @@
+import { useSession } from '@/auth/ctx';
+import Loading from '@/components/global/Loading';
 import * as React from 'react';
-import * as Brightness from 'expo-brightness';
 import { View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import * as Brightness from 'expo-brightness';
 
 export default function Generator() {
-	const text = 'Test Value';
+	const { session } = useSession();
 
-	// BRIGHTNESS DOES NOT LOWER!
-	// React.useEffect(() => {
-	// 	(async () => {
-	// 		const { status } = await Brightness.requestPermissionsAsync();
-	// 		if (status === 'granted') {
-	// 			Brightness.setBrightnessAsync(1);
-	// 		}
-	// 	})();
-	// 	return async () => {
-	// 		await Brightness.restoreSystemBrightnessAsync();
-	// 	};
-	// }, []);
+	const [userID, setUserID] = React.useState('');
+	const [isLoading, setIsLoading] = React.useState(true);
+
+	React.useEffect(() => {
+		const user = JSON.parse(session);
+		setUserID(user.id);
+		setIsLoading(false);
+	}, []);
+
+	React.useEffect(() => {
+		(async () => {
+			const { status } = await Brightness.requestPermissionsAsync();
+			if (status === 'granted') {
+				Brightness.setBrightnessAsync(1);
+			}
+		})();
+		return async () => {
+			await Brightness.restoreSystemBrightnessAsync();
+		};
+	}, []);
+
+	if (isLoading) {
+		return <Loading />;
+	}
 
 	return (
 		<View
@@ -28,7 +42,7 @@ export default function Generator() {
 				backgroundColor: 'white',
 			}}
 		>
-			<QRCode value={text} size={300} />
+			<QRCode value={userID} size={300} />
 		</View>
 	);
 }

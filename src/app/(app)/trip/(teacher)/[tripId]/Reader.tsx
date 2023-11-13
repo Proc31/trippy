@@ -7,6 +7,7 @@ import * as Haptics from 'expo-haptics';
 import MissingStudentList from '@/components/barcodeReader/MissingStudentList';
 import Loading from '@/components/global/Loading';
 import theme from '@/utils/theme';
+import { useGlobalSearchParams } from 'expo-router';
 import {
 	createHeadCount,
 	setStudentPresent,
@@ -14,7 +15,6 @@ import {
 	getSingleStudent,
 } from '@/utils/utils';
 
-const TRIP_ID = 2; // TODO! GET AUTH CONTEXT
 const SCANNER_TIMEOUT = 2000;
 const containerStyle = { backgroundColor: 'white', padding: 20 };
 
@@ -27,6 +27,8 @@ export default function Reader() {
 	const [headcount, setHeadCount] = React.useState(null);
 	// Model state
 	const [visible, setVisible] = React.useState(false);
+	// Get current trip ID from search params
+	const { tripId } = useGlobalSearchParams();
 
 	const showModal = () => setVisible(true);
 	const hideModal = () => setVisible(false);
@@ -63,7 +65,7 @@ export default function Reader() {
 	//Handles starting and stopping a headcount
 	const handleHeadCount = async () => {
 		if (!headcount) {
-			const headcount = await createHeadCount(TRIP_ID);
+			const headcount = await createHeadCount(tripId);
 			setHeadCount(headcount);
 			setScanned(false);
 		} else {
