@@ -23,6 +23,19 @@ export default function SignIn() {
 		signIn(email, password);
 	};
 
+	const debugSignIn = (type) => {
+		const password = 'functionforce6';
+		if (type === 'teacher') {
+			signIn('c_harrison@sambrady.co.uk', password);
+		}
+		if (type === 'student') {
+			signIn('d_mitchell@sambrady.co.uk', password);
+		}
+		if (type === 'guardian') {
+			signIn('a_rizvi2@sambrady.co.uk', password);
+		}
+	};
+
 	React.useEffect(() => {
 		if (session) {
 			router.replace('/');
@@ -95,6 +108,36 @@ export default function SignIn() {
 				theme={theme}
 			>
 				Sign In
+			</Button>
+			<Button
+				mode="contained"
+				onPress={() => {
+					debugSignIn('teacher');
+				}}
+				style={{ width: 300, margin: 20 }}
+				theme={theme}
+			>
+				Teacher
+			</Button>
+			<Button
+				mode="contained"
+				onPress={() => {
+					debugSignIn('student');
+				}}
+				style={{ width: 300, margin: 20 }}
+				theme={theme}
+			>
+				Student
+			</Button>
+			<Button
+				mode="contained"
+				onPress={() => {
+					debugSignIn('guardian');
+				}}
+				style={{ width: 300, margin: 20 }}
+				theme={theme}
+			>
+				Guardian
 			</Button>
 		</View>
 	);
