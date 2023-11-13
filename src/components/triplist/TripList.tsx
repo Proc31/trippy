@@ -42,6 +42,7 @@ const TripList = ({ data }) => {
 								key={index}
 								tripId={tripId}
 								tripDetails={tripDetails}
+								userRole={userRole}
 								handleEditTrip={handleEditTrip}
 								handleDeleteTrip={handleDeleteTrip}
 							/>
