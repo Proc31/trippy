@@ -20,10 +20,7 @@ const TeacherInventoryScreen = () => {
   useEffect(() => {
     getTripInventory(tripId)
       .then((data) => {
-        const itemsArray = [];
-        for (let key in data) {
-          itemsArray.push(data[key]);
-        }
+        const itemsArray = Object.values(data);
         setInventory(itemsArray);
       })
       .catch((error) => {
@@ -68,35 +65,38 @@ const TeacherInventoryScreen = () => {
 
   const handleDeleteItem = (itemIndex: number) => {
     if (inventory) {
-      //update state
-      const updatedItems = [...inventory];
-      updatedItems.splice(itemIndex, 1);
-      setInventory(updatedItems);
-      //delete on trip
+
       let inventKey = "";
       getTripInventory(tripId).then((data) => {
-        const tripRef = ref(database, "/trips/1/inventory");
+        const tripRef = ref(database, `trips/${tripId}/inventory`);
         inventKey = findKey(inventory[itemIndex], data);
-        return update(tripRef, {
+        console.log(data, inventory[itemIndex], inventKey)
+
+        //delete on trip
+        return update(tripRef, {      
           [inventKey]: null,
-        }).then(() => {
+        })
+        .then(() => {
           getSingleTrip(tripId).then((data) => {
             const updates = {};
             const students = data.val().students;
             const keys = Object.keys(students);
+
             keys.forEach((studentKey) => {
               updates[
                 `students/${studentKey}/trips/${tripId}/inventory/${inventKey}`
               ] = null;
             });
-            console.log(updates);
-            return update(ref(database), updates);
+            return update(ref(database), updates); // delete on each student DB
           });
         });
       });
     }
-    // need to handle API after this
+    const updatedItems = [...inventory];
+    updatedItems.splice(itemIndex, 1);
+    setInventory(updatedItems); //update state
   };
+
 
   const handleEditPress = () => {
     if (!isEditing) {
@@ -104,9 +104,9 @@ const TeacherInventoryScreen = () => {
     } else {
       setEditedIndex(-1);
     }
-
     setIsEditing(!isEditing);
   };
+
 
   const handleEditItemName = (index: number, editedValue: string, item) => {
     // Update the item's name in the inventory
@@ -122,7 +122,7 @@ const TeacherInventoryScreen = () => {
           const students = data.val().students;
           const keys = Object.keys(students);
           keys.forEach((studentKey) => {
-            updates[`students/${studentKey}/trips/${tripId}/inventory/` + inventKey].item_name = editedValue
+            updates[`students/${studentKey}/trips/${tripId}/inventory/${inventKey}/item_name`] = editedValue;
           })
           return update(ref(database), updates)
         })
@@ -169,6 +169,7 @@ const TeacherInventoryScreen = () => {
           flexDirection: "row",
           alignItems: "center",
           position: "relative",
+          paddingLeft: 20, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: "#73B5D4", borderRadius: 8
         }}
       >
         <Ionicons
@@ -188,7 +189,7 @@ const TeacherInventoryScreen = () => {
           />
         ) : (
           <TouchableWithoutFeedback onPress={handlePress}>
-            <Text style={{ marginLeft: 16 }}>{item}</Text>
+            <Text style={{ marginLeft: 16, marginRight: 20, fontSize: 18}}>{item}</Text>
           </TouchableWithoutFeedback>
         )}
 
@@ -211,7 +212,7 @@ const TeacherInventoryScreen = () => {
             mode="text"
             textColor="red"
             onPress={() => handleDeleteItem(index)}
-            style={{ position: "absolute", right: 0, zIndex: 1 }}
+            style={{ position: "absolute", right: 0, backgroundColor: 'white', zIndex: 1, borderRadius: 0}}
           >
             Delete
           </Button>
@@ -252,7 +253,7 @@ const TeacherInventoryScreen = () => {
         </Button>
       </View>
       <FlatList
-        style={{ borderWidth: 3, borderColor: "#73B5D4", marginTop: 20 }}
+        style={{ margin: 40 }}
         data={inventory}
         keyExtractor={(item, index) => `${item}-${index}`}
         renderItem={({ item, index }) => (

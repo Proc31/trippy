@@ -74,12 +74,12 @@ const InventoryChecklist = () => {
 
   const RenderItem = ({ item, index }: ItemProps) => {
     return (
-      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: "#73B5D4", borderRadius: 8 }}>
         <Checkbox
           status={item.checked ? "checked" : "unchecked"}
           onPress={() => handleItemCheck(item, index,)}
         />
-        <Text style={{ marginLeft: 16 }}>{item.name}</Text>
+        <Text style={{ marginLeft: 16, fontSize: 18, flexWrap: "wrap", width: 200  }}>{item.name}</Text>
       </View>
     );
   };
@@ -87,7 +87,7 @@ const InventoryChecklist = () => {
   return (
     <View style={{}}>
       <FlatList
-        style={{ borderWidth: 3, borderColor: "#73B5D4", marginTop: 20 }}
+        style={{ margin: 40 }}
         data={inventory}
         keyExtractor={(item, index) => `${item.name}-${index}`}
         renderItem={({ item, index }) => (
