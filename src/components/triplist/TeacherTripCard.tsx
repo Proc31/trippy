@@ -8,6 +8,7 @@ const TeacherTripCard = ({
 	tripDetails,
 	handleEditTrip,
 	handleDeleteTrip,
+	userRole,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 
@@ -53,7 +54,15 @@ const TeacherTripCard = ({
 				<Button
 					mode="contained"
 					style={{ marginRight: 'auto', flex: 1 }}
-					onPress={() => navigation.navigate('UserIndex')}
+					onPress={() =>
+						router.push({
+							pathname: `/trip/(${userRole})/[tripId]`,
+							params: {
+								tripId,
+								tripTitle: tripDetails.name,
+							},
+						})
+					}
 				>
 					Start
 				</Button>
