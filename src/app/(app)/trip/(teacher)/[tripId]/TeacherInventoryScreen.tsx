@@ -3,7 +3,7 @@ import { View, Text, FlatList, TouchableWithoutFeedback } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory } from "@/utils/utils";
-import { database } from "../../../firebase/config";
+import { database } from "../../../../../utils/config";
 import { push, ref } from "firebase/database";
 import { update } from "@firebase/database";
 
