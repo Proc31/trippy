@@ -33,7 +33,7 @@ const GuardianTripCard = ({
 					style={{ marginRight: 'auto', flex: 1 }}
 					onPress={() =>
 						router.push({
-							pathname: `/trip/(teacher)/[tripId]`,
+							pathname: `/trip/(student)/[tripId]`,
 							params: {
 								tripId,
 								tripTitle: tripDetails.name,

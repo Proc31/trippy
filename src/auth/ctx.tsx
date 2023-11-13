@@ -3,6 +3,7 @@ import { useStorageState } from './useStorageState';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '@/utils/config';
 import { Alert } from 'react-native';
+import { getUserData } from '@/utils/utils';
 
 const AuthContext = React.createContext<{
 	signIn: (username: string, password: string) => void;
@@ -38,7 +39,8 @@ export function SessionProvider(props: React.PropsWithChildren) {
 							email,
 							password
 						);
-						setSession(userCredential.user.uid);
+						const user = await getUserData(userCredential.user.uid);
+						setSession(JSON.stringify(user));
 					} catch (err) {
 						Alert.alert('Login Failed', err.code); // Clean this up to give meaningful errors
 					}
