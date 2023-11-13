@@ -49,21 +49,18 @@ const TeacherInventoryScreen = () => {
     const updates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
 
-    getSingleTrip(tripId)
-      .then((data) => {
-        const students = data.val().students;
-        const keys = Object.keys(students);
-        keys.forEach((itemKey) => {
-          updates[
-            `students/${itemKey}/trips/${tripId}/inventory/` + newItemKey
-          ] = addText;
-        });
-      })
-      .then(() => {
-        console.log(updates);
-        return update(ref(database), updates);
-      })
-      .catch((error) => console.log(error));
+    getSingleTrip(tripId).then((data) => {
+      const students = data.val().students;
+      const keys = Object.keys(students);
+      keys.forEach((itemKey) => {
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/item_name`] = addText
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
+      }
+      )
+    }).then(() => {
+      console.log(updates)
+      return update(ref(database), updates)
+    }).catch((error) => console.log(error))
 
     setAddText(""); //do this last
   };
@@ -112,24 +109,49 @@ const TeacherInventoryScreen = () => {
 
   const handleEditItemName = (index: number, editedValue: string, item) => {
     // Update the item's name in the inventory
-    const tripRef = ref(database, `trips/${trip}/inventory`);
+    const tripRef = ref(database, `trips/1/inventory`);
+    const updates = {};
 
     if (inventory) {
-      const tripData = getTripInventory(1).then((data) => {
-        const tripRef = ref(database, "/trips/1/inventory");
+      getTripInventory(tripId).then((data) => {
         const inventKey = findKey(item, data);
-        return update(tripRef, {
-          [inventKey]: editedValue,
-        });
-      });
+        updates[`/trips/${tripId}/inventory/` + inventKey] = editedValue;
+        
+        getSingleTrip(tripId).then((data) => {
+          const students = data.val().students;
+          const keys = Object.keys(students);
+          keys.forEach((studentKey) => {
+            updates[`students/${studentKey}/trips/${tripId}/inventory/` + inventKey].item_name = editedValue
+          })
+          return update(ref(database), updates)
+        })
+        .catch((error) => console.log(error))
+
+      })
       const updatedInventory = [...inventory];
       updatedInventory[index] = editedValue;
       setInventory(updatedInventory);
-
-      setEditedIndex(-1);
-      setIsEditing(false); // Stop editing after saving
     }
+    setEditedIndex(-1);
+    setIsEditing(false); // Stop editing after saving
   };
+
+  const clearList = () => {
+    const updates = {};
+    updates[`/trips/${tripId}/inventory/`] = null;
+
+    getSingleTrip(tripId).then((data) => {
+      const students = data.val().students;
+      const keys = Object.keys(students);
+      keys.forEach((studentKey) => {
+        updates[`students/${studentKey}/trips/${tripId}/inventory/`] = null;
+      })
+      return update(ref(database), updates)
+    })
+    .catch((error) => console.log(error))
+
+    setInventory([])
+  }
 
   const RenderItem = ({ item, index }) => {
     const [checked, setChecked] = useState(false);
@@ -236,6 +258,16 @@ const TeacherInventoryScreen = () => {
           <RenderItem item={item} index={index} />
         )}
       />
+      <Button
+        icon="delete"
+        mode="contained"
+        style={{ borderRadius: 5, marginLeft: 5 }}
+        onPress={() => {
+          clearList();
+        }}
+      >
+        Clear Inventory List
+      </Button>
     </View>
   );
 };
