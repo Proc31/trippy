@@ -1,22 +1,33 @@
-import * as React from "react";
-import { Button, TextInput, Tooltip } from 'react-native-paper';
+import * as React from 'react';
+import { Button, TextInput } from 'react-native-paper';
 import { View } from 'react-native';
-import { useAuth } from '../firebase/auth/AuthContext';
 import { Image } from 'expo-image';
-import theme from './components/ux/Theme';
+import theme from '../utils/theme';
+import { useSession } from '@/auth/ctx';
+import { router } from 'expo-router';
 
 export default function SignIn() {
 	// States for login info
-	const [email, setEmail] = React.useState('o_parker@sambrady.co.uk');
+	const [email, setEmail] = React.useState('d_mitchell@sambrady.co.uk');
 	const [password, setPassword] = React.useState('functionforce6');
 	// UI States
 	const [showPassword, setShowPassword] = React.useState(false);
 
-	const { login } = useAuth();
+	const { signIn, session } = useSession();
 
 	const toggleShowPassword = () => {
 		setShowPassword(!showPassword);
 	};
+
+	const handleSignIn = () => {
+		signIn(email, password);
+	};
+
+	React.useEffect(() => {
+		if (session) {
+			router.replace('/');
+		}
+	}, [session]);
 
 	return (
 		<View
@@ -28,7 +39,7 @@ export default function SignIn() {
 			}}
 		>
 			<Image
-				source={require('../assets/trippy.png')}
+				source={require('@/assets/trippy.png')}
 				style={{
 					height: '10%',
 					width: '75%',
@@ -38,7 +49,7 @@ export default function SignIn() {
 				contentFit="contain"
 			/>
 			<Image
-				source={require('../assets/icon.png')}
+				source={require('@/assets/icon.png')}
 				style={{
 					height: '25%',
 					width: '75%',
@@ -79,7 +90,7 @@ export default function SignIn() {
 			/>
 			<Button
 				mode="contained"
-				onPress={() => login(email, password)}
+				onPress={handleSignIn}
 				style={{ width: 300, margin: 20 }}
 				theme={theme}
 			>

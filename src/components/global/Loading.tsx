@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ActivityIndicator } from 'react-native-paper';
 import { View } from 'react-native';
-import theme from './ux/Theme';
+import theme from '@/utils/theme';
 
 export default function Loading() {
 	return (

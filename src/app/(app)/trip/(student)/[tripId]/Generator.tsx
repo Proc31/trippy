@@ -6,17 +6,18 @@ import QRCode from 'react-native-qrcode-svg';
 export default function Generator() {
 	const text = 'Test Value';
 
-	React.useEffect(() => {
-		(async () => {
-			const { status } = await Brightness.requestPermissionsAsync();
-			if (status === 'granted') {
-				Brightness.setBrightnessAsync(1);
-			}
-		})();
-		return async () => {
-			await Brightness.restoreSystemBrightnessAsync();
-		};
-	}, []);
+	// BRIGHTNESS DOES NOT LOWER!
+	// React.useEffect(() => {
+	// 	(async () => {
+	// 		const { status } = await Brightness.requestPermissionsAsync();
+	// 		if (status === 'granted') {
+	// 			Brightness.setBrightnessAsync(1);
+	// 		}
+	// 	})();
+	// 	return async () => {
+	// 		await Brightness.restoreSystemBrightnessAsync();
+	// 	};
+	// }, []);
 
 	return (
 		<View

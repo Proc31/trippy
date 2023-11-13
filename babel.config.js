@@ -5,15 +5,19 @@ module.exports = function (api) {
 		env: {
 			development: {
 				plugins: [
-					["module:react-native-dotenv", {
-					  "envName": "APP_ENV",
-					  "moduleName": "@env",
-					  "path": ".env",
-					  "safe": false,
-					  "allowUndefined": true,
-					  "verbose": false
-					}]
-				  ]
+					[
+						'module:react-native-dotenv',
+						{
+							envName: 'APP_ENV',
+							moduleName: '@env',
+							path: '.env',
+							safe: false,
+							allowUndefined: true,
+							verbose: false,
+						},
+					],
+					['expo-router/babel'],
+				],
 			},
 			production: {
 				plugins: ['react-native-paper/babel'],

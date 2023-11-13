@@ -2,8 +2,8 @@ import * as React from 'react';
 import { List, Button, Text } from 'react-native-paper';
 import { View, ScrollView } from 'react-native';
 import { getMultipleStudents, setStudentPresent } from '@/utils/utils';
-import theme from './ux/Theme';
-import Loading from './Loading';
+import theme from '../../utils/theme';
+import Loading from '../../components/global/Loading';
 
 export default function MissingStudentList({
 	missingStudents,
