@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { Checkbox } from "react-native-paper";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+SplashScreen.preventAutoHideAsync();
 
 export default function StudentList({
   title,
@@ -8,6 +11,19 @@ export default function StudentList({
   setCheckedItems,
   students,
 }) {
+  const [fontsLoaded] = useFonts({
+    "Super Summer": require("../../assets/fonts/SuperSummer.ttf"),
+    Handmade: require("../../assets/fonts/Handmade.otf"),
+  });
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   const handleCheckboxChange = (id) => {
     //this gets passed the student id
     const currentIndex = checkedItems.indexOf(id);
@@ -26,7 +42,11 @@ export default function StudentList({
     <ScrollView style={styles.container}>
       {title}
       {students.map((student, index) => (
-        <View key={index + 43} style={styles.checkboxContainer}>
+        <View
+          key={index + 43}
+          style={styles.checkboxContainer}
+          onLayout={onLayoutRootView}
+        >
           <Checkbox
             key={index + 100}
             status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
@@ -35,8 +55,9 @@ export default function StudentList({
           <Text
             key={index + 299}
             style={{
+              fontFamily: "Handmade",
               marginLeft: 8,
-              fontSize: 24,
+              fontSize: 32,
               borderStyle: "solid",
               backgroundColor: "#73B5D4",
               height: "100%",
