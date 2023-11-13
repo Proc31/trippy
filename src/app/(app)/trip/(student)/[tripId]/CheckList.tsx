@@ -4,6 +4,7 @@ import { Checkbox, TextInput, Button } from "react-native-paper";
 import { ref, onValue, push } from "firebase/database";
 import { database } from '@/utils/config';
 
+
 type Item = {
   name: string;
   checked: boolean;

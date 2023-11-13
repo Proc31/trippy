@@ -2,18 +2,33 @@ import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { getTripInventory } from "@/utils/utils";
-import { database } from '@/utils/config';
-import { push, ref } from "firebase/database";
+import { getTripInventory, getSingleTrip } from "@/utils/utils";
+import { database } from "@/utils/config";
+import { push, ref, child } from "firebase/database";
+
+
 import { update } from "@firebase/database";
 
 const TeacherInventoryScreen = () => {
   const [inventory, setInventory] = useState([]);
-  const [text, setText] = useState("");
+  const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-  const [checked, setChecked] = useState(false);
-  const [trip, setTrip] = useState(1);
+  const [tripId, setTripId] = useState(1);
+
+  useEffect(() => {
+    getTripInventory(1)
+      .then((data) => {
+        const itemsArray = [];
+        for (let key in data) {
+          itemsArray.push(data[key]);
+        }
+        setInventory(itemsArray);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   function findKey(item, itemData) {
     for (const key in itemData) {
@@ -21,6 +36,33 @@ const TeacherInventoryScreen = () => {
         return key;
       }
     }
+  }
+
+  const handleAddItem = () => {
+    if (addText) {
+      const updatedInventory = [...inventory, addText];
+      setInventory(updatedInventory);
+
+    }
+
+    const newItemKey = push(child(ref(database), `trips/${tripId}/inventory`)).key //todo implement non-hardcoded trip id
+    const updates = {};
+    updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
+
+    getSingleTrip(tripId).then((data) => {
+      const students = data.val().students;
+      const keys = Object.keys(students);
+      keys.forEach((itemKey) => {
+        updates[`students/${itemKey}/trips/${tripId}/inventory/` + newItemKey] = addText
+      }
+      )
+    }).then(() => {
+      console.log(updates)
+      return update(ref(database), updates)
+    }).catch((error) => console.log(error))
+
+    
+    setAddText(""); //do this last
   }
 
   const handleDeleteItem = (itemIndex: number) => {
@@ -36,7 +78,7 @@ const TeacherInventoryScreen = () => {
         return update(tripRef, {
           [inventKey]: null,
         }).then(() => {
-          const students = ref(database, "trips/1/students"); //todo implement none-hardcoded trip id
+          const students = ref(database, "trips/1/students"); //todo implement non-hardcoded trip id
           for (const key in students) {
             const studentData = ref(
               database,
@@ -60,19 +102,6 @@ const TeacherInventoryScreen = () => {
     }
     // need to handle API after this
   };
-  useEffect(() => {
-    getTripInventory(1)
-      .then((data) => {
-        const itemsArray = [];
-        for (let key in data) {
-          itemsArray.push(data[key]);
-        }
-        setInventory(itemsArray);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   const handleEditPress = () => {
     if (!isEditing) {
@@ -176,15 +205,15 @@ const TeacherInventoryScreen = () => {
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <TextInput
           placeholder="Add a new item"
-          value={text}
-          onChangeText={(text) => setText(text)}
+          value={addText}
+          onChangeText={(text) => setAddText(text)}
         />
         <Button
           icon="plus-circle-outline"
           mode="contained"
           buttonColor="#73B5D4"
           textColor="black"
-          //onPress={handleAddItem}
+          onPress={() => handleAddItem()}
           style={{ borderRadius: 5, marginLeft: 5 }}
         >
           Add
