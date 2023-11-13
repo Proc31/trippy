@@ -1,10 +1,20 @@
+import { useSession } from '@/auth/ctx';
+import Loading from '@/components/global/Loading';
 import * as React from 'react';
-import * as Brightness from 'expo-brightness';
 import { View } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
 
 export default function Generator() {
-	const text = 'Test Value';
+	const { session } = useSession();
+
+	const [userID, setUserID] = React.useState('');
+	const [isLoading, setIsLoading] = React.useState(true);
+
+	React.useEffect(() => {
+		const user = JSON.parse(session);
+		setUserID(user.id);
+		setIsLoading(false);
+	}, []);
 
 	// BRIGHTNESS DOES NOT LOWER!
 	// React.useEffect(() => {
@@ -19,6 +29,10 @@ export default function Generator() {
 	// 	};
 	// }, []);
 
+	if (isLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<View
 			style={{
@@ -28,7 +42,7 @@ export default function Generator() {
 				backgroundColor: 'white',
 			}}
 		>
-			<QRCode value={text} size={300} />
+			<QRCode value={userID} size={300} />
 		</View>
 	);
 }
