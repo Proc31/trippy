@@ -84,17 +84,17 @@ export async function getSingleStudent(id) {
 }
 
 export async function getSingleTeacher(id) {
-	const ref = Firebase.ref(db, `teachers/${id}`);
-	const result = await Firebase.get(ref);
-	const parsedResult = result.val();
-	return { id: id, ...parsedResult };
+  const ref = Firebase.ref(db, `teachers/${id}`);
+  const result = await Firebase.get(ref);
+  const parsedResult = result.val();
+  return { id: id, ...parsedResult };
 }
 
 export async function getSingleGuardian(id) {
-	const ref = Firebase.ref(db, `guardians/${id}`);
-	const result = await Firebase.get(ref);
-	const parsedResult = result.val();
-	return { id: id, ...parsedResult };
+  const ref = Firebase.ref(db, `guardians/${id}`);
+  const result = await Firebase.get(ref);
+  const parsedResult = result.val();
+  return { id: id, ...parsedResult };
 }
 
 export async function getUserRole(id) {
@@ -167,7 +167,10 @@ export async function addStudentsToTrip(studentIds, tripId, trip) {
       db,
       `trips/${tripId}/students/` + studentId
     );
-    const tripsRef = Firebase.ref(db, `students/${studentId}/` + `trips/${tripId}/`);
+    const tripsRef = Firebase.ref(
+      db,
+      `students/${studentId}/` + `trips/${tripId}/`
+    );
     const set = Firebase.set;
     //add student to trip
     set(studentsRef, {
@@ -187,12 +190,12 @@ export async function addInventoryToStudent(studentId, tripId, trip) {
   const set = Firebase.set;
   const inventory = trip.inventory;
 
-    for (let key in inventory){
-      const ref = Firebase.ref(db, path + `inventory/${key}/`);
-      set(ref, {
-          item_name: inventory[key],
-          checked: false
-      });
+  for (let key in inventory) {
+    const ref = Firebase.ref(db, path + `inventory/${key}/`);
+    set(ref, {
+      item_name: inventory[key],
+      checked: false,
+    });
   }
 }
 
@@ -213,27 +216,55 @@ export async function removeTripFromStudent(studentId, trip) {
 }
 
 export async function getUserData(id) {
-	const userRole = await getUserRole(id);
-	let user;
-	switch (userRole.role) {
-		case 'student':
-			user = await getSingleStudent(id);
-			break;
-		case 'teacher':
-			user = await getSingleTeacher(id);
-			break;
-		case 'guardian':
-			user = await getSingleGuardian(id);
-			break;
-		default:
-			break;
-	}
-	return { ...user, role: userRole.role };
+  const userRole = await getUserRole(id);
+  let user;
+  switch (userRole.role) {
+    case "student":
+      user = await getSingleStudent(id);
+      break;
+    case "teacher":
+      user = await getSingleTeacher(id);
+      break;
+    case "guardian":
+      user = await getSingleGuardian(id);
+      break;
+    default:
+      break;
+  }
+  return { ...user, role: userRole.role };
 }
 
 export async function postNewTrip(trip) {
-
   const ref = Firebase.ref(db, "trips");
-  const url = await Firebase.push(ref, trip);
-  
+  Firebase.push(ref, trip);
+}
+
+export async function amendTripDetails(tripId, trip) {
+  const set = Firebase.set;
+  const ref = Firebase.ref(db, `trips/${tripId}/`);
+  set(ref, trip);
+}
+
+export async function deleteTrip(tripId) {
+  const set = Firebase.set;
+  const tripRef = Firebase.ref(db, `trips/${tripId}/`);
+  //delete students-trip
+  const students = await getTripStudents(tripId);
+  for (let i = 0; i < students.length; i++){
+    removeTripFromStudent(Object.keys(students[i])[0], tripId)
+  }
+  //delete teacher-trip
+  const trip = await getSingleTrip(tripId);
+  const teacherId = trip.val().organiser;
+  removeTripFromTeacher(teacherId, tripId);
+  //delete trip
+  set(tripRef, null);
+}
+
+export async function removeTripFromTeacher(teacherId, tripId) {
+  console.log(teacherId, tripId)
+  const teachersRef = ref(db, `teachers/${teacherId}/trips/`);
+  return update(teachersRef, {
+    [tripId]: null,
+  });
 }
