@@ -20,7 +20,7 @@ const theme = {
     flex: 1,
     marginHorizontal: 16,
     marginVertical: 32,
-    backgroundColor: "#7687bb",
+    backgroundColor: "#b9c9fc",
     borderRadius: 10,
   },
   checkboxContainer: {
@@ -38,6 +38,39 @@ const theme = {
     width: "100%",
     padding: 5,
     color: "white",
+  },
+  // #09131B
+  tripTitle: {
+    fontSize: 32,
+    fontFamily: "Poetsen One",
+    color: "#09131B",
+    textAlign: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "white",
+  },
+  tripDeleteButton: {
+    flex: 1,
+    backgroundColor: "#FF788E",
+    height: 60,
+    justifyContent: "center",
+  },
+  tripDesc: {
+    fontSize: 20,
+    marginBottom: 20,
+    color: "#09131B",
+    fontWeight: "bold",
+  },
+  buttonText: { color: "white", fontSize: 20, fontFamily: "Poetsen One" },
+  tripTeacherButtons: {
+    flex: 1,
+    height: 60,
+    justifyContent: "center",
+    backgroundColor: "#6469CE",
+  },
+  tripCard: {
+    margin: 16,
+    padding: 20,
+    backgroundColor: "#E4EEF6",
   },
 };
 
