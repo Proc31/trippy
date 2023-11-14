@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, FlatList, TouchableWithoutFeedback, Alert } from "react-native";
+import { View, Text, FlatList, TouchableWithoutFeedback, Alert, Platform,Keyboard,  KeyboardAvoidingView, TextInput as RNTextInput } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory, getSingleTrip } from "@/utils/utils";
@@ -8,20 +8,26 @@ import { push, ref, child } from "firebase/database";
 import { update } from "@firebase/database";
 import { useGlobalSearchParams } from "expo-router";
 
+interface InventoryData {
+  [key: string]: string;
+}
+interface FirebaseUpdates {
+  [key: string]: string | boolean | null;
+}
+
 
 
 const TeacherInventoryScreen = () => {
-  const [inventory, setInventory] = useState([]);
+  const [inventory, setInventory] = useState<string[]>([]);
   const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
 	const { tripId } = useGlobalSearchParams();
-  const textInputRef = useRef();
-console.log(tripId)
+  const textInputRef = useRef<RNTextInput>(null); // needed this to stop typescript complaining
+
   useEffect(() => {
-    
     getTripInventory(tripId)
-      .then((data) => {
+      .then((data: InventoryData) => {
         const itemsArray = Object.values(data);
         setInventory(itemsArray);
       })
@@ -32,7 +38,7 @@ console.log(tripId)
 
 
 
-  function findKey(item, itemData) {
+  function findKey(item: string, itemData: InventoryData) {
     for (const key in itemData) {
       if (itemData[key] === item) {
         return key;
@@ -49,7 +55,7 @@ console.log(tripId)
     const newItemKey = push(
       child(ref(database), `trips/${tripId}/inventory`),
     ).key; 
-    const updates = {};
+    const updates: FirebaseUpdates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
 
     getSingleTrip(tripId).then((data) => {
@@ -74,27 +80,32 @@ console.log(tripId)
 
 
   const handleDeleteItem = (itemIndex: number) => {
-    if (!inventory) {
+    if (!inventory || itemIndex < 0 || itemIndex >= inventory.length) {
       return;
     }
   
-    let inventKey = "";
-    let tripInventory = null;
+    let inventKey: string | null | undefined = null;
+    let tripInventory: InventoryData | null = null;
   
     getTripInventory(tripId)
       .then((data) => {
         tripInventory = data;
-        const tripRef = ref(database, `trips/${tripId}/inventory`);
-        inventKey = findKey(inventory[itemIndex], tripInventory);
-  
-        // Delete on trip
-        return update(tripRef, { [inventKey]: null });
+
+        if(tripInventory) {
+          const itemToDelete = inventory[itemIndex]
+          inventKey = findKey(itemToDelete, tripInventory);
+
+          if (inventKey) {
+            const tripRef = ref(database, `trips/${tripId}/inventory`);
+            return update(tripRef, { [inventKey]: null }); // Delete on trip
+          } 
+        }
       })
       .then(() => {
         return getSingleTrip(tripId);
       })
       .then((singleTripData) => {
-        const updates = {};
+        const updates: FirebaseUpdates = {};
         const students = singleTripData.val().students;
         const keys = Object.keys(students);
   
@@ -133,11 +144,11 @@ console.log(tripId)
 
 
 
-  const handleEditItemName = (index: number, editedValue: string, item) => {
+  const handleEditItemName = (index: number, editedValue: string, item: string) => {
     if (editedIndex === index) {
           // Update the item's name in the inventory
           const tripRef = ref(database, `trips/${tripId}/inventory`);
-          const updates = {};
+          const updates: FirebaseUpdates = {};
       
           if (inventory) {
             getTripInventory(tripId).then((data) => {
@@ -182,7 +193,7 @@ console.log(tripId)
           text: "OK",
           onPress: () => {
             // User pressed OK, clear the inventory list
-            const updates = {};
+            const updates: FirebaseUpdates = {};
             updates[`/trips/${tripId}/inventory/`] = null;
 
             getSingleTrip(tripId)
@@ -206,15 +217,19 @@ console.log(tripId)
   };
 
 
-  const RenderItem = ({ item, index }) => {
+  type RenderItemProps = {
+    item: string,
+    index: number
+  }
+
+  const RenderItem = ({ item, index }: RenderItemProps) => {
     const [checked, setChecked] = useState(false);
     const [editedValue, setEditedValue] = useState(item);
 
-  const handlePress = (index, item) => {
-    setEditedIndex(index);
-    setEditedValue(item);
-
-  };
+    const handlePress = (index: number, item: string) => {
+      setEditedIndex(index);
+      setEditedValue(item);
+    };
 
     return (
       <View
@@ -275,68 +290,74 @@ console.log(tripId)
     );
   };
 
-  return (
-    <View style={{ margin: 40 }}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TextInput
-          ref={textInputRef}
-          placeholder="Add a new item"
-          value={addText}
-          onChangeText={(text) => setAddText(text)}
-          style={{width:150}}
-        />
-        <View style={{ width: 150}}>
-          <Button
-            icon="plus-circle-outline"
-            mode="contained"
-            // buttonColor="#73B5D4"
-            textColor="white"
-            onPress={() => handleAddItem()}
-            style={{ borderRadius: 5, marginLeft: 5 }}
-            >
-            Add
-          </Button>
-        </View>
-      </View>
 
-      <FlatList
-        style={{
-          maxHeight: 500,
-          borderRadius: 5,
-          backgroundColor: "#E4E1E1",
-        }}
-        data={inventory}
-        keyExtractor={(item, index) => `${item}-${index}`}
-        renderItem={({ item, index }) => (
-          <RenderItem item={item} index={index} />
-        )}
-      />
-      <View style={{ flexDirection: "row", alignItems: "center", marginTop:10 }}>
-        <Button
-          icon="lead-pencil"
-          mode="contained"
-          textColor={"white"}
-          buttonColor={isEditing ? "blue" : null}
-          style={{ borderRadius: 5, marginLeft: 5 }}
-          onPress={() => {
-            handleEditPress();
-          }}
-        >
-          {isEditing ? "Done" : "Edit Names"}
-        </Button>
-      <Button
-        icon="delete"
-        mode="contained"
-        textColor="white"
-        style={{ borderRadius: 5, marginLeft: 5 }}
-        onPress={() => {
-          clearList();
-        }}
-        >
-        Clear Inventory List
-      </Button>
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{flex:1}}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ margin: 40 }}>
+          <View style={{ flexDirection: "row",justifyContent: "space-between", alignItems: "center" }}>
+            <TextInput
+              ref={textInputRef}
+              placeholder="Add a new item"
+              value={addText}
+              onChangeText={(text) => setAddText(text)}
+              style={{flex:3}}
+              />
+            <Button
+              icon="plus-circle-outline"
+              mode="contained"
+              textColor="white"
+              onPress={() => handleAddItem()}
+              style={{ borderRadius: 5, marginLeft: 5, flex:1 }}
+              >
+              Add
+            </Button>
+          </View>
+
+          <FlatList
+            style={{
+              maxHeight: 500,
+              borderRadius: 5,
+              backgroundColor: "#E4E1E1",
+            }}
+            data={inventory}
+            keyExtractor={(item, index) => `${item}-${index}`}
+            renderItem={({ item, index }) => (
+              <RenderItem item={item} index={index} />
+              )}
+              />
+
+          <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop:10 }}>
+            <Button
+              icon="lead-pencil"
+              mode="contained"
+              textColor={"white"}
+              buttonColor={isEditing ? "blue" : undefined}
+              style={{ borderRadius: 5,flex: 1, marginLeft: 5 }}
+              onPress={() => {
+                handleEditPress();
+              }}
+              >
+              {isEditing ? "Done" : "Edit Names"}
+            </Button>
+            <Button
+              icon="delete"
+              mode="contained"
+              textColor="white"
+              style={{ borderRadius: 5,flex: 1, marginLeft: 5 }}
+              onPress={() => {
+                clearList();
+              }}
+              >
+              Clear List
+            </Button>
+          </View>
         </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
