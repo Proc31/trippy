@@ -6,7 +6,6 @@ import { Image } from 'expo-image';
 import * as Haptics from 'expo-haptics';
 import MissingStudentList from '@/components/barcodeReader/MissingStudentList';
 import Loading from '@/components/global/Loading';
-import theme from '@/utils/theme';
 import { useGlobalSearchParams } from 'expo-router';
 import {
 	createHeadCount,
@@ -159,9 +158,8 @@ export default function Reader() {
 					</Modal>
 				</Portal>
 			</View>
-			<View>
+			<View style={{ marginBottom: 80 }}>
 				<Button
-					theme={theme}
 					style={{ margin: 10 }}
 					mode="contained"
 					onPress={handleHeadCount}
@@ -169,7 +167,6 @@ export default function Reader() {
 					{headcount ? 'Stop Head Count' : 'Start Head Count'}
 				</Button>
 				<Button
-					theme={theme}
 					style={{ margin: 10 }}
 					mode="contained"
 					onPress={showModal}

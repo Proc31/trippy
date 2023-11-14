@@ -7,7 +7,7 @@ export default function Header({ title, signOut }) {
 		<Appbar.Header>
 			<Appbar.BackAction
 				onPress={() => {
-					router.back();
+					router.push('/');
 				}}
 			/>
 			<Appbar.Content title={title} />
