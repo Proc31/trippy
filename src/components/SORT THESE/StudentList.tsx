@@ -1,9 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
 import { Checkbox } from "react-native-paper";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-SplashScreen.preventAutoHideAsync();
+import theme from "../../utils/theme";
 
 export default function StudentList({
   title,
@@ -11,21 +9,7 @@ export default function StudentList({
   setCheckedItems,
   students,
 }) {
-  const [fontsLoaded] = useFonts({
-    "Super Summer": require("../../assets/fonts/SuperSummer.ttf"),
-    Handmade: require("../../assets/fonts/Handmade.otf"),
-  });
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
   const handleCheckboxChange = (id) => {
-    //this gets passed the student id
     const currentIndex = checkedItems.indexOf(id);
     const newCheckedItems = [...checkedItems];
 
@@ -39,32 +23,18 @@ export default function StudentList({
   };
   const studentsTest = students.map((student) => {});
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={theme.listContainer}>
       {title}
       {students.map((student, index) => (
-        <View
-          key={index + 43}
-          style={styles.checkboxContainer}
-          onLayout={onLayoutRootView}
-        >
+        <View key={index + 43} style={theme.checkboxContainer}>
           <Checkbox
+            uncheckedColor="#2a2c41"
+            color="white"
             key={index + 100}
             status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
             onPress={() => handleCheckboxChange(student.id)}
           />
-          <Text
-            key={index + 299}
-            style={{
-              fontFamily: "Handmade",
-              marginLeft: 8,
-              fontSize: 32,
-              borderStyle: "solid",
-              backgroundColor: "#73B5D4",
-              height: "100%",
-              width: "100%",
-              padding: 5,
-            }}
-          >
+          <Text key={index + 299} style={theme.listText}>
             {student.first_name + " " + student.surname}
           </Text>
         </View>
@@ -72,20 +42,3 @@ export default function StudentList({
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginHorizontal: 16,
-    marginVertical: 32,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  label: {
-    marginLeft: 8,
-    fontSize: 16,
-  },
-});
