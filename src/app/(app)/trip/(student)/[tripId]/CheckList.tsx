@@ -30,7 +30,6 @@ const InventoryChecklist = () => {
   useEffect(() => {
     onValue(pupilInventoryRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data)
       if (data) {
         // Convert Firebase data to an array of items and update the state
         const itemsArray: Item[] = Object.keys(data).map((itemKey) => {
@@ -74,7 +73,7 @@ const InventoryChecklist = () => {
 
   const RenderItem = ({ item, index }: ItemProps) => {
     return (
-      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: "#73B5D4", borderRadius: 8 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor:  '#28a745', borderRadius: 8 }}>
         <Checkbox
           status={item.checked ? "checked" : "unchecked"}
           onPress={() => handleItemCheck(item, index,)}
@@ -87,7 +86,10 @@ const InventoryChecklist = () => {
   return (
     <View style={{}}>
       <FlatList
-        style={{ margin: 40 }}
+        style={{ margin: 40,
+          borderRadius: 5,
+          backgroundColor: "#E4E1E1"
+        }}
         data={inventory}
         keyExtractor={(item, index) => `${item.name}-${index}`}
         renderItem={({ item, index }) => (
