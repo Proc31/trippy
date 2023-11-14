@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Button, Text, Title, Subheading } from 'react-native-paper';
+import { Alert } from 'react-native';
 import TripEditForm from './EditTripForm';
 import { router } from 'expo-router';
 
@@ -9,31 +10,49 @@ const TeacherTripCard = ({
 	handleEditTrip,
 	handleDeleteTrip,
 	userRole,
-}) => {
+  }) => {
 	const [isEditing, setIsEditing] = useState(false);
-
+  
 	const toggleEditForm = () => {
-		setIsEditing(!isEditing);
+	  setIsEditing(!isEditing);
 	};
-
+  
 	const handleSaveEdit = (editedTrip) => {
-		handleEditTrip(editedTrip);
-		setIsEditing(false);
+	  handleEditTrip(editedTrip);
+	  setIsEditing(false);
 	};
-
+  
+	const confirmDelete = () => {
+	  Alert.alert(
+		'Confirm Delete',
+		'Are you sure you want to delete this trip?',
+		[
+		  {
+			text: 'Cancel',
+			style: 'cancel',
+		  },
+		  {
+			text: 'Delete',
+			onPress: () => handleDeleteTrip(tripId),
+		  },
+		],
+		{ cancelable: false }
+	  );
+	};
+  
 	return (
-		<Card style={{ margin: 16 }}>
-			<Button
-				icon="delete"
-				onPress={() => handleDeleteTrip(tripId)}
-				style={{
-					position: 'absolute',
-					top: 0,
-					right: 0,
-					zIndex: 1,
-					margin: 1,
-				}}
-			/>
+	  <Card style={{ margin: 16 }}>
+		<Button
+		  icon="delete"
+		  onPress={confirmDelete}
+		  style={{
+			position: 'absolute',
+			top: 0,
+			right: 0,
+			zIndex: 1,
+			margin: 1,
+		  }}
+		/>
 			<Card.Content>
 				<Title style={{ fontSize: 24, fontWeight: 'bold' }}>
 					{tripDetails.name}
