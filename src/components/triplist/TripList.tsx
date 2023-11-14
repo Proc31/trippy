@@ -10,10 +10,7 @@ const TripList = ({ data }) => {
   const [userRole, setUserRole] = useState();
   const [trips, setTrips] = useState([]);
 
-  const handleAddTrip = (newTrip) => {
-    const updatedTrips = [...trips, newTrip];
-    setTrips(updatedTrips);
-  };
+  
   const handleEditTrip = (editedTrip) => {
     //TODO: ui is in place functionality not implemented.
     const updatedTrips = [...trips, editedTrip];

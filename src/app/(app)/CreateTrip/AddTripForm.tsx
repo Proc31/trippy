@@ -5,8 +5,9 @@ import { TextInput, Button, Text } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { useSession } from "@/auth/ctx";
 import { postNewTrip } from "@/utils/utils";
+import { router } from "expo-router";
 
-const TripForm = ({ onSubmit, onCancel, onTripIdChange  }) => {
+const TripForm = ({ onSubmit, onCancel, onTripIdChange,   }) => {
   const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState("");
   const [cost, setCost] = useState("");
@@ -34,9 +35,8 @@ const TripForm = ({ onSubmit, onCancel, onTripIdChange  }) => {
       };
       
        postNewTrip(newTrip).then((newTripID)=>{
-        console.log(newTripID)
         setIsSubmitting(true)
-        
+        router.push(`/trip/(teacher)/${newTripID}/Edit`)
        })
     }
     

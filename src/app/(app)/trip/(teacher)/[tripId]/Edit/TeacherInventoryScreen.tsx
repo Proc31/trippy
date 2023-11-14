@@ -17,7 +17,7 @@ const TeacherInventoryScreen = () => {
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
 	const { tripId } = useGlobalSearchParams();
   const textInputRef = useRef();
-
+console.log(tripId)
   useEffect(() => {
     
     getTripInventory(tripId)
@@ -52,6 +52,17 @@ const TeacherInventoryScreen = () => {
     const updates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
 
+    getSingleTrip(tripId).then((data) => {
+      const students = data.val().students;
+      const keys = Object.keys(students);
+      keys.forEach((itemKey) => {
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/item_name`] = addText
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
+      }
+      )
+    }).then(() => {
+      return update(ref(database), updates)
+    }).catch((error) => console.log(error))
 
     setAddText(""); //clear addText and blur focus
     if (textInputRef.current) {
@@ -78,6 +89,21 @@ const TeacherInventoryScreen = () => {
   
         // Delete on trip
         return update(tripRef, { [inventKey]: null });
+      })
+      .then(() => {
+        return getSingleTrip(tripId);
+      })
+      .then((singleTripData) => {
+        const updates = {};
+        const students = singleTripData.val().students;
+        const keys = Object.keys(students);
+  
+        keys.forEach((studentKey) => {
+          updates[`students/${studentKey}/trips/${tripId}/inventory/${inventKey}`] = null;
+        });
+  
+        // Delete on each student DB
+        return update(ref(database), updates);
       })
       .then(() => {
         // Update state
@@ -315,4 +341,3 @@ const TeacherInventoryScreen = () => {
 };
 
 export default TeacherInventoryScreen;
-

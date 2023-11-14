@@ -19,7 +19,7 @@ export default function AppLayout() {
     <>
       <Header  signOut={signOut} />
       <Tabs screenOptions={{ headerShown: false }}>
-        <Tabs.Screen name="AddTripForm" options={{ title: "Add Trip" }} />
+        <Tabs.Screen name="SendStudentInvites" options={{ title: "Add Students" }} />
       </Tabs>
     </>
   );

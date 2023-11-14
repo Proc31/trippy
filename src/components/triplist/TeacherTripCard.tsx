@@ -75,7 +75,7 @@ const TeacherTripCard = ({
 					style={{ marginRight: 'auto', flex: 1 }}
 					onPress={() =>
 						router.push({
-							pathname: `/trip/(${userRole})/[tripId]`,
+							pathname: `/trip/(${userRole})/[tripId]/Start`,
 							params: {
 								tripId,
 								tripTitle: tripDetails.name,
@@ -88,7 +88,15 @@ const TeacherTripCard = ({
 				<Button
 					mode="contained"
 					style={{ marginLeft: 'auto', flex: 1 }}
-					onPress={toggleEditForm}
+					onPress={() =>
+						router.push({
+							pathname: `/trip/(${userRole})/[tripId]/Edit`,
+							params: {
+								tripId,
+								tripTitle: tripDetails.name,
+							},
+						})
+					}
 				>
 					Edit
 				</Button>
