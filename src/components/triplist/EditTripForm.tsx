@@ -5,7 +5,7 @@ const TripEditForm = ({ onSubmit, trip }) => {
 
   const [tripName, setTripName] = useState(trip.tripName);
   const [location, setLocation] = useState(trip.location);
-  const [dateString, setDateString] = useState(editDate);
+  const [dateString, setDateString] = useState(trip.editDate);
   const [description, setDescription] = useState(trip.description);
   
   const handleSubmit = () => {
