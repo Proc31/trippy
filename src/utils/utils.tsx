@@ -262,9 +262,16 @@ export async function deleteTrip(tripId) {
 }
 
 export async function removeTripFromTeacher(teacherId, tripId) {
-  console.log(teacherId, tripId)
   const teachersRef = ref(db, `teachers/${teacherId}/trips/`);
   return update(teachersRef, {
     [tripId]: null,
+  });
+}
+
+export async function setStatusToConsented(studentId, tripId) {
+  const set = Firebase.set;
+  const ref = Firebase.ref(db, `trips/${tripId}/students/${studentId}/`);
+  update(ref, {
+    consented: Date.now(),
   });
 }
