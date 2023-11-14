@@ -5,23 +5,15 @@ import React, { useEffect, useState } from "react";
 import { database } from "@/utils/config";
 import { ref, onValue } from "@firebase/database";
 import theme from "@/utils/theme";
+import { getStudents } from "@/utils/utils";
 
 export default function InviteStudents() {
   const [students, setStudents] = useState([]);
   useEffect(() => {
+    const studentsArr = [];
     const fetchData = async () => {
-      const studentArr = [];
-      const studentsRef = ref(database, "students");
-      onValue(studentsRef, (snapshot) => {
-        const data = snapshot.val();
-        for (let key in data) {
-          if (data.hasOwnProperty(key)) {
-            const value = data[key];
-            studentArr.push({ id: key, ...value }); // Collate data into an array of objects
-          }
-        }
-
-        setStudents(studentArr); // Update the state with fetched data
+      getStudents().then((data) => {
+        setStudents(data);
       });
     };
     fetchData();
