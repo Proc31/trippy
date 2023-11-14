@@ -158,7 +158,7 @@ export default function Reader() {
 					</Modal>
 				</Portal>
 			</View>
-			<View>
+			<View style={{ marginBottom: 80 }}>
 				<Button
 					style={{ margin: 10 }}
 					mode="contained"

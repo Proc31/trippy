@@ -135,15 +135,6 @@ export default function SignIn() {
 			>
 				Guardian
 			</Button>
-			<Button
-				mode="contained"
-				onPress={() => {
-					getSingleTrip('-Nj7tP5gUCm6DEWIqQHx');
-				}}
-				style={{ width: 300, margin: 20 }}
-			>
-				DB Test
-			</Button>
 		</View>
 	);
 }

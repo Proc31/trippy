@@ -4,13 +4,13 @@ import { useSession } from '@/auth/ctx';
 import Loading from '@/components/global/Loading';
 import Header from '@/components/global/Header';
 import { useTheme } from 'react-native-paper';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function AppLayout() {
 	const { session, isLoading, signOut } = useSession();
 	const { tripTitle } = useGlobalSearchParams();
 	const theme = useTheme();
+
 	if (isLoading) {
 		return <Loading />;
 	}
@@ -44,7 +44,7 @@ export default function AppLayout() {
 				<Tabs.Screen
 					name="CheckList"
 					options={{
-						title: 'Checklist',
+						tabBarLabel: 'Checklist',
 						tabBarIcon: ({ focused, color, size }) => {
 							return (
 								<MaterialIcons
@@ -61,7 +61,7 @@ export default function AppLayout() {
 				<Tabs.Screen
 					name="Generator"
 					options={{
-						title: 'Barcode',
+						tabBarLabel: 'Barcode',
 						tabBarIcon: ({ focused, color, size }) => {
 							return (
 								<MaterialCommunityIcons
@@ -78,7 +78,7 @@ export default function AppLayout() {
 				<Tabs.Screen
 					name="Map"
 					options={{
-						title: 'Map',
+						tabBarLabel: 'Map',
 						tabBarIcon: ({ focused, color, size }) => {
 							return (
 								<MaterialCommunityIcons
