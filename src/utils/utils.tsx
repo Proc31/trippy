@@ -239,7 +239,10 @@ export async function getUserData(id) {
 
 export async function postNewTrip(trip) {
   const ref = Firebase.ref(db, "trips");
-  Firebase.push(ref, trip);
+  const newTripPath = Firebase.push(ref, trip);;
+  const teacherId = trip.organiser;
+  addTripToTeacher(teacherId, newTripPath.key)
+
 }
 
 export async function amendTripDetails(tripId, trip) {
@@ -262,6 +265,13 @@ export async function deleteTrip(tripId) {
   removeTripFromTeacher(teacherId, tripId);
   //delete trip
   set(tripRef, null);
+}
+
+export async function addTripToTeacher(teacherId, tripId) {
+  const teachersRef = ref(db, `teachers/${teacherId}/trips/`);
+  return update(teachersRef, {
+    [tripId]: true,
+  });
 }
 
 export async function removeTripFromTeacher(teacherId, tripId) {
