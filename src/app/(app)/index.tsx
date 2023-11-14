@@ -14,6 +14,7 @@ export default function Home() {
 	const { signOut, session } = useSession();
 
 	React.useEffect(() => {
+		
 		const parsedSession = JSON.parse(session);
 		setUser(parsedSession);
 		setIsLoading(false);

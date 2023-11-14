@@ -1,33 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
-import { Checkbox, TextInput, Button } from "react-native-paper";
-import { ref, onValue, push } from "firebase/database";
+import { Checkbox} from "react-native-paper";
+import { ref, onValue, set } from "firebase/database";
 import { database } from '@/utils/config';
+import { useGlobalSearchParams } from "expo-router";
+import { useSession } from "@/auth/ctx";
 
 
 type Item = {
   name: string;
   checked: boolean;
+
 };
 
 const InventoryChecklist = () => {
   const [inventory, setInventory] = useState<Item[] | null>(null);
+  const { tripId } = useGlobalSearchParams();
+  const { session } = useSession();
+  //const studentId = JSON.parse(session).id
+  const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
+
+
   const pupilInventoryRef = ref(
     database,
-    "students/8RYvxdEt5dhBs37l0bUggWXyNk22/trips/2/inventory",
+    `students/${studentId}/trips/${tripId}/inventory`,
   );
 
-  const rootRef = ref(database);
 
   useEffect(() => {
     onValue(pupilInventoryRef, (snapshot) => {
       const data = snapshot.val();
+      console.log(data)
       if (data) {
         // Convert Firebase data to an array of items and update the state
-        const itemsArray: Item[] = Object.keys(data).map((key) => {
+        const itemsArray: Item[] = Object.keys(data).map((itemKey) => {
           return {
-            name: data[key].item_name,
-            checked: JSON.parse(data[key].checked),
+            key: [itemKey],
+            name: data[itemKey].item_name,
+            checked: JSON.parse(data[itemKey].checked),
           };
         });
         setInventory(itemsArray);
@@ -37,14 +47,25 @@ const InventoryChecklist = () => {
     });
   }, []);
 
-  const handleItemCheck = (itemIndex: number) => {
+  const handleItemCheck = (item, itemIndex: number) => {
     // Update the checked status in the state
     if (inventory) {
       const updatedItems = [...inventory];
       updatedItems[itemIndex].checked = !updatedItems[itemIndex].checked;
       setInventory(updatedItems);
+  
+      // Update DB
+      const dbRef = ref(database, `students/${studentId}/trips/${tripId}/inventory/${item.key}/checked`);
+      set(dbRef, 
+       updatedItems[itemIndex].checked,
+      )
+      .catch((error) => {
+        console.log(error);
+      });
     }
   };
+  
+  
 
   type ItemProps = {
     item: Item;
@@ -53,20 +74,20 @@ const InventoryChecklist = () => {
 
   const RenderItem = ({ item, index }: ItemProps) => {
     return (
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: "#73B5D4", borderRadius: 8 }}>
         <Checkbox
           status={item.checked ? "checked" : "unchecked"}
-          onPress={() => handleItemCheck(index)}
+          onPress={() => handleItemCheck(item, index,)}
         />
-        <Text style={{ marginLeft: 16 }}>{item.name}</Text>
+        <Text style={{ marginLeft: 16, fontSize: 18, flexWrap: "wrap", width: 200  }}>{item.name}</Text>
       </View>
     );
   };
 
   return (
-    <View style={{ maxHeight: 600, width: 250 }}>
+    <View style={{}}>
       <FlatList
-        style={{ borderWidth: 3, borderColor: "#73B5D4", marginTop: 20 }}
+        style={{ margin: 40 }}
         data={inventory}
         keyExtractor={(item, index) => `${item.name}-${index}`}
         renderItem={({ item, index }) => (

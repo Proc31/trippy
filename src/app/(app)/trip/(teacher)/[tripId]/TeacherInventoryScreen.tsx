@@ -5,24 +5,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory, getSingleTrip } from "@/utils/utils";
 import { database } from "@/utils/config";
 import { push, ref, child } from "firebase/database";
-
-
 import { update } from "@firebase/database";
+import { useGlobalSearchParams } from "expo-router";
+
+
 
 const TeacherInventoryScreen = () => {
   const [inventory, setInventory] = useState([]);
   const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-  const [tripId, setTripId] = useState(1);
+	const { tripId } = useGlobalSearchParams();
 
   useEffect(() => {
-    getTripInventory(1)
+    getTripInventory(tripId)
       .then((data) => {
-        const itemsArray = [];
-        for (let key in data) {
-          itemsArray.push(data[key]);
-        }
+        const itemsArray = Object.values(data);
         setInventory(itemsArray);
       })
       .catch((error) => {
@@ -42,10 +40,11 @@ const TeacherInventoryScreen = () => {
     if (addText) {
       const updatedInventory = [...inventory, addText];
       setInventory(updatedInventory);
-
     }
 
-    const newItemKey = push(child(ref(database), `trips/${tripId}/inventory`)).key //todo implement non-hardcoded trip id
+    const newItemKey = push(
+      child(ref(database), `trips/${tripId}/inventory`),
+    ).key; //todo implement non-hardcoded trip id
     const updates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
 
@@ -53,55 +52,51 @@ const TeacherInventoryScreen = () => {
       const students = data.val().students;
       const keys = Object.keys(students);
       keys.forEach((itemKey) => {
-        updates[`students/${itemKey}/trips/${tripId}/inventory/` + newItemKey] = addText
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/item_name`] = addText
+        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
       }
       )
     }).then(() => {
-      console.log(updates)
       return update(ref(database), updates)
     }).catch((error) => console.log(error))
 
-    
     setAddText(""); //do this last
-  }
+  };
 
   const handleDeleteItem = (itemIndex: number) => {
     if (inventory) {
-      //update state
-      const updatedItems = [...inventory];
-      updatedItems.splice(itemIndex, 1);
-      setInventory(updatedItems);
-      //delete on trip
-      const tripData = getTripInventory(1).then((data) => {
-        const tripRef = ref(database, "/trips/1/inventory");
-        const inventKey = findKey(inventory[itemIndex], data);
-        return update(tripRef, {
+
+      let inventKey = "";
+      getTripInventory(tripId).then((data) => {
+        const tripRef = ref(database, `trips/${tripId}/inventory`);
+        inventKey = findKey(inventory[itemIndex], data);
+        console.log(data, inventory[itemIndex], inventKey)
+
+        //delete on trip
+        return update(tripRef, {      
           [inventKey]: null,
-        }).then(() => {
-          const students = ref(database, "trips/1/students"); //todo implement non-hardcoded trip id
-          for (const key in students) {
-            const studentData = ref(
-              database,
-              `students/${key}/trips/1/inventory`,
-            ); //todo none hardcoded trip id
-            for (const key2 in studentData) {
-              if (studentData[key].item_name === inventory[itemIndex]) {
-                const updatePath = ref(
-                  database,
-                  `students/${key}/trips/1/inventory/`,
-                );
-                update(updatePath, {
-                  [key2]: null,
-                });
-              }
-            }
-          }
+        })
+        .then(() => {
+          getSingleTrip(tripId).then((data) => {
+            const updates = {};
+            const students = data.val().students;
+            const keys = Object.keys(students);
+
+            keys.forEach((studentKey) => {
+              updates[
+                `students/${studentKey}/trips/${tripId}/inventory/${inventKey}`
+              ] = null;
+            });
+            return update(ref(database), updates); // delete on each student DB
+          });
         });
       });
-      //delete on each student
     }
-    // need to handle API after this
+    const updatedItems = [...inventory];
+    updatedItems.splice(itemIndex, 1);
+    setInventory(updatedItems); //update state
   };
+
 
   const handleEditPress = () => {
     if (!isEditing) {
@@ -109,30 +104,55 @@ const TeacherInventoryScreen = () => {
     } else {
       setEditedIndex(-1);
     }
-
     setIsEditing(!isEditing);
   };
 
+
   const handleEditItemName = (index: number, editedValue: string, item) => {
     // Update the item's name in the inventory
-    const tripRef = ref(database, `trips/${trip}/inventory`);
+    const tripRef = ref(database, `trips/${tripId}/inventory`);
+    const updates = {};
 
     if (inventory) {
-      const tripData = getTripInventory(1).then((data) => {
-        const tripRef = ref(database, "/trips/1/inventory");
+      getTripInventory(tripId).then((data) => {
         const inventKey = findKey(item, data);
-        return update(tripRef, {
-          [inventKey]: editedValue,
-        });
-      });
+        updates[`/trips/${tripId}/inventory/` + inventKey] = editedValue;
+        
+        getSingleTrip(tripId).then((data) => {
+          const students = data.val().students;
+          const keys = Object.keys(students);
+          keys.forEach((studentKey) => {
+            updates[`students/${studentKey}/trips/${tripId}/inventory/${inventKey}/item_name`] = editedValue;
+          })
+          return update(ref(database), updates)
+        })
+        .catch((error) => console.log(error))
+
+      })
       const updatedInventory = [...inventory];
       updatedInventory[index] = editedValue;
       setInventory(updatedInventory);
-
-      setEditedIndex(-1);
-      setIsEditing(false); // Stop editing after saving
     }
+    setEditedIndex(-1);
+    setIsEditing(false); // Stop editing after saving
   };
+
+  const clearList = () => {
+    const updates = {};
+    updates[`/trips/${tripId}/inventory/`] = null;
+
+    getSingleTrip(tripId).then((data) => {
+      const students = data.val().students;
+      const keys = Object.keys(students);
+      keys.forEach((studentKey) => {
+        updates[`students/${studentKey}/trips/${tripId}/inventory/`] = null;
+      })
+      return update(ref(database), updates)
+    })
+    .catch((error) => console.log(error))
+
+    setInventory([])
+  }
 
   const RenderItem = ({ item, index }) => {
     const [checked, setChecked] = useState(false);
@@ -149,6 +169,7 @@ const TeacherInventoryScreen = () => {
           flexDirection: "row",
           alignItems: "center",
           position: "relative",
+          paddingLeft: 20, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: "#73B5D4", borderRadius: 8
         }}
       >
         <Ionicons
@@ -168,7 +189,7 @@ const TeacherInventoryScreen = () => {
           />
         ) : (
           <TouchableWithoutFeedback onPress={handlePress}>
-            <Text style={{ marginLeft: 16 }}>{item}</Text>
+            <Text style={{ marginLeft: 16, marginRight: 20, fontSize: 18}}>{item}</Text>
           </TouchableWithoutFeedback>
         )}
 
@@ -191,7 +212,7 @@ const TeacherInventoryScreen = () => {
             mode="text"
             textColor="red"
             onPress={() => handleDeleteItem(index)}
-            style={{ position: "absolute", right: 0, zIndex: 1 }}
+            style={{ position: "absolute", right: 0, backgroundColor: 'white', zIndex: 1, borderRadius: 0}}
           >
             Delete
           </Button>
@@ -232,13 +253,23 @@ const TeacherInventoryScreen = () => {
         </Button>
       </View>
       <FlatList
-        style={{ borderWidth: 3, borderColor: "#73B5D4", marginTop: 20 }}
+        style={{ margin: 40 }}
         data={inventory}
         keyExtractor={(item, index) => `${item}-${index}`}
         renderItem={({ item, index }) => (
           <RenderItem item={item} index={index} />
         )}
       />
+      <Button
+        icon="delete"
+        mode="contained"
+        style={{ borderRadius: 5, marginLeft: 5 }}
+        onPress={() => {
+          clearList();
+        }}
+      >
+        Clear Inventory List
+      </Button>
     </View>
   );
 };
