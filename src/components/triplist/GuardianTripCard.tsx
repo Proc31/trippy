@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Card, Button, Text, Title, Subheading } from 'react-native-paper';
 import InventoryScreen from '@/components/inventory/InventoryScreen';
 import { router } from 'expo-router';
+import { postNewTrip } from '@/utils/utils';
 
 const GuardianTripCard = ({
 	tripId,
@@ -31,14 +32,23 @@ const GuardianTripCard = ({
 			>
 				<Button
 					style={{ marginRight: 'auto', flex: 1 }}
-					onPress={() =>
-						router.push({
-							pathname: `/trip/(${userRole})/[tripId]`,
-							params: {
-								tripId,
-								tripTitle: tripDetails.name,
-							},
-						})
+					onPress={async () =>
+						// router.push({
+						// 	pathname: `/trip/(${userRole})/[tripId]`,
+						// 	params: {
+						// 		tripId,
+						// 		tripTitle: tripDetails.name,
+						// 	},
+						// })
+						{
+							const tripObj = {
+								name: "Sam's test trip",
+								organiser: "A7xBtDNVYaeG8JwbNDum4Iw6BKr1"
+							}
+							const newTripId = await postNewTrip(tripObj)
+							console.log(newTripId);
+							// deleteTrip("-NjCZZQuujWcPORr-96l");
+						}
 					}
 				>
 					Info

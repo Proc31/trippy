@@ -207,7 +207,9 @@ export async function postNewTrip(trip) {
   const ref = Firebase.ref(db, "trips");
   const newTripPath = Firebase.push(ref, trip);
   const teacherId = trip.organiser;
-  addTripToTeacher(teacherId, newTripPath.key);
+  const newTripId = newTripPath.key;
+  addTripToTeacher(teacherId, newTripId);
+  return newTripId;
 }
 
 export async function amendTripDetails(tripId, trip) {
