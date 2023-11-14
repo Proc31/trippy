@@ -72,6 +72,9 @@ export async function getUserRole(id) {
 export async function getTripStudents(id) {
   const data = await getSingleTrip(id);
   const students = data.val().students;
+  if (students === undefined) {
+    return [];
+  }
   const keys = Object.keys(students);
   const result = keys.map((student) => {
     return { [student]: students[student] };
