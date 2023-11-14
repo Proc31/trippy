@@ -21,7 +21,6 @@ export default function StudentList({
 
     setCheckedItems(newCheckedItems); //this resets the checked items on the ui
   };
-  const studentsTest = students.map((student) => {});
   return (
     <ScrollView style={theme.listContainer}>
       {title}

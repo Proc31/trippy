@@ -20,7 +20,7 @@ export async function getStudents() {
   const students = data.val();
   const keys = Object.keys(students);
   const result = keys.map((student) => {
-    return { [student]: students[student] };
+    return { ...students[student], id: student };
   });
   return result;
 }
@@ -134,11 +134,11 @@ export async function addStudentsToTrip(studentIds, tripId, trip) {
   const students = studentIds.map((studentId) => {
     const studentsRef = Firebase.ref(
       db,
-      `trips/${tripId}/students/` + studentId
+      `trips/${tripId}/students/` + studentId,
     );
     const tripsRef = Firebase.ref(
       db,
-      `students/${studentId}/` + `trips/${tripId}/`
+      `students/${studentId}/` + `trips/${tripId}/`,
     );
     const set = Firebase.set;
     //add student to trip
@@ -205,10 +205,9 @@ export async function getUserData(id) {
 
 export async function postNewTrip(trip) {
   const ref = Firebase.ref(db, "trips");
-  const newTripPath = Firebase.push(ref, trip);;
+  const newTripPath = Firebase.push(ref, trip);
   const teacherId = trip.organiser;
-  addTripToTeacher(teacherId, newTripPath.key)
-
+  addTripToTeacher(teacherId, newTripPath.key);
 }
 
 export async function amendTripDetails(tripId, trip) {
@@ -222,8 +221,8 @@ export async function deleteTrip(tripId) {
   const tripRef = Firebase.ref(db, `trips/${tripId}/`);
   //delete students-trip
   const students = await getTripStudents(tripId);
-  for (let i = 0; i < students.length; i++){
-    removeTripFromStudent(Object.keys(students[i])[0], tripId)
+  for (let i = 0; i < students.length; i++) {
+    removeTripFromStudent(Object.keys(students[i])[0], tripId);
   }
   //delete teacher-trip
   const trip = await getSingleTrip(tripId);
