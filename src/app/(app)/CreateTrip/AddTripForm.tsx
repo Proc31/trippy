@@ -6,7 +6,7 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { useSession } from "@/auth/ctx";
 import { postNewTrip } from "@/utils/utils";
 
-const TripForm = ({ onSubmit, onCancel }) => {
+const TripForm = ({ onSubmit, onCancel, onTripIdChange  }) => {
   const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState("");
   const [cost, setCost] = useState("");
@@ -19,7 +19,7 @@ const TripForm = ({ onSubmit, onCancel }) => {
   const id = JSON.parse(session);
 
   const handleSubmit = () => {
-    
+      
     if (tripName && location && cost && description && date) {
       const newTrip = {
         name: tripName,
@@ -32,9 +32,14 @@ const TripForm = ({ onSubmit, onCancel }) => {
         school: '1',
         status: 'planning',
       };
-      console.log("Submitting trip:", newTrip);
-       postNewTrip(newTrip)
+      
+       postNewTrip(newTrip).then((newTripID)=>{
+        console.log(newTripID)
+        setIsSubmitting(true)
+        
+       })
     }
+    
   };
 
   const onDismissSingle = () => {

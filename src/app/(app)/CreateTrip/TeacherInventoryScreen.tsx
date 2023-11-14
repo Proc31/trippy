@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableWithoutFeedback,
-  Alert,
-} from "react-native";
+import { View, Text, FlatList, TouchableWithoutFeedback, Alert } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { getTripInventory, getSingleTrip } from "@/utils/utils";
@@ -14,15 +8,18 @@ import { push, ref, child } from "firebase/database";
 import { update } from "@firebase/database";
 import { useGlobalSearchParams } from "expo-router";
 
+
+
 const TeacherInventoryScreen = () => {
   const [inventory, setInventory] = useState([]);
   const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-  const { tripId } = useGlobalSearchParams();
+	const { tripId } = useGlobalSearchParams();
   const textInputRef = useRef();
 
   useEffect(() => {
+    
     getTripInventory(tripId)
       .then((data) => {
         const itemsArray = Object.values(data);
@@ -32,6 +29,8 @@ const TeacherInventoryScreen = () => {
         console.log(error);
       });
   }, [tripId]);
+
+
 
   function findKey(item, itemData) {
     for (const key in itemData) {
@@ -48,10 +47,11 @@ const TeacherInventoryScreen = () => {
     }
 
     const newItemKey = push(
-      child(ref(database), `trips/${tripId}/inventory`)
-    ).key;
+      child(ref(database), `trips/${tripId}/inventory`),
+    ).key; 
     const updates = {};
     updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
+
 
     setAddText(""); //clear addText and blur focus
     if (textInputRef.current) {
@@ -59,24 +59,26 @@ const TeacherInventoryScreen = () => {
     }
   };
 
+
+
+
   const handleDeleteItem = (itemIndex: number) => {
     if (!inventory) {
       return;
     }
-
+  
     let inventKey = "";
     let tripInventory = null;
-
+  
     getTripInventory(tripId)
       .then((data) => {
         tripInventory = data;
         const tripRef = ref(database, `trips/${tripId}/inventory`);
         inventKey = findKey(inventory[itemIndex], tripInventory);
-
+  
         // Delete on trip
         return update(tripRef, { [inventKey]: null });
       })
-
       .then(() => {
         // Update state
         const updatedItems = [...inventory];
@@ -87,6 +89,11 @@ const TeacherInventoryScreen = () => {
         console.log(error);
       });
   };
+  
+
+
+
+
 
   const handleEditPress = () => {
     if (!isEditing) {
@@ -97,40 +104,44 @@ const TeacherInventoryScreen = () => {
     setIsEditing(!isEditing);
   };
 
+
+
+
   const handleEditItemName = (index: number, editedValue: string, item) => {
     if (editedIndex === index) {
-      // Update the item's name in the inventory
-      const tripRef = ref(database, `trips/${tripId}/inventory`);
-      const updates = {};
-
-      if (inventory) {
-        getTripInventory(tripId).then((data) => {
-          const inventKey = findKey(item, data);
-          updates[`/trips/${tripId}/inventory/` + inventKey] = editedValue;
-
-          getSingleTrip(tripId)
-            .then((data) => {
-              const students = data.val().students;
-              const keys = Object.keys(students);
-              keys.forEach((studentKey) => {
-                updates[
-                  `students/${studentKey}/trips/${tripId}/inventory/${inventKey}/item_name`
-                ] = editedValue;
-              });
-              return update(ref(database), updates);
+          // Update the item's name in the inventory
+          const tripRef = ref(database, `trips/${tripId}/inventory`);
+          const updates = {};
+      
+          if (inventory) {
+            getTripInventory(tripId).then((data) => {
+              const inventKey = findKey(item, data);
+              updates[`/trips/${tripId}/inventory/` + inventKey] = editedValue;
+              
+              getSingleTrip(tripId).then((data) => {
+                const students = data.val().students;
+                const keys = Object.keys(students);
+                keys.forEach((studentKey) => {
+                  updates[`students/${studentKey}/trips/${tripId}/inventory/${inventKey}/item_name`] = editedValue;
+                })
+                return update(ref(database), updates)
+              })
+              .catch((error) => console.log(error))
+      
             })
-            .catch((error) => console.log(error));
-        });
-        const updatedInventory = [...inventory];
-        updatedInventory[index] = editedValue;
-        setInventory(updatedInventory);
-      }
-      setEditedIndex(-1);
-      setIsEditing(false); // Stop editing after saving
+            const updatedInventory = [...inventory];
+            updatedInventory[index] = editedValue;
+            setInventory(updatedInventory);
+          }
+          setEditedIndex(-1);
+          setIsEditing(false); // Stop editing after saving
     } else {
-      setEditedIndex(index);
+      setEditedIndex(index)
     }
   };
+
+
+
 
   const clearList = () => {
     Alert.alert(
@@ -153,8 +164,9 @@ const TeacherInventoryScreen = () => {
                 const students = data.val().students;
                 const keys = Object.keys(students);
                 keys.forEach((studentKey) => {
-                  updates[`students/${studentKey}/trips/${tripId}/inventory/`] =
-                    null;
+                  updates[
+                    `students/${studentKey}/trips/${tripId}/inventory/`
+                  ] = null;
                 });
                 return update(ref(database), updates);
               })
@@ -167,14 +179,16 @@ const TeacherInventoryScreen = () => {
     );
   };
 
+
   const RenderItem = ({ item, index }) => {
     const [checked, setChecked] = useState(false);
     const [editedValue, setEditedValue] = useState(item);
 
-    const handlePress = (index, item) => {
-      setEditedIndex(index);
-      setEditedValue(item);
-    };
+  const handlePress = (index, item) => {
+    setEditedIndex(index);
+    setEditedValue(item);
+
+  };
 
     return (
       <View
@@ -182,13 +196,7 @@ const TeacherInventoryScreen = () => {
           flexDirection: "row",
           alignItems: "center",
           position: "relative",
-          paddingLeft: 20,
-          backgroundColor: "white",
-          padding: 10,
-          marginBottom: 10,
-          borderWidth: 3,
-          borderColor: "#28a745",
-          borderRadius: 8,
+          paddingLeft: 20, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor: '#28a745', borderRadius: 8
         }}
       >
         <Ionicons
@@ -207,10 +215,8 @@ const TeacherInventoryScreen = () => {
             onChangeText={(text) => setEditedValue(text)}
           />
         ) : (
-          <TouchableWithoutFeedback onPress={() => handlePress(index, item)}>
-            <Text style={{ marginLeft: 16, marginRight: 20, fontSize: 18 }}>
-              {item}
-            </Text>
+          <TouchableWithoutFeedback onPress={() => handlePress(index,item)}>
+            <Text style={{ marginLeft: 16, marginRight: 20, fontSize: 18}}>{item}</Text>
           </TouchableWithoutFeedback>
         )}
 
@@ -219,7 +225,7 @@ const TeacherInventoryScreen = () => {
             icon="lead-pencil"
             mode="text"
             textColor={editedIndex === index ? "green" : "blue"}
-            style={{ position: "absolute", right: 0 }}
+            style={{position: "absolute", right: 0}}
             onPress={() => {
               handleEditItemName(index, editedValue, item);
             }}
@@ -234,13 +240,7 @@ const TeacherInventoryScreen = () => {
             mode="text"
             textColor="red"
             onPress={() => handleDeleteItem(index)}
-            style={{
-              position: "absolute",
-              right: 0,
-              backgroundColor: "white",
-              zIndex: 1,
-              borderRadius: 0,
-            }}
+            style={{ position: "absolute", right: 0, backgroundColor: 'white', zIndex: 1, borderRadius: 0}}
           >
             Delete
           </Button>
@@ -257,9 +257,9 @@ const TeacherInventoryScreen = () => {
           placeholder="Add a new item"
           value={addText}
           onChangeText={(text) => setAddText(text)}
-          style={{ width: 150 }}
+          style={{width:150}}
         />
-        <View style={{ width: 150 }}>
+        <View style={{ width: 150}}>
           <Button
             icon="plus-circle-outline"
             mode="contained"
@@ -267,7 +267,7 @@ const TeacherInventoryScreen = () => {
             textColor="white"
             onPress={() => handleAddItem()}
             style={{ borderRadius: 5, marginLeft: 5 }}
-          >
+            >
             Add
           </Button>
         </View>
@@ -285,9 +285,7 @@ const TeacherInventoryScreen = () => {
           <RenderItem item={item} index={index} />
         )}
       />
-      <View
-        style={{ flexDirection: "row", alignItems: "center", marginTop: 10 }}
-      >
+      <View style={{ flexDirection: "row", alignItems: "center", marginTop:10 }}>
         <Button
           icon="lead-pencil"
           mode="contained"
@@ -300,20 +298,21 @@ const TeacherInventoryScreen = () => {
         >
           {isEditing ? "Done" : "Edit Names"}
         </Button>
-        <Button
-          icon="delete"
-          mode="contained"
-          textColor="white"
-          style={{ borderRadius: 5, marginLeft: 5 }}
-          onPress={() => {
-            clearList();
-          }}
+      <Button
+        icon="delete"
+        mode="contained"
+        textColor="white"
+        style={{ borderRadius: 5, marginLeft: 5 }}
+        onPress={() => {
+          clearList();
+        }}
         >
-          Clear Inventory List
-        </Button>
-      </View>
+        Clear Inventory List
+      </Button>
+        </View>
     </View>
   );
 };
 
 export default TeacherInventoryScreen;
+
