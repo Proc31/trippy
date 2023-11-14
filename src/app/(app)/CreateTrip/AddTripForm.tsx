@@ -13,11 +13,17 @@ const TripForm = ({ onSubmit, onCancel }) => {
   const [description, setDescription] = useState("");
   const [date, setDate] = React.useState(undefined);
   const [open, setOpen] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { session } = useSession();
   const id = JSON.parse(session);
 
   
   const handleSubmit = () => {
+    if (isSubmitting) {
+      return;
+    }
+  
+    setIsSubmitting(true);
 
     const newTrip = {
       name: tripName,
@@ -30,7 +36,19 @@ const TripForm = ({ onSubmit, onCancel }) => {
       status: 'planning'
     };
     console.log(newTrip)
-    postNewTrip(newTrip);
+
+    postNewTrip(newTrip)
+    .then(() => {
+      // Handle success, optionally call onSubmit here
+    })
+    .catch((error) => {
+      console.error("Error submitting trip:", error);
+      
+    })
+    .finally(() => {
+      setIsSubmitting(false);
+    });
+
     
   };
   const onDismissSingle = React.useCallback(() => {
@@ -79,12 +97,15 @@ const TripForm = ({ onSubmit, onCancel }) => {
         value={description}
         onChangeText={(text) => setDescription(text)}
       />
-      <Button mode="contained" onPress={handleSubmit} style={{ margin: 4 }}>
-        Submit
+      <Button
+        mode="contained"
+        onPress={handleSubmit}
+        style={{ margin: 4 }}
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
       </Button>
     </View>
   );
 };
-export default TripForm;
-
 export default TripForm;
