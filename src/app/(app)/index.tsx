@@ -37,7 +37,7 @@ export default function Home() {
 					justifyContent: 'center',
 				}}
 			>
-				<TripList id={user.id} role={user.role} />
+				<TripList id={user.id} role={user.role} child={user.child}/>
 			</View>
 		</>
 	);

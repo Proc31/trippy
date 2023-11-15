@@ -5,11 +5,10 @@ import AddTripCard from "./AddTripcard";
 import { getTrips, getStudentsTrips, deleteTrip } from "@/utils/utils";
 import GuardianTripCard from "./GuardianTripCard";
 
-const TripList = ({ id, role }) => {
+const TripList = ({ id, role, child }) => {
   const [userRole, setUserRole] = useState();
   const [trips, setTrips] = useState([]);
 
-  
   const handleEditTrip = (editedTrip) => {
     //TODO: ui is in place functionality not implemented.
     const updatedTrips = [...trips, editedTrip];
@@ -22,9 +21,21 @@ const TripList = ({ id, role }) => {
 
   useEffect(() => {
     setUserRole(role);
-    getStudentsTrips(id).then((trips) => {
-      setTrips(trips);
-    });
+    if (role === "student"){
+      getStudentsTrips(id).then((trips) => {
+        setTrips(trips);
+      });
+    }
+    if (role === "teacher"){
+      getTrips().then((trips) => {
+        setTrips(trips);
+      });
+    }
+    if (role === "guardian"){
+      getStudentsTrips(child).then((trips) => {
+        setTrips(trips);
+      });
+    }
   }, [id]);
 
   return (
