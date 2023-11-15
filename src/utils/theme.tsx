@@ -46,7 +46,7 @@ const theme = {
     color: "#09131B",
     textAlign: "center",
     borderBottomWidth: 1,
-    borderBottomColor: "white",
+    borderBottomColor: "#28a745",
   },
   tripDeleteButton: {
     flex: 1,
