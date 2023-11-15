@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import TeacherTripCard from "./TeacherTripCard";
 import AddTripCard from "./AddTripcard";
-import { getTrips, getUserRole } from "@/utils/utils";
+import { getTrips, getStudentsTrips, deleteTrip } from "@/utils/utils";
 import GuardianTripCard from "./GuardianTripCard";
-import { deleteTrip } from "@/utils/utils";
 
-const TripList = ({ data }) => {
+const TripList = ({ id, role, child }) => {
   const [userRole, setUserRole] = useState();
   const [trips, setTrips] = useState([]);
 
-  
   const handleEditTrip = (editedTrip) => {
     //TODO: ui is in place functionality not implemented.
     const updatedTrips = [...trips, editedTrip];
@@ -22,11 +20,23 @@ const TripList = ({ data }) => {
   };
 
   useEffect(() => {
-    setUserRole(data);
-    getTrips().then((trips) => {
-      setTrips(trips);
-    });
-  }, [trips]);
+    setUserRole(role);
+    if (role === "student"){
+      getStudentsTrips(id).then((trips) => {
+        setTrips(trips);
+      });
+    }
+    if (role === "teacher"){
+      getTrips().then((trips) => {
+        setTrips(trips);
+      });
+    }
+    if (role === "guardian"){
+      getStudentsTrips(child).then((trips) => {
+        setTrips(trips);
+      });
+    }
+  }, [id]);
 
   return (
     <>
