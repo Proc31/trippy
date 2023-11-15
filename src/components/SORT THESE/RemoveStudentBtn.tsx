@@ -31,6 +31,7 @@ function RemoveStudentBtn({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: 90,
       }}
     >
       <Button

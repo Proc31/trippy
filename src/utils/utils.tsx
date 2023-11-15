@@ -1,5 +1,5 @@
 import * as Firebase from "firebase/database";
-import { ref, update } from "@firebase/database";
+import { ref, update, push, child } from "@firebase/database";
 
 const db = Firebase.getDatabase();
 
@@ -39,7 +39,8 @@ export async function getTrips() {
 export async function getSingleTrip(id) {
   const ref = Firebase.ref(db, `trips/${id}`);
   const result = await Firebase.get(ref);
-  return result;
+  const parsedResult = result.val();
+  return parsedResult;
 }
 
 export async function getSingleStudent(id) {
@@ -71,7 +72,8 @@ export async function getUserRole(id) {
 
 export async function getTripStudents(id) {
   const data = await getSingleTrip(id);
-  const students = data.val().students;
+  const students = data.students;
+  console.log(students)
   if (students === undefined) {
     return [];
   }
@@ -152,6 +154,30 @@ export async function addStudentsToTrip(studentIds, tripId, trip) {
     //add inventory to student
     addInventoryToStudent(studentId, tripId, trip);
   });
+}
+
+interface InventoryUpdates {
+  [key: string]: string | boolean | null;
+}
+
+export function addInventorytoTripAndStudents (tripId: string, newItem: string) {
+  const newItemKey = push(
+    child(ref(db), `trips/${tripId}/inventory`),
+  ).key; 
+  const updates: InventoryUpdates = {};
+  updates[`/trips/${tripId}/inventory/` + newItemKey] = newItem;
+
+  getSingleTrip(tripId)
+  .then((data) => {
+    const students = data.val().students;
+    const keys = Object.keys(students);
+    keys.forEach((studentId) => {
+      updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/item_name`] = newItem
+      updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
+    })
+  }).then(() => {
+    return update(ref(db), updates)
+  }).catch((error) => console.log(error))
 }
 
 export async function addInventoryToStudent(studentId, tripId, trip) {
@@ -295,4 +321,18 @@ export async function deleteMarker(tripId, markerId) {
 	Firebase.update(ref, {
 		[markerId]: null,
 	});
+}
+
+export async function setPaidUnpaid(studentId: string, tripId: string, toggle: boolean ) {
+  const set = Firebase.set;
+  const ref = Firebase.ref(db, `trips/${tripId}/students/${studentId}/`);
+  if (toggle){
+    update(ref, {
+      paid: Date.now(),
+    });
+  } else {
+    update(ref, {
+      paid: null
+    });
+  }
 }

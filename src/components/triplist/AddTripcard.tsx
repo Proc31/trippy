@@ -12,7 +12,7 @@ const AddTripCard = ({ onPress }) => {
             size={40}
             onPress={() =>
               router.push({
-                pathname: `/CreateTrip`,
+                pathname: `/CreateTrip/AddTripForm`,
                 params: {
                 },
               })
