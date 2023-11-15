@@ -34,10 +34,10 @@ const TripForm = ({ onSubmit, onCancel, onTripIdChange,   }) => {
         status: 'planning',
       };
       
-       postNewTrip(newTrip).then(()=>{
-        setIsSubmitting(true)
-        
-       }).then((newTripID)=>{router.push(`/trip/(teacher)/${newTripID}/Edit`)})
+       postNewTrip(newTrip).then((newTripID) => {
+			setIsSubmitting(true);
+			router.push(`/trip/(teacher)/${newTripID}/Edit`);
+		});
     }
     
   };
