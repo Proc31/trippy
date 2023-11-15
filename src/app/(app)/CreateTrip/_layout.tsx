@@ -17,7 +17,7 @@ export default function AppLayout() {
   // This layout can be deferred because it's not the root layout.
   return (
 		<>
-			<Header signOut={signOut} />
+			<Header title={'Create Trip'} signOut={signOut} />
 			<Tabs
 				screenOptions={{
 					headerShown: false,

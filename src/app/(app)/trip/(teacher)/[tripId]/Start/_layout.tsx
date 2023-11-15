@@ -91,23 +91,6 @@ export default function AppLayout() {
 					}}
 				/>
 				<Tabs.Screen
-					name="InviteStudents"
-					options={{
-						tabBarLabel: 'Invite',
-						tabBarIcon: ({ focused, color, size }) => {
-							return (
-								<MaterialIcons
-									name="people"
-									size={focused ? 38 : size}
-									color={
-										focused ? theme.colors.primary : color
-									}
-								/>
-							);
-						},
-					}}
-				/>
-				<Tabs.Screen
 					name="TeacherMap"
 					options={{
 						tabBarLabel: 'Map',
