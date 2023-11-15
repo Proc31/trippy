@@ -29,7 +29,6 @@ const TeacherInventoryScreen = () => {
   useEffect(() => {
     getTripInventory(tripId)
       .then((data: InventoryData) => {
-        console.log(data)
         if(data){const itemsArray = Object.values(data);
           console.log(itemsArray)
         setInventory(itemsArray);} else {
