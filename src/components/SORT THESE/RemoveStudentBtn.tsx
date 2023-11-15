@@ -3,6 +3,7 @@ import { View } from "react-native";
 import React from "react";
 import { removeStudentsFromTrip, removeTripFromStudent } from "@/utils/utils";
 import { getDatabase } from "firebase/database";
+import { useGlobalSearchParams } from "expo-router";
 
 const database = getDatabase();
 
@@ -17,6 +18,7 @@ function RemoveStudentBtn({
     const studentsToDelete = students.filter((student) =>
       checkedItems.includes(student.id),
     );
+
     studentsToDelete.forEach((student) => {
       removeStudentsFromTrip(student.id, trip).then(() => {
         setStudents(
