@@ -83,6 +83,15 @@ const InventoryChecklist = () => {
     );
   };
 
+  if(!inventory || inventory.length === 0) {
+    return (
+      <View>
+        <Text style={{fontSize:24}}>
+          No items have been added to the list yet!
+        </Text>
+      </View>
+    )
+  }
   return (
     <View style={{}}>
       <FlatList

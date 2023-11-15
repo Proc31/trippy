@@ -348,4 +348,10 @@ export async function getStudentsTrips(studentId: string) {
     return { [trip]: trips[trip] };
   });
   return result;
+    
+export async function getStudentIdFromGuardian(guardianId) {
+	const ref = Firebase.ref(db, `guardians/${guardianId}/child`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return parsedResult;
 }

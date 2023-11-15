@@ -30,11 +30,9 @@ const TeacherInventoryScreen = () => {
     getTripInventory(tripId)
       .then((data: InventoryData) => {
         if(data){const itemsArray = Object.values(data);
-          console.log(itemsArray)
         setInventory(itemsArray);} else {
           setInventory([])
         }
-        
       })
       .catch((error) => {
         console.log(error);

@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import theme from '../utils/theme';
 import { useSession } from '@/auth/ctx';
 import { router } from 'expo-router';
-import { getSingleTrip } from '@/utils/utils';
+import { getStudentIdFromGuardian } from '@/utils/utils';
 
 export default function SignIn() {
 	// States for login info
