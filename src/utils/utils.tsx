@@ -73,7 +73,6 @@ export async function getUserRole(id) {
 export async function getTripStudents(id) {
   const data = await getSingleTrip(id);
   const students = data.students;
-  console.log(students)
   if (students === undefined) {
     return [];
   }
@@ -338,4 +337,15 @@ export async function setPaidUnpaid(studentId: string, tripId: string, toggle: b
       paid: null
     });
   }
+}
+
+export async function getStudentsTrips(studentId: string) {
+  const ref = Firebase.ref(db, `students/${studentId}/trips`);
+  const data = await Firebase.get(ref);
+  const trips = data.val();
+  const keys = Object.keys(trips);
+  const result = keys.map((trip) => {
+    return { [trip]: trips[trip] };
+  });
+  return result;
 }

@@ -15,6 +15,8 @@ import {
 	FB_MEASUREMENT_ID,
 } from '@env';
 
+console.log(FB_PROJECT_ID);
+
 const firebaseConfig = {
 	apiKey: FB_API_KEY,
 	authDomain: FB_AUTH_DOMAIN,

@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 import TeacherTripCard from "./TeacherTripCard";
 import AddTripCard from "./AddTripcard";
-import { getTrips, getUserRole } from "@/utils/utils";
+import { getTrips, getStudentsTrips, deleteTrip } from "@/utils/utils";
 import GuardianTripCard from "./GuardianTripCard";
-import { deleteTrip } from "@/utils/utils";
 
-const TripList = ({ data }) => {
+const TripList = ({ id, role }) => {
   const [userRole, setUserRole] = useState();
   const [trips, setTrips] = useState([]);
 
@@ -22,11 +21,11 @@ const TripList = ({ data }) => {
   };
 
   useEffect(() => {
-    setUserRole(data);
-    getTrips().then((trips) => {
+    setUserRole(role);
+    getStudentsTrips(id).then((trips) => {
       setTrips(trips);
     });
-  }, [trips]);
+  }, [id]);
 
   return (
     <>
