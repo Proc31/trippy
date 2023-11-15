@@ -86,7 +86,7 @@ export async function getTripStudents(id) {
 
 export async function getTripInventory(id) {
   const data = await getSingleTrip(id);
-  const result = data.val().inventory;
+  const result = data.inventory;
   return result;
 }
 
@@ -131,8 +131,9 @@ export async function getMultipleStudents(idsArray) {
   return students;
 }
 
-export async function addStudentsToTrip(studentIds, tripId, trip) {
+export async function addStudentsToTrip(studentIds, tripId) {
   const todaysDate = new Date();
+  const trip = await getSingleTrip(tripId)
   const students = studentIds.map((studentId) => {
     const studentsRef = Firebase.ref(
       db,
@@ -160,8 +161,9 @@ interface InventoryUpdates {
   [key: string]: string | boolean | null;
 }
 
-export function addInventorytoTripAndStudents (tripId: string, newItem: string) {
-  const newItemKey = push(
+export async function addInventorytoTripAndStudents (tripId: string, newItem: string) {
+  
+  const newItemKey =  push(
     child(ref(db), `trips/${tripId}/inventory`),
   ).key; 
   const updates: InventoryUpdates = {};
@@ -169,12 +171,13 @@ export function addInventorytoTripAndStudents (tripId: string, newItem: string) 
 
   getSingleTrip(tripId)
   .then((data) => {
-    const students = data.val().students;
-    const keys = Object.keys(students);
+    const students = data.students;
+    if(students){    const keys = Object.keys(students);
     keys.forEach((studentId) => {
       updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/item_name`] = newItem
       updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
-    })
+    })}
+
   }).then(() => {
     return update(ref(db), updates)
   }).catch((error) => console.log(error))
