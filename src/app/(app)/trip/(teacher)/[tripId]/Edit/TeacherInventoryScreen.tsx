@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, FlatList, TouchableWithoutFeedback, Alert, Platform,Keyboard,  KeyboardAvoidingView, TextInput as RNTextInput } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
-import { getTripInventory, getSingleTrip } from "@/utils/utils";
+import { getTripInventory, getSingleTrip, addInventorytoTripAndStudents } from "@/utils/utils";
 import { database } from "@/utils/config";
-import { push, ref, child } from "firebase/database";
+import { ref } from "firebase/database";
 import { update } from "@firebase/database";
 import { useGlobalSearchParams } from "expo-router";
 
@@ -17,18 +17,15 @@ interface FirebaseUpdates {
 
 
 
+
 const TeacherInventoryScreen = () => {
   const [inventory, setInventory] = useState<string[]>([]);
   const [addText, setAddText] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
-	const { tripId } = useGlobalSearchParams();
+  const { tripId }: { tripId?: string } = useGlobalSearchParams(); //deals with undefined
   const textInputRef = useRef<RNTextInput>(null); // needed this to stop typescript complaining
-<<<<<<< HEAD
-console.log(tripId)
-=======
 
->>>>>>> main
   useEffect(() => {
     getTripInventory(tripId)
       .then((data: InventoryData) => {
@@ -51,33 +48,17 @@ console.log(tripId)
   }
 
   const handleAddItem = () => {
-    if (addText) {
+    if (addText && tripId) {
       const updatedInventory = [...inventory, addText];
       setInventory(updatedInventory);
-    }
+    
+      addInventorytoTripAndStudents(tripId, addText)
 
-    const newItemKey = push(
-      child(ref(database), `trips/${tripId}/inventory`),
-    ).key; 
-    const updates: FirebaseUpdates = {};
-    updates[`/trips/${tripId}/inventory/` + newItemKey] = addText;
-
-    getSingleTrip(tripId).then((data) => {
-      const students = data.val().students;
-      const keys = Object.keys(students);
-      keys.forEach((itemKey) => {
-        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/item_name`] = addText
-        updates[`students/${itemKey}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
+      setAddText(""); //clear addText and blur focus
+      if (textInputRef.current) {
+        textInputRef.current.blur();
       }
-      )
-    }).then(() => {
-      return update(ref(database), updates)
-    }).catch((error) => console.log(error))
-
-    setAddText(""); //clear addText and blur focus
-    if (textInputRef.current) {
-      textInputRef.current.blur();
-    }
+    } 
   };
 
 
