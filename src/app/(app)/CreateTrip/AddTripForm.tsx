@@ -18,7 +18,7 @@ const TripForm = ({ onSubmit, onCancel, onTripIdChange,   }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { session } = useSession();
   const id = JSON.parse(session);
-
+console.log(date)
   const handleSubmit = () => {
       
     if (tripName && location && cost && description && date) {

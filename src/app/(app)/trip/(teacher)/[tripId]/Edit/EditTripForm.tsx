@@ -1,46 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { View } from "react-native";
 import { TextInput, Button, Text } from "react-native-paper";
 import { DatePickerModal } from "react-native-paper-dates";
 import { useSession } from "@/auth/ctx";
-import { getSingleTrip, postNewTrip } from "@/utils/utils";
-import { router } from "expo-router";
+import { getSingleTrip, amendTripDetails } from "@/utils/utils";
+import { router, useGlobalSearchParams } from "expo-router";
 
-const TripForm = ({ onSubmit, onCancel, onTripIdChange,   }) => {
-  const existingTrip = getSingleTrip()
+const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
+  const { tripId } = useGlobalSearchParams();
+
+
+  useEffect(()=>{  getSingleTrip(tripId).then((existingTrip) => {
+    setTripName(existingTrip.name),
+      setLocation(existingTrip.location),
+      setCost(existingTrip.cost),
+      setDescription(existingTrip.description);
+      
+      
+  });},[])
+
+
   const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState("");
   const [cost, setCost] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(undefined);
-  const [consentDate, setConsentDate] = useState(undefined)
+  const [consentDate, setConsentDate] = useState(undefined);
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { session } = useSession();
   const id = JSON.parse(session);
 
   const handleSubmit = () => {
-      
     if (tripName && location && cost && description && date) {
       const newTrip = {
         name: tripName,
         location: location,
         cost: cost,
         description: description,
-        date: date.toLocaleString().split(',')[0],
-        consent_deadline: consentDate.toLocaleString().split(',')[0],
+        date: date.toLocaleString().split(",")[0],
+        consent_deadline: consentDate.toLocaleString().split(",")[0],
         organiser: id.id,
-        school: '1',
-        status: 'planning',
+        school: "1",
+        status: "planning",
       };
-      
-       postNewTrip(newTrip).then(()=>{
-        setIsSubmitting(true)
-        
-       }).then((newTripID)=>{router.push(`/trip/(teacher)/${newTripID}/Edit`)})
+
+      amendTripDetails(tripId, newTrip).then(() => {
+        setIsSubmitting(true);
+        router.push(`/`);
+      });
     }
-    
   };
 
   const onDismissSingle = () => {
@@ -101,15 +111,20 @@ const TripForm = ({ onSubmit, onCancel, onTripIdChange,   }) => {
           mode="contained"
           onPress={handleSubmit}
           style={{ margin: 4 }}
-          disabled={!tripName || !location || !cost || !description || !date || isSubmitting}
+          disabled={
+            !tripName ||
+            !location ||
+            !cost ||
+            !description ||
+            !date ||
+            isSubmitting
+          }
         >
-          {isSubmitting ? "Submitting..." : "Submit"}
+          {isSubmitting ? "Editing..." : "Submit"}
         </Button>
       </View>
     </ScrollView>
   );
 };
 
-export default TripForm;
-
-
+export default EditTripForm;
