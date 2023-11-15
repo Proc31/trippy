@@ -339,3 +339,10 @@ export async function setPaidUnpaid(studentId: string, tripId: string, toggle: b
     });
   }
 }
+
+export async function getStudentIdFromGuardian(guardianId) {
+	const ref = Firebase.ref(db, `guardians/${guardianId}/child`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return parsedResult;
+}
