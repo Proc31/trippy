@@ -31,7 +31,12 @@ const GuardianTripCard = ({
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <Button
-          style={theme.tripTeacherButtons}
+          style={{
+            flex: 1,
+            height: 60,
+            justifyContent: "center",
+            backgroundColor: theme.colors.primary,
+          }}
           onPress={() =>
             router.push({
               pathname: `/trip/(${userRole})/[tripId]`,

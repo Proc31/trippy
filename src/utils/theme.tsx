@@ -53,6 +53,7 @@ const theme = {
     backgroundColor: "#FF788E",
     height: 60,
     justifyContent: "center",
+    paddingTop: 8,
   },
   tripDesc: {
     fontSize: 20,
@@ -66,11 +67,14 @@ const theme = {
     height: 60,
     justifyContent: "center",
     backgroundColor: "#6469CE",
+    paddingTop: 8,
   },
   tripCard: {
     margin: 16,
     padding: 20,
-    backgroundColor: "#E4EEF6",
+    backgroundColor: "white",
+    borderColor: "#28a745",
+    borderWidth: 4,
   },
 };
 
