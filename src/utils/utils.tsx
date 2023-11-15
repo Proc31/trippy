@@ -255,3 +255,44 @@ export async function setStatusToConsented(studentId, tripId) {
     consented: Date.now(),
   });
 }
+
+export async function createDBMarker(tripId, marker) {
+	let ref = Firebase.ref(db, `tracking/trips/${tripId}/`);
+	const key = Firebase.push(ref, {
+		title: marker.title,
+		description: marker.description,
+		coordinate: marker.coordinate,
+	}).key;
+	ref = Firebase.ref(db, `tracking/trips/${tripId}/${key}`);
+	Firebase.update(ref, {
+		id: key,
+	});
+	return key;
+}
+
+export async function getTripMarkers(tripId) {
+	const ref = Firebase.ref(db, `tracking/trips/${tripId}`);
+	const result = await Firebase.get(ref);
+	return result.val();
+}
+
+export async function getSingleMarker(tripId, markerId) {
+	const ref = Firebase.ref(db, `tracking/trips/${tripId}/${markerId}`);
+	const result = await Firebase.get(ref);
+	const parsedResult = result.val();
+	return parsedResult;
+}
+
+export async function updateMarker(tripId, markerId, coordinate) {
+	const ref = Firebase.ref(db, `tracking/trips/${tripId}/${markerId}`);
+	Firebase.update(ref, {
+		coordinate: coordinate,
+	});
+}
+
+export async function deleteMarker(tripId, markerId) {
+	const ref = Firebase.ref(db, `tracking/trips/${tripId}`);
+	Firebase.update(ref, {
+		[markerId]: null,
+	});
+}

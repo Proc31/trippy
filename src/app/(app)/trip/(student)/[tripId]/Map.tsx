@@ -11,7 +11,9 @@ import {
 	Button,
 	IconButton,
 } from 'react-native-paper';
+import { useGlobalSearchParams } from 'expo-router';
 import { ScrollView } from 'react-native-gesture-handler';
+import { getTripMarkers } from '@/utils/utils';
 
 const LATITUDE_DELTA = 0;
 const LONGITUDE_DELTA = 0.01;
@@ -24,28 +26,11 @@ export default function Map() {
 	const [errorMsg, setErrorMsg] = React.useState(null);
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [visible, setVisible] = React.useState(false);
-	const [markers, setMarkers] = React.useState([
-		{
-			id: 'testid1',
-			title: 'Meet Up Point',
-			description: 'Please be nice and meet your teacher.',
-			coordinate: {
-				latitude: 53.47216811021656,
-				longitude: -2.2382618858453327,
-			},
-		},
-		{
-			id: 'testid2',
-			title: `Don't go here`,
-			description: `Pleaes don't.`,
-			coordinate: {
-				latitude: 39.0738,
-				longitude: 125.8198,
-			},
-		},
-	]);
+	const [markers, setMarkers] = React.useState([]);
 
 	const mapRef = React.useRef(null);
+
+	const { tripId } = useGlobalSearchParams();
 
 	const showModal = () => setVisible(true);
 	const hideModal = () => setVisible(false);
@@ -67,9 +52,19 @@ export default function Map() {
 			};
 
 			setLocation(region);
-			setIsLoading(false);
 		})();
+		refreshMarkers();
+		setIsLoading(false);
 	}, []);
+
+	const refreshMarkers = async () => {
+		const markers = await getTripMarkers(tripId);
+		for (const thing in markers) {
+			setMarkers((prev) => {
+				return [...prev, markers[thing]];
+			});
+		}
+	};
 
 	if (isLoading) {
 		return <Loading />;
