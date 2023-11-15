@@ -1,8 +1,9 @@
-import { Button } from "react-native-paper";
-import React from "react";
-import { View } from "react-native";
-import RemoveStudentBtn from "./RemoveStudentBtn";
-import { addStudentsToTrip } from "@/utils/utils";
+import { Button } from 'react-native-paper';
+import React from 'react';
+import { View } from 'react-native';
+import RemoveStudentBtn from './RemoveStudentBtn';
+import { addStudentsToTrip } from '@/utils/utils';
+import { useGlobalSearchParams } from 'expo-router';
 
 export default function SendStudentInvites({
   invited,
@@ -10,8 +11,10 @@ export default function SendStudentInvites({
   setCheckedItems,
   students,
 }) {
-  function handleSubmit() {
-    const invitedStudentIds = [];
+	const {tripId} = useGlobalSearchParams()
+	
+	function handleSubmit() {
+		const invitedStudentIds = [];
 
     checkedItems.forEach((studentId) => {
       students.map((student) => {
@@ -21,13 +24,13 @@ export default function SendStudentInvites({
       });
     });
 
-    setCheckedItems([]);
-    //need to get the trip and tripId from context!!!!!!!!!!!111111
-    addStudentsToTrip(invitedStudentIds, "1", {
-      name: "London Theatre 2023",
-      inventory: { abc: "umbrella", xyz: "compass" },
-    });
-  }
+		setCheckedItems([]);
+		//need to get the trip and tripId from context!!!!!!!!!!!111111
+		addStudentsToTrip(invitedStudentIds, tripId, {
+			name: 'London Theatre 2023',
+			inventory: { abc: 'umbrella', xyz: 'compass' },
+		});
+	}
 
   return (
     <View
