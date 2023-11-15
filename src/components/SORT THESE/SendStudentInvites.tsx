@@ -6,23 +6,23 @@ import { addStudentsToTrip } from '@/utils/utils';
 import { useGlobalSearchParams } from 'expo-router';
 
 export default function SendStudentInvites({
-	invited,
-	checkedItems,
-	setCheckedItems,
-	students,
+  invited,
+  checkedItems,
+  setCheckedItems,
+  students,
 }) {
 	const {tripId} = useGlobalSearchParams()
 	
 	function handleSubmit() {
 		const invitedStudentIds = [];
 
-		checkedItems.forEach((studentId) => {
-			students.map((student) => {
-				if (student.id === studentId) {
-					invitedStudentIds.push(student.id);
-				}
-			});
-		});
+    checkedItems.forEach((studentId) => {
+      students.map((student) => {
+        if (student.id === studentId) {
+          invitedStudentIds.push(student.id);
+        }
+      });
+    });
 
 		setCheckedItems([]);
 		//need to get the trip and tripId from context!!!!!!!!!!!111111
@@ -32,22 +32,23 @@ export default function SendStudentInvites({
 		});
 	}
 
-	return (
-		<View
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<Button
-				style={{ height: 42, width: '30%', marginBottom: 5 }}
-				mode="contained"
-				icon={'plus-thick'}
-				onPress={handleSubmit}
-			>
-				Invite
-			</Button>
-		</View>
-	);
+  return (
+    <View
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 90,
+      }}
+    >
+      <Button
+        style={{ height: 42, width: "30%", marginBottom: 5 }}
+        mode="contained"
+        icon={"plus-thick"}
+        onPress={handleSubmit}
+      >
+        Invite
+      </Button>
+    </View>
+  );
 }

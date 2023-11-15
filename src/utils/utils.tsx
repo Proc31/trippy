@@ -1,5 +1,5 @@
 import * as Firebase from "firebase/database";
-import { ref, update } from "@firebase/database";
+import { ref, update, push, child } from "@firebase/database";
 
 const db = Firebase.getDatabase();
 
@@ -156,6 +156,30 @@ export async function addStudentsToTrip(studentIds, tripId, trip) {
   });
 }
 
+interface InventoryUpdates {
+  [key: string]: string | boolean | null;
+}
+
+export function addInventorytoTripAndStudents (tripId: string, newItem: string) {
+  const newItemKey = push(
+    child(ref(db), `trips/${tripId}/inventory`),
+  ).key; 
+  const updates: InventoryUpdates = {};
+  updates[`/trips/${tripId}/inventory/` + newItemKey] = newItem;
+
+  getSingleTrip(tripId)
+  .then((data) => {
+    const students = data.val().students;
+    const keys = Object.keys(students);
+    keys.forEach((studentId) => {
+      updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/item_name`] = newItem
+      updates[`students/${studentId}/trips/${tripId}/inventory/${newItemKey}/checked`] = false
+    })
+  }).then(() => {
+    return update(ref(db), updates)
+  }).catch((error) => console.log(error))
+}
+
 export async function addInventoryToStudent(studentId, tripId, trip) {
   const path = `students/${studentId}/trips/${tripId}/`;
   const set = Firebase.set;
@@ -256,4 +280,18 @@ export async function setStatusToConsented(studentId, tripId) {
   update(ref, {
     consented: Date.now(),
   });
+}
+
+export async function setPaidUnpaid(studentId: string, tripId: string, toggle: boolean ) {
+  const set = Firebase.set;
+  const ref = Firebase.ref(db, `trips/${tripId}/students/${studentId}/`);
+  if (toggle){
+    update(ref, {
+      paid: Date.now(),
+    });
+  } else {
+    update(ref, {
+      paid: null
+    });
+  }
 }
