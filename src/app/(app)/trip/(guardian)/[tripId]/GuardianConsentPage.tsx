@@ -3,11 +3,17 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import {Text, Button} from 'react-native-paper'
 import { useGlobalSearchParams } from 'expo-router';
 import { setStatusToConsented } from '@/utils/utils';
+import { getStudentIdFromGuardian } from '@/utils/utils';
+import { useSession } from "@/auth/ctx";
 
 
 
 const GuardianConsentPage = () => {
     const { tripId } = useGlobalSearchParams();
+    const { session } = useSession();
+    const guardianId = JSON.parse(session).id
+
+
     const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
 
     const handleScroll = (event) => {
@@ -46,8 +52,12 @@ I have read and understand the details of the school trip to the Lake District, 
 
   const handleAccept = () => {
     if (isScrolledToBottom) {
-        setStatusToConsented()
+        getStudentIdFromGuardian(guardianId)
+        .then((studentId) => {
+            setStatusToConsented(studentId, tripId)
+    })
     }
+
   };
 
   return (
@@ -75,6 +85,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     marginBottom: 16,
+    padding:20,
+    paddingTop:0,
     borderWidth: 3,
     borderColor: "black"
   },

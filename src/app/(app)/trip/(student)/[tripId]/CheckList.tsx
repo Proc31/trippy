@@ -93,9 +93,10 @@ const InventoryChecklist = () => {
     )
   }
   return (
-    <View style={{}}>
+    <View style={{margin:40, marginTop:20}}>
+      <Text style={{textAlign: 'center', fontSize: 18, marginBottom: 20}}>Essential items for your trip</Text>
       <FlatList
-        style={{ margin: 40,
+        style={{ 
           borderRadius: 5,
           backgroundColor: "#E4E1E1"
         }}
