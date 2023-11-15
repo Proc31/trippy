@@ -15,19 +15,17 @@ import theme from "@/utils/theme";
 export default function EditStudents() {
   const [students, setStudents] = useState([]);
   //TODO this needs to be changed to get the trip id from the user
-  const [trip, setTrip] = useState('');
-  const {tripId} = useGlobalSearchParams()
-  
+  const [trip, setTrip] = useState("");
+  const { tripId } = useGlobalSearchParams();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        
-        const trip = await getSingleTrip(tripId)
-        setTrip(trip)
+        const trip = await getSingleTrip(tripId);
+        setTrip(trip);
         const tripStudents = await getTripStudents(tripId);
         const firstKeys = tripStudents.map((obj) => Object.keys(obj)[0]);
         const studentData = await getMultipleStudents(firstKeys);
-        console.log(tripStudents)
         setStudents(studentData);
       } catch (err) {
         console.error(err);
@@ -49,7 +47,7 @@ export default function EditStudents() {
       checkedItems={checkedItems}
       students={students}
       setCheckedItems={setCheckedItems}
-      trip={trip}
+      trip={tripId}
     />,
   ];
 }
