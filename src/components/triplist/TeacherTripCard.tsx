@@ -102,15 +102,15 @@ const TeacherTripCard = ({
 				</Button>
 			</Card.Actions>
 
-			{isEditing && (
-				<TripEditForm
-					trip={tripDetails} // Pass tripDetails instead of trip
-					onSubmit={handleSaveEdit}
-					onCancel={toggleEditForm}
-				/>
-			)}
-		</Card>
-	);
+      {isEditing && (
+        <TripEditForm
+          trip={tripDetails} // Pass tripDetails instead of trip
+          onSubmit={handleSaveEdit}
+          onCancel={toggleEditForm}
+        />
+      )}
+    </Card>
+  );
 };
 
 export default TeacherTripCard;
