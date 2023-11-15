@@ -41,6 +41,24 @@ export default function AppLayout() {
 					tabBarActiveTintColor: theme.colors.primary,
 				}}
 			>
+
+			<Tabs.Screen
+					name="GuardianConsentPage"
+					options={{
+						tabBarLabel: 'Consent Form',
+						tabBarIcon: ({ focused, color, size }) => {
+							return (
+								<MaterialCommunityIcons
+									name="account-child"
+									size={focused ? 38 : size}
+									color={
+										focused ? theme.colors.primary : color
+									}
+								/>
+							);
+						},
+					}}
+				/>
 			</Tabs>
 		</>
 	);
