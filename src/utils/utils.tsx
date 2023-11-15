@@ -255,3 +255,17 @@ export async function setStatusToConsented(studentId, tripId) {
     consented: Date.now(),
   });
 }
+
+export async function setPaidUnpaid(studentId: string, tripId: string, toggle: boolean ) {
+  const set = Firebase.set;
+  const ref = Firebase.ref(db, `trips/${tripId}/students/${studentId}/`);
+  if (toggle){
+    update(ref, {
+      paid: Date.now(),
+    });
+  } else {
+    update(ref, {
+      paid: null
+    });
+  }
+}
