@@ -17,8 +17,8 @@ const InventoryChecklist = () => {
   const [inventory, setInventory] = useState<Item[] | null>(null);
   const { tripId } = useGlobalSearchParams();
   const { session } = useSession();
-  //const studentId = JSON.parse(session).id
-  const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
+  const studentId = JSON.parse(session).id
+  //const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
 
 
   const pupilInventoryRef = ref(
