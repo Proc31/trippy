@@ -21,7 +21,6 @@ export default function SignIn() {
 	};
 
 	const handleSignIn = () => {
-		getStudentIdFromGuardian('1SUVmHDNfkRH01A8ImTHmVFoVer1');
 		signIn(email, password);
 	};
 
