@@ -34,7 +34,7 @@ const GuardianTripCard = ({
           style={theme.tripTeacherButtons}
           onPress={() =>
             router.push({
-              pathname: `/trip/(${userRole})/[tripId]`,
+              pathname: `/trip/(${userRole})/[tripId]/`,
               params: {
                 tripId,
                 tripTitle: tripDetails.name,

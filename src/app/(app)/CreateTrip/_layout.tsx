@@ -16,11 +16,19 @@ export default function AppLayout() {
   }
   // This layout can be deferred because it's not the root layout.
   return (
-    <>
-      <Header  signOut={signOut} />
-      <Tabs screenOptions={{ headerShown: false }}>
-        <Tabs.Screen name="AddTripForm" options={{ title: "Add Trip" }} />
-      </Tabs>
-    </>
+		<>
+			<Header signOut={signOut} />
+			<Tabs
+				screenOptions={{
+					headerShown: false,
+					tabBarStyle: { display: 'none' },
+				}}
+			>
+				<Tabs.Screen
+					name="AddTripForm"
+					options={{ title: 'Add Trip' }}
+				/>
+			</Tabs>
+		</>
   );
 }
