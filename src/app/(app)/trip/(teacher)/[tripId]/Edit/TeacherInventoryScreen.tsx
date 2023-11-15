@@ -29,8 +29,13 @@ const TeacherInventoryScreen = () => {
   useEffect(() => {
     getTripInventory(tripId)
       .then((data: InventoryData) => {
-        const itemsArray = Object.values(data);
-        setInventory(itemsArray);
+        console.log(data)
+        if(data){const itemsArray = Object.values(data);
+          console.log(itemsArray)
+        setInventory(itemsArray);} else {
+          setInventory([])
+        }
+        
       })
       .catch((error) => {
         console.log(error);
@@ -91,7 +96,7 @@ const TeacherInventoryScreen = () => {
       })
       .then((singleTripData) => {
         const updates: FirebaseUpdates = {};
-        const students = singleTripData.val().students;
+        const students = singleTripData.students;
         const keys = Object.keys(students);
   
         keys.forEach((studentKey) => {
@@ -141,7 +146,7 @@ const TeacherInventoryScreen = () => {
               updates[`/trips/${tripId}/inventory/` + inventKey] = editedValue;
               
               getSingleTrip(tripId).then((data) => {
-                const students = data.val().students;
+                const students = data.students;
                 const keys = Object.keys(students);
                 keys.forEach((studentKey) => {
                   updates[`students/${studentKey}/trips/${tripId}/inventory/${inventKey}/item_name`] = editedValue;
@@ -183,7 +188,7 @@ const TeacherInventoryScreen = () => {
 
             getSingleTrip(tripId)
               .then((data) => {
-                const students = data.val().students;
+                const students = data.students;
                 const keys = Object.keys(students);
                 keys.forEach((studentKey) => {
                   updates[
