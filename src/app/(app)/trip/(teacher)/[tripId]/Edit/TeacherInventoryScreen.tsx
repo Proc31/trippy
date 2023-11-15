@@ -16,7 +16,7 @@ const TeacherInventoryScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(-1); // Initialized as -1 to indicate no item is being edited
 	const { tripId } = useGlobalSearchParams();
-  const textInputRef = useRef();
+  const textInputRef = useRef<RNTextInput>(null); // needed this to stop typescript complaining
 console.log(tripId)
   useEffect(() => {
     

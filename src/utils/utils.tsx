@@ -39,7 +39,8 @@ export async function getTrips() {
 export async function getSingleTrip(id) {
   const ref = Firebase.ref(db, `trips/${id}`);
   const result = await Firebase.get(ref);
-  return result;
+  const parsedResult = result.val();
+  return parsedResult;
 }
 
 export async function getSingleStudent(id) {
@@ -71,7 +72,8 @@ export async function getUserRole(id) {
 
 export async function getTripStudents(id) {
   const data = await getSingleTrip(id);
-  const students = data.val().students;
+  const students = data.students;
+  console.log(students)
   if (students === undefined) {
     return [];
   }
