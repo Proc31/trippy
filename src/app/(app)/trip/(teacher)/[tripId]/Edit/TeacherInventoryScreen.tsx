@@ -308,15 +308,18 @@ const TeacherInventoryScreen = () => {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "center",
+              paddingBottom: 5
             }}
           >
-            <TextInput
-              ref={textInputRef}
-              placeholder="Add a new item"
-              value={addText}
-              onChangeText={(text) => setAddText(text)}
-              style={{ flex: 3 }}
-            />
+            <View style={{flex:3}}>
+              <TextInput
+                ref={textInputRef}
+                placeholder="Add a new item"
+                value={addText}
+                onChangeText={(text) => setAddText(text)}
+                style={{borderWidth: 3, borderRadius: 5, backgroundColor: "white", borderColor: "#28a745"}}
+              />
+            </View>
             <Button
               icon="plus-circle-outline"
               mode="contained"
