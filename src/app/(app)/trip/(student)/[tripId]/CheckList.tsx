@@ -112,7 +112,7 @@ const InventoryChecklist = () => {
           style={{
             textAlign: "justify",
             margin: 10,
-            color: theme.colors.primary,
+            color: "#FFFFFF",
           }}
         >
           Checklist
