@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
+import theme from "@/utils/theme";
 
 const TripEditForm = ({ onSubmit, trip }) => {
-
   const [tripName, setTripName] = useState(trip.tripName);
   const [location, setLocation] = useState(trip.location);
   const [dateString, setDateString] = useState(trip.editDate);
   const [description, setDescription] = useState(trip.description);
-  
+
   const handleSubmit = () => {
     onSubmit({ tripName, location, date: new Date(dateString), description });
   };
@@ -15,6 +15,8 @@ const TripEditForm = ({ onSubmit, trip }) => {
   return (
     <React.Fragment>
       <TextInput
+        mode="flat"
+        underlineColor={theme.colors.primary}
         label="Trip Name"
         value={tripName}
         onChangeText={(text) => setTripName(text)}
