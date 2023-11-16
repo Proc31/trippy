@@ -28,7 +28,7 @@ export default function StudentList({
   return (
     <ScrollView style={theme.listContainer}>
       {title}
-      <Text style={{ color: 'white', fontSize: 18 }}>Remove</Text>
+      <Text style={{ color: 'black', fontSize: 18 }}>Remove</Text>
       {students.map((student, index) => {
         let hasConsented = false;
         if(consentInfo) {
