@@ -108,33 +108,6 @@ export default function SignIn() {
 			>
 				Sign In
 			</Button>
-			<Button
-				mode="contained"
-				onPress={() => {
-					debugSignIn('teacher');
-				}}
-				style={{ width: 300, margin: 20 }}
-			>
-				Teacher
-			</Button>
-			<Button
-				mode="contained"
-				onPress={() => {
-					debugSignIn('student');
-				}}
-				style={{ width: 300, margin: 20 }}
-			>
-				Student
-			</Button>
-			<Button
-				mode="contained"
-				onPress={() => {
-					debugSignIn('guardian');
-				}}
-				style={{ width: 300, margin: 20 }}
-			>
-				Guardian
-			</Button>
 		</View>
 	);
 }
