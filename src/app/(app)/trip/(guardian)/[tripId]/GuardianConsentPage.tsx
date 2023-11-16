@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import { View, ScrollView, StyleSheet, Alert } from 'react-native';
-import {Text, Button} from 'react-native-paper'
-import { useGlobalSearchParams } from 'expo-router';
-import { setStatusToConsented } from '@/utils/utils';
-import { getStudentIdFromGuardian } from '@/utils/utils';
+import React, { useState } from "react";
+import { View, ScrollView, StyleSheet, Alert } from "react-native";
+import { Text, Button, useTheme, Surface } from "react-native-paper";
+import { useGlobalSearchParams } from "expo-router";
+import { setStatusToConsented } from "@/utils/utils";
+import { getStudentIdFromGuardian } from "@/utils/utils";
 import { useSession } from "@/auth/ctx";
 
-
-
 const GuardianConsentPage = () => {
-    const { tripId } = useGlobalSearchParams();
-    const { session } = useSession();
-    const guardianId = JSON.parse(session).id
+  const { tripId } = useGlobalSearchParams();
+  const { session } = useSession();
+  const guardianId = JSON.parse(session).id;
+  const theme = useTheme();
 
+  const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
 
-    const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const handleScroll = (event) => {
+    const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
+    const isBottom =
+      layoutMeasurement.height + contentOffset.y >= contentSize.height - 20; // Adjust 20 for a margin
+    setIsScrolledToBottom(isBottom);
+  };
 
-    const handleScroll = (event) => {
-      const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
-      const isBottom = layoutMeasurement.height + contentOffset.y >= contentSize.height - 20; // Adjust 20 for a margin
-      setIsScrolledToBottom(isBottom);
-    }; 
-
-    const termsAndConditions = `
+  const termsAndConditions = `
     Trip Details:
     - Destination: Lake District, United Kingdom
     - Departure Date and Time: Monday 8th March 9.00am
@@ -51,35 +50,53 @@ const GuardianConsentPage = () => {
 
   const handleAccept = () => {
     if (isScrolledToBottom) {
-        getStudentIdFromGuardian(guardianId)
-        .then((studentId) => {
-            setStatusToConsented(studentId, tripId)
-            showAlert();
-    })
+      getStudentIdFromGuardian(guardianId).then((studentId) => {
+        setStatusToConsented(studentId, tripId);
+        showAlert();
+      });
     }
-
   };
 
   const showAlert = () => {
     Alert.alert(
-      'Consent Accepted',
-      'Thank you. Your child is now registered for the trip.',
-      [{ text: 'OK', onPress: () => console.log('Accepted') }]
+      "Consent Accepted",
+      "Thank you. Your child is now registered for the trip.",
+      [{ text: "OK", onPress: () => console.log("Accepted") }]
     );
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView}
-        onScroll={handleScroll}
-        scrollEventThrottle={16}>
-        <Text style={styles.termsText}>{termsAndConditions}</Text>
-      </ScrollView>
-      <Button  mode="contained" onPress={handleAccept}  
-      disabled={!isScrolledToBottom}
-      style={isScrolledToBottom ? null : styles.disabledButton}
-      >Accept</Button>
-    </View>
+    <>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
+        <Text
+          variant="headlineSmall"
+          style={{
+            textAlign: "justify",
+            margin: 10,
+            color: "#FFFFFF",
+          }}
+        >
+          Give consent
+        </Text>
+      </Surface>
+      <View style={styles.container}>
+        <ScrollView
+          style={styles.scrollView}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        >
+          <Text style={styles.termsText}>{termsAndConditions}</Text>
+        </ScrollView>
+        <Button
+          mode="contained"
+          onPress={handleAccept}
+          disabled={!isScrolledToBottom}
+          style={isScrolledToBottom ? null : styles.disabledButton}
+        >
+          Accept
+        </Button>
+      </View>
+    </>
   );
 };
 
@@ -87,23 +104,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    justifyContent: 'space-between',
-    marginBottom:100
+    justifyContent: "space-between",
+    marginBottom: 100,
   },
   scrollView: {
     flex: 1,
     marginBottom: 16,
-    padding:20,
-    paddingTop:0,
+    padding: 20,
+    paddingTop: 0,
     borderWidth: 3,
-    borderColor: "black"
+    borderColor: "black",
   },
   termsText: {
     fontSize: 16,
     lineHeight: 24,
   },
   disabledButton: {
-    backgroundColor: 'lightgrey',
+    backgroundColor: "lightgrey",
   },
 });
 

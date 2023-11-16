@@ -18,78 +18,61 @@ export default function AppLayout() {
     return <Redirect href="/sign-in" />;
   }
 
+  // This layout can be deferred because it's not the root layout.
+  return (
+    <>
+      <Header title={tripTitle} signOut={signOut} />
 
-	// This layout can be deferred because it's not the root layout.
-	return (
-		<>
-			<Header title={tripTitle} signOut={signOut} />
-      <Surface style={{ backgroundColor: theme.colors.primary }}>
-        <Text
-          variant="headlineSmall"
-          style={{
-            textAlign: "justify",
+      <Tabs
+        screenOptions={{
+          headerShown: false,
+          unmountOnBlur: true,
+          tabBarStyle: {
+            position: "absolute", //Could cause page overlap issues
+            height: 70,
             margin: 10,
-            color: theme.colors.primary,
+            borderRadius: 12,
+            paddingBottom: 7,
+            paddingTop: 7,
+          },
+          tabBarLabelStyle: {
+            fontSize: 16,
+          },
+          tabBarAllowFontScaling: false,
+          tabBarActiveTintColor: theme.colors.primary,
+        }}
+      >
+        <Tabs.Screen
+          name="GuardianConsentPage"
+          options={{
+            tabBarLabel: "Consent Form",
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <MaterialCommunityIcons
+                  name="account-child"
+                  size={focused ? 38 : size}
+                  color={focused ? theme.colors.primary : color}
+                />
+              );
+            },
           }}
-        >
-          Checklist
-        </Text>
-      </Surface>
-			<Tabs
-				screenOptions={{
-					headerShown: false,
-					unmountOnBlur: true,
-					tabBarStyle: {
-						position: 'absolute', //Could cause page overlap issues
-						height: 70,
-						margin: 10,
-						borderRadius: 12,
-						paddingBottom: 7,
-						paddingTop: 7,
-					},
-					tabBarLabelStyle: {
-						fontSize: 16,
-					},
-					tabBarAllowFontScaling: false,
-					tabBarActiveTintColor: theme.colors.primary,
-				}}
-			>
-				<Tabs.Screen
-					name="GuardianConsentPage"
-					options={{
-						tabBarLabel: 'Consent Form',
-						tabBarIcon: ({ focused, color, size }) => {
-							return (
-								<MaterialCommunityIcons
-									name="account-child"
-									size={focused ? 38 : size}
-									color={
-										focused ? theme.colors.primary : color
-									}
-								/>
-							);
-						},
-					}}
-				/>
-				<Tabs.Screen
-					name="CheckList"
-					options={{
-						tabBarLabel: 'Inventory',
-						tabBarIcon: ({ focused, color, size }) => {
-							return (
-								<MaterialIcons
-									name="inventory"
-									size={focused ? 32 : size}
-									color={
-										focused ? theme.colors.primary : color
-									}
-								/>
-							);
-						},
-					}}
-				/>
-			</Tabs>
-		</>
-	);
+        />
+        <Tabs.Screen
+          name="CheckList"
+          options={{
+            tabBarLabel: "Inventory",
+            tabBarIcon: ({ focused, color, size }) => {
+              return (
+                <MaterialIcons
+                  name="inventory"
+                  size={focused ? 32 : size}
+                  color={focused ? theme.colors.primary : color}
+                />
+              );
+            },
+          }}
+        />
+      </Tabs>
+    </>
+  );
 }
-

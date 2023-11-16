@@ -1,140 +1,152 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
-import { Checkbox} from "react-native-paper";
+import { View, FlatList } from "react-native";
+import { Checkbox, Surface, Text, useTheme } from "react-native-paper";
 import { ref, onValue, set } from "firebase/database";
-import { database } from '@/utils/config';
+import { database } from "@/utils/config";
 import { useGlobalSearchParams } from "expo-router";
 import { useSession } from "@/auth/ctx";
-import { getStudentIdFromGuardian } from '@/utils/utils';
+import { getStudentIdFromGuardian } from "@/utils/utils";
 
 type Item = {
-	name: string;
-	checked: boolean;
+  name: string;
+  checked: boolean;
 };
 
 const InventoryChecklist = () => {
-	const [inventory, setInventory] = useState<Item[] | null>(null);
-	const { tripId } = useGlobalSearchParams();
-	const { session } = useSession();
-	const guardianId = JSON.parse(session).id;
+  const [inventory, setInventory] = useState<Item[] | null>(null);
+  const { tripId } = useGlobalSearchParams();
+  const { session } = useSession();
+  const guardianId = JSON.parse(session).id;
 
-	const [studentId, setStudentId] = React.useState(null);
+  const theme = useTheme();
 
-	//const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
+  const [studentId, setStudentId] = React.useState(null);
 
-	useEffect(() => {
-		getStudentIdFromGuardian(guardianId).then((studentId) => {
-			setStudentId(studentId);
-			const pupilInventoryRef = ref(
-				database,
-				`students/${studentId}/trips/${tripId}/inventory`
-			);
-			onValue(pupilInventoryRef, (snapshot) => {
-				const data = snapshot.val();
-				if (data) {
-					// Convert Firebase data to an array of items and update the state
-					const itemsArray: Item[] = Object.keys(data).map(
-						(itemKey) => {
-							return {
-								key: [itemKey],
-								name: data[itemKey].item_name,
-								checked: JSON.parse(data[itemKey].checked),
-							};
-						}
-					);
-					setInventory(itemsArray);
-				} else {
-					setInventory([]);
-				}
-			});
-		});
-	}, []);
+  //const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
 
-	const handleItemCheck = (item, itemIndex: number) => {
-		// Update the checked status in the state
-		if (inventory) {
-			const updatedItems = [...inventory];
-			updatedItems[itemIndex].checked = !updatedItems[itemIndex].checked;
-			setInventory(updatedItems);
+  useEffect(() => {
+    getStudentIdFromGuardian(guardianId).then((studentId) => {
+      setStudentId(studentId);
+      const pupilInventoryRef = ref(
+        database,
+        `students/${studentId}/trips/${tripId}/inventory`
+      );
+      onValue(pupilInventoryRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          // Convert Firebase data to an array of items and update the state
+          const itemsArray: Item[] = Object.keys(data).map((itemKey) => {
+            return {
+              key: [itemKey],
+              name: data[itemKey].item_name,
+              checked: JSON.parse(data[itemKey].checked),
+            };
+          });
+          setInventory(itemsArray);
+        } else {
+          setInventory([]);
+        }
+      });
+    });
+  }, []);
 
-			// Update DB
-			const dbRef = ref(
-				database,
-				`students/${studentId}/trips/${tripId}/inventory/${item.key}/checked`
-			);
-			set(dbRef, updatedItems[itemIndex].checked).catch((error) => {
-				console.log(error);
-			});
-		}
-	};
+  const handleItemCheck = (item, itemIndex: number) => {
+    // Update the checked status in the state
+    if (inventory) {
+      const updatedItems = [...inventory];
+      updatedItems[itemIndex].checked = !updatedItems[itemIndex].checked;
+      setInventory(updatedItems);
 
-	type ItemProps = {
-		item: Item;
-		index: number;
-	};
+      // Update DB
+      const dbRef = ref(
+        database,
+        `students/${studentId}/trips/${tripId}/inventory/${item.key}/checked`
+      );
+      set(dbRef, updatedItems[itemIndex].checked).catch((error) => {
+        console.log(error);
+      });
+    }
+  };
 
-	const RenderItem = ({ item, index }: ItemProps) => {
-		return (
-			<View
-				style={{
-					flexDirection: 'row',
-					alignItems: 'center',
-					paddingLeft: 50,
-					backgroundColor: 'white',
-					padding: 10,
-					marginBottom: 10,
-					borderWidth: 3,
-					borderColor: '#28a745',
-					borderRadius: 8,
-				}}
-			>
-				<Checkbox
-					status={item.checked ? 'checked' : 'unchecked'}
-					onPress={() => handleItemCheck(item, index)}
-				/>
-				<Text
-					style={{
-						marginLeft: 16,
-						fontSize: 18,
-						flexWrap: 'wrap',
-						width: 200,
-					}}
-				>
-					{item.name}
-				</Text>
-			</View>
-		);
-	};
+  type ItemProps = {
+    item: Item;
+    index: number;
+  };
 
-	if (!inventory || inventory.length === 0) {
-		return (
-			<View>
-				<Text style={{ fontSize: 24 }}>
-					No items have been added to the list yet!
-				</Text>
-			</View>
-		);
-	}
-	return (
-		<View style={{ margin: 40, marginTop: 20 }}>
-			<Text
-				style={{ textAlign: 'center', fontSize: 18, marginBottom: 20 }}
-			>
-				Essential items for your trip
-			</Text>
-			<FlatList
-				style={{
-					borderRadius: 5,
-					backgroundColor: '#E4E1E1',
-				}}
-				data={inventory}
-				keyExtractor={(item, index) => `${item.name}-${index}`}
-				renderItem={({ item, index }) => (
-					<RenderItem item={item} index={index} />
-				)}
-			/>
-		</View>
-	);
+  const RenderItem = ({ item, index }: ItemProps) => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingLeft: 50,
+          backgroundColor: "white",
+          padding: 10,
+          marginBottom: 10,
+          borderWidth: 3,
+          borderColor: "#28a745",
+          borderRadius: 8,
+        }}
+      >
+        <Checkbox
+          status={item.checked ? "checked" : "unchecked"}
+          onPress={() => handleItemCheck(item, index)}
+        />
+        <Text
+          style={{
+            marginLeft: 16,
+            fontSize: 18,
+            flexWrap: "wrap",
+            width: 200,
+          }}
+        >
+          {item.name}
+        </Text>
+      </View>
+    );
+  };
+
+  if (!inventory || inventory.length === 0) {
+    return (
+      <View>
+        <Text style={{ fontSize: 24 }}>
+          No items have been added to the list yet!
+        </Text>
+      </View>
+    );
+  }
+  return (
+    <>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
+        <Text
+          variant="headlineSmall"
+          style={{
+            textAlign: "justify",
+            margin: 10,
+            color: "#FFFFFF",
+          }}
+        >
+          Check list
+        </Text>
+      </Surface>
+      <View style={{ margin: 40, marginTop: 20 }}>
+        <Text style={{ textAlign: "center", fontSize: 18, marginBottom: 20 }}>
+          Essential items for your trip
+        </Text>
+        <FlatList
+          style={{
+            borderRadius: 5,
+            backgroundColor: "#E4E1E1",
+          }}
+          data={inventory}
+          keyExtractor={(item, index) => `${item.name}-${index}`}
+          renderItem={({ item, index }) => (
+            <RenderItem item={item} index={index} />
+          )}
+        />
+      </View>
+    </>
+  );
 };
 
 export default InventoryChecklist;
