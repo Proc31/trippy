@@ -61,6 +61,7 @@ export default function StudentList({
           </View>
         );
       })}
+
     </ScrollView>
   );
     }
