@@ -41,8 +41,7 @@ export default function AppLayout() {
 					tabBarActiveTintColor: theme.colors.primary,
 				}}
 			>
-
-			<Tabs.Screen
+				<Tabs.Screen
 					name="GuardianConsentPage"
 					options={{
 						tabBarLabel: 'Consent Form',
@@ -51,6 +50,23 @@ export default function AppLayout() {
 								<MaterialCommunityIcons
 									name="account-child"
 									size={focused ? 38 : size}
+									color={
+										focused ? theme.colors.primary : color
+									}
+								/>
+							);
+						},
+					}}
+				/>
+				<Tabs.Screen
+					name="CheckList"
+					options={{
+						tabBarLabel: 'Inventory',
+						tabBarIcon: ({ focused, color, size }) => {
+							return (
+								<MaterialIcons
+									name="inventory"
+									size={focused ? 32 : size}
 									color={
 										focused ? theme.colors.primary : color
 									}
