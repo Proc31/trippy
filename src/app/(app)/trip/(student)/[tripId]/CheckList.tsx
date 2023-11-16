@@ -5,6 +5,7 @@ import { ref, onValue, set } from "firebase/database";
 import { database } from "@/utils/config";
 import { useGlobalSearchParams } from "expo-router";
 import { useSession } from "@/auth/ctx";
+import { useTheme } from "react-native-paper";
 
 type Item = {
   name: string;
@@ -16,6 +17,7 @@ const InventoryChecklist = () => {
   const { tripId } = useGlobalSearchParams();
   const { session } = useSession();
   const studentId = JSON.parse(session).id;
+  const theme = useTheme();
   //const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
 
   const pupilInventoryRef = ref(
@@ -104,13 +106,13 @@ const InventoryChecklist = () => {
   }
   return (
     <>
-      <Surface style={{ backgroundColor: "#226622" }}>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
         <Text
           variant="headlineSmall"
           style={{
             textAlign: "justify",
             margin: 10,
-            color: "#BBBBBB",
+            color: theme.colors.primary,
           }}
         >
           Checklist

@@ -21,13 +21,13 @@ export default function AppLayout() {
   return (
     <>
       <Header title={tripTitle} signOut={signOut} />
-      <Surface style={{ backgroundColor: "#226622" }}>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
         <Text
           variant="headlineSmall"
           style={{
             textAlign: "justify",
             margin: 10,
-            color: "#BBBBBB",
+            color: "#FFFFFF",
           }}
         >
           Edit trip details

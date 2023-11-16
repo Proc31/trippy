@@ -3,7 +3,7 @@ import { Redirect, Tabs, useGlobalSearchParams, router } from "expo-router";
 import { useSession } from "@/auth/ctx";
 import Loading from "@/components/global/Loading";
 import Header from "@/components/global/Header";
-import { useTheme, Text, Surface } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function AppLayout() {

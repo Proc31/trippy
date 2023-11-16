@@ -1,11 +1,12 @@
 import * as React from "react";
 import { View } from "react-native";
-import { Appbar, Surface, Text } from "react-native-paper";
+import { Appbar, Surface, Text, useTheme } from "react-native-paper";
 import { useSession } from "@/auth/ctx";
 import TripList from "@/components/triplist/TripList";
 import Loading from "@/components/global/Loading";
 
 export default function Home() {
+  const theme = useTheme();
   // User Info States
   const [user, setUser] = React.useState({});
   // UX States
@@ -29,13 +30,13 @@ export default function Home() {
         <Appbar.Content title={`Welcome, ${user.first_name}`} />
         <Appbar.Action icon="logout" onPress={signOut} />
       </Appbar.Header>
-      <Surface style={{ backgroundColor: "#226622" }}>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
         <Text
           variant="headlineSmall"
           style={{
             textAlign: "justify",
             margin: 10,
-            color: "#BBBBBB",
+            color: "#FFFFFF",
           }}
         >
           Select a trip
