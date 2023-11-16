@@ -9,6 +9,7 @@ import { getStudents } from "@/utils/utils";
 
 export default function InviteStudents() {
   const [students, setStudents] = useState([]);
+  const consentInfo = null;
   useEffect(() => {
     const studentsArr = [];
     const fetchData = async () => {
@@ -25,6 +26,7 @@ export default function InviteStudents() {
       title={<Text style={theme.listHeader}>Invite Students</Text>}
       students={students}
       checkedItems={checkedItems}
+      consentInfo={consentInfo}
       setCheckedItems={setCheckedItems}
     />,
     <SendStudentInvites

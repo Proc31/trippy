@@ -13,31 +13,40 @@ const theme = {
     textAlign: "center",
     fontSize: 32,
     textDecorationLine: "underline",
-    color: "white",
+    color: "black",
     marginBottom: 20,
   },
   listContainer: {
     flex: 1,
     marginHorizontal: 16,
     marginVertical: 32,
-    backgroundColor: "#b9c9fc",
+    backgroundColor: "#ffffff",
     borderRadius: 10,
+    borderColor: "#28a745",
+    borderWidth: 4,
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 12,
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
+    borderStyle: "dashed",
+  },
+  checkboxContent: {
+    flexDirection: "row",
+    alignItems: "center", 
+    paddingLeft: 16, 
   },
   listText: {
     fontFamily: "Poetsen One",
     marginLeft: 8,
     fontSize: 32,
     borderStyle: "solid",
-
     height: "100%",
     width: "100%",
     padding: 5,
-    color: "white",
+    paddingLeft: 20,
   },
   // #09131B
   tripTitle: {
@@ -58,7 +67,7 @@ const theme = {
   tripDesc: {
     fontSize: 20,
     marginBottom: 20,
-    color: "#09131B",
+    color: "black",
     fontWeight: "bold",
   },
   buttonText: { color: "white", fontSize: 20, fontFamily: "Poetsen One" },

@@ -6,6 +6,7 @@ import { DatePickerModal } from "react-native-paper-dates";
 import { useSession } from "@/auth/ctx";
 import { getSingleTrip, amendTripDetails } from "@/utils/utils";
 import { router, useGlobalSearchParams } from "expo-router";
+import theme from "@/utils/theme";
 
 const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
   const { tripId } = useGlobalSearchParams();
@@ -69,19 +70,23 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
     <ScrollView>
       <View style={{ padding: 16 }}>
         <TextInput
+          mode="flat"
           label="Trip Name"
+          underlineColor={theme.colors.primary}
           value={tripName}
           onChangeText={(text) => setTripName(text)}
         />
         <TextInput
+          mode="flat"
+          underlineColor={theme.colors.primary}
           label="Location"
           value={location}
           onChangeText={(text) => setLocation(text)}
         />
-        <Text>Date: {date ? date.toDateString() : "Not selected"}</Text>
-        <Button onPress={() => setOpen(true)} uppercase={false} mode="outlined">
-          Pick Trip Date
-        </Button>
+        <Text style={{ marginLeft: 15 }}>
+          Date: {date ? date.toDateString() : "Not selected"}
+        </Text>
+
         <DatePickerModal
           locale="en"
           mode="single"
@@ -92,8 +97,10 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
           presentationStyle="fullScreen"
         />
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ fontSize: 16, marginRight: 8 }}>£</Text>
           <TextInput
+            style={{ width: 380 }}
+            mode="flat"
+            underlineColor={theme.colors.primary}
             keyboardType="number-pad"
             label="Cost"
             value={cost}
@@ -101,14 +108,32 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
           />
         </View>
         <TextInput
+          mode="flat"
           label="Description"
+          underlineColor={theme.colors.primary}
           value={description}
           onChangeText={(text) => setDescription(text)}
         />
         <Button
+          onPress={() => setOpen(true)}
+          uppercase={false}
+          mode="outlined"
+          style={{
+            borderRadius: 5,
+            backgroundColor: theme.colors.primary,
+            marginTop: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 20 }}>Pick Trip Date</Text>
+        </Button>
+        <Button
           mode="contained"
           onPress={handleSubmit}
-          style={{ margin: 4 }}
+          style={{
+            borderRadius: 5,
+            backgroundColor: theme.colors.primary,
+            marginTop: 10,
+          }}
           disabled={
             !tripName ||
             !location ||
@@ -118,7 +143,11 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
             isSubmitting
           }
         >
-          {isSubmitting ? "Editing..." : "Submit"}
+          {isSubmitting ? (
+            <Text style={{ color: "white", fontSize: 20 }}>Submitting...</Text>
+          ) : (
+            <Text style={{ color: "white", fontSize: 20 }}>Submit</Text>
+          )}
         </Button>
       </View>
     </ScrollView>
