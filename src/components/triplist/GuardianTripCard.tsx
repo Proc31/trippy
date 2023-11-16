@@ -16,11 +16,11 @@ const GuardianTripCard = ({
   useEffect(() => {
     getSingleTrip(tripId).then((data) => {
       if (!data) return;
+
       setTripDetails(data);
     });
   }, []);
 
-  console.log(tripDetails);
   return (
     <Card style={theme.tripCard}>
       <Card.Content>

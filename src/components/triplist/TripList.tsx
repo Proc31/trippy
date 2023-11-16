@@ -42,9 +42,9 @@ const TripList = ({ id, role, child }) => {
     <>
       <ScrollView>
         {trips.map((tripObject, index) => {
+          console.log(tripObject);
           const tripId = Object.keys(tripObject)[0];
           const tripDetails = tripObject[tripId];
-
           if (userRole === "teacher") {
             return (
               <TeacherTripCard
