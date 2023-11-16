@@ -27,8 +27,8 @@ export default function StudentList({
       {students.map((student, index) => (
         <View key={index + 43} style={theme.checkboxContainer}>
           <Checkbox
-            uncheckedColor="#2a2c41"
-            color="white"
+            uncheckedColor="#28a745"
+            color="#28a745"
             key={index + 100}
             status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
             onPress={() => handleCheckboxChange(student.id)}
