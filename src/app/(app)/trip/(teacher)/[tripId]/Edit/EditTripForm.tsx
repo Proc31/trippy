@@ -10,16 +10,14 @@ import { router, useGlobalSearchParams } from "expo-router";
 const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
   const { tripId } = useGlobalSearchParams();
 
-
-  useEffect(()=>{  getSingleTrip(tripId).then((existingTrip) => {
-    setTripName(existingTrip.name),
-      setLocation(existingTrip.location),
-      setCost(existingTrip.cost),
-      setDescription(existingTrip.description);
-      
-      
-  });},[])
-
+  useEffect(() => {
+    getSingleTrip(tripId).then((existingTrip) => {
+      setTripName(existingTrip.name),
+        setLocation(existingTrip.location),
+        setCost(existingTrip.cost),
+        setDescription(existingTrip.description);
+    });
+  }, []);
 
   const [tripName, setTripName] = useState("");
   const [location, setLocation] = useState("");
