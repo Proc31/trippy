@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, useTheme, Surface } from "react-native-paper";
 import React, { useEffect, useState } from "react";
 import StudentList from "@/components/SORT THESE/StudentList";
 import RemoveStudentBtn from "@/components/SORT THESE/RemoveStudentBtn";
@@ -41,8 +41,22 @@ export default function EditStudents() {
   const [checkedItems, setCheckedItems] = useState([]);
   const [indexToRemove, setIndexes] = useState([]);
   return [
+    <Surface style={{ backgroundColor: theme.colors.primary }}>
+      <Text
+        variant="headlineSmall"
+        style={{
+          textAlign: "justify",
+          margin: 10,
+          color: "#FFFFFF",
+        }}
+      >
+        Remove students
+      </Text>
+    </Surface>,
     <StudentList
-      title={<Text style={theme.listHeader}>Student List</Text>}
+
+      title=""
+
       students={students}
       consentInfo={consentInfo}
       checkedItems={checkedItems}
