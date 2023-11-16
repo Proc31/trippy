@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList } from "react-native";
-import { Checkbox} from "react-native-paper";
+import { View, FlatList } from "react-native";
+import { Checkbox, Surface, Text } from "react-native-paper";
 import { ref, onValue, set } from "firebase/database";
-import { database } from '@/utils/config';
+import { database } from "@/utils/config";
 import { useGlobalSearchParams } from "expo-router";
 import { useSession } from "@/auth/ctx";
-
 
 type Item = {
   name: string;
   checked: boolean;
-
 };
 
 const InventoryChecklist = () => {
   const [inventory, setInventory] = useState<Item[] | null>(null);
   const { tripId } = useGlobalSearchParams();
   const { session } = useSession();
-  const studentId = JSON.parse(session).id
+  const studentId = JSON.parse(session).id;
   //const studentId = '8RYvxdEt5dhBs37l0bUggWXyNk22'
-
 
   const pupilInventoryRef = ref(
     database,
-    `students/${studentId}/trips/${tripId}/inventory`,
+    `students/${studentId}/trips/${tripId}/inventory`
   );
-
 
   useEffect(() => {
     onValue(pupilInventoryRef, (snapshot) => {
@@ -52,19 +48,17 @@ const InventoryChecklist = () => {
       const updatedItems = [...inventory];
       updatedItems[itemIndex].checked = !updatedItems[itemIndex].checked;
       setInventory(updatedItems);
-  
+
       // Update DB
-      const dbRef = ref(database, `students/${studentId}/trips/${tripId}/inventory/${item.key}/checked`);
-      set(dbRef, 
-       updatedItems[itemIndex].checked,
-      )
-      .catch((error) => {
+      const dbRef = ref(
+        database,
+        `students/${studentId}/trips/${tripId}/inventory/${item.key}/checked`
+      );
+      set(dbRef, updatedItems[itemIndex].checked).catch((error) => {
         console.log(error);
       });
     }
   };
-  
-  
 
   type ItemProps = {
     item: Item;
@@ -73,40 +67,75 @@ const InventoryChecklist = () => {
 
   const RenderItem = ({ item, index }: ItemProps) => {
     return (
-      <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 50, backgroundColor: "white", padding: 10, marginBottom: 10, borderWidth: 3, borderColor:  '#28a745', borderRadius: 8 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingLeft: 50,
+          backgroundColor: "white",
+          padding: 10,
+          marginBottom: 10,
+          borderWidth: 3,
+          borderColor: "#28a745",
+          borderRadius: 8,
+        }}
+      >
         <Checkbox
           status={item.checked ? "checked" : "unchecked"}
-          onPress={() => handleItemCheck(item, index,)}
+          onPress={() => handleItemCheck(item, index)}
         />
-        <Text style={{ marginLeft: 16, fontSize: 18, flexWrap: "wrap", width: 200  }}>{item.name}</Text>
+        <Text
+          style={{ marginLeft: 16, fontSize: 18, flexWrap: "wrap", width: 200 }}
+        >
+          {item.name}
+        </Text>
       </View>
     );
   };
 
-  if(!inventory || inventory.length === 0) {
+  if (!inventory || inventory.length === 0) {
     return (
       <View>
-        <Text style={{fontSize:24}}>
+        <Text style={{ fontSize: 24 }}>
           No items have been added to the list yet!
         </Text>
       </View>
-    )
+    );
   }
   return (
-    <View style={{margin:40, marginTop:20}}>
-      <Text style={{textAlign: 'center', fontSize: 18, marginBottom: 20}}>Essential items for your trip</Text>
-      <FlatList
-        style={{ 
-          borderRadius: 5,
-          backgroundColor: "#E4E1E1"
-        }}
-        data={inventory}
-        keyExtractor={(item, index) => `${item.name}-${index}`}
-        renderItem={({ item, index }) => (
-          <RenderItem item={item} index={index} />
-        )}
-      />
-    </View>
+    <>
+      <Surface style={{ backgroundColor: "#226622" }}>
+        <Text
+          variant="headlineSmall"
+          style={{
+            textAlign: "justify",
+            margin: 10,
+            color: "#BBBBBB",
+          }}
+        >
+          Checklist
+        </Text>
+      </Surface>
+      <View style={{ margin: 40, marginTop: 20 }}>
+        <Text
+          variant="headlineSmall"
+          style={{ textAlign: "center", marginBottom: 20 }}
+        >
+          Essential items for your trip
+        </Text>
+        <FlatList
+          style={{
+            borderRadius: 5,
+            backgroundColor: "#E4E1E1",
+          }}
+          data={inventory}
+          keyExtractor={(item, index) => `${item.name}-${index}`}
+          renderItem={({ item, index }) => (
+            <RenderItem item={item} index={index} />
+          )}
+        />
+      </View>
+    </>
   );
 };
 
