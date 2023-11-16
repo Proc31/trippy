@@ -21,17 +21,17 @@ const TripList = ({ id, role, child }) => {
 
   useEffect(() => {
     setUserRole(role);
-    if (role === "student"){
+    if (role === "student") {
       getStudentsTrips(id).then((trips) => {
         setTrips(trips);
       });
     }
-    if (role === "teacher"){
+    if (role === "teacher") {
       getTrips().then((trips) => {
         setTrips(trips);
       });
     }
-    if (role === "guardian"){
+    if (role === "guardian") {
       getStudentsTrips(child).then((trips) => {
         setTrips(trips);
       });
@@ -44,6 +44,7 @@ const TripList = ({ id, role, child }) => {
         {trips.map((tripObject, index) => {
           const tripId = Object.keys(tripObject)[0];
           const tripDetails = tripObject[tripId];
+
           if (userRole === "teacher") {
             return (
               <TeacherTripCard
@@ -69,9 +70,7 @@ const TripList = ({ id, role, child }) => {
           }
         })}
 
-        {userRole === "teacher" ? (
-          <AddTripCard />
-        ) : null}
+        {userRole === "teacher" ? <AddTripCard /> : null}
       </ScrollView>
     </>
   );

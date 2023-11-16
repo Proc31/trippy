@@ -58,7 +58,7 @@ const theme = {
   tripDesc: {
     fontSize: 20,
     marginBottom: 20,
-    color: "#09131B",
+    color: "black",
     fontWeight: "bold",
   },
   buttonText: { color: "white", fontSize: 20, fontFamily: "Poetsen One" },
