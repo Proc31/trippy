@@ -1,12 +1,13 @@
 import { useSession } from "@/auth/ctx";
 import Loading from "@/components/global/Loading";
 import * as React from "react";
-import { Text, Surface } from "react-native-paper";
+import { Text, Surface, useTheme } from "react-native-paper";
 import { View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import * as Brightness from "expo-brightness";
 
 export default function Generator() {
+  const theme = useTheme();
   const { session } = useSession();
 
   const [userID, setUserID] = React.useState("");
@@ -36,13 +37,13 @@ export default function Generator() {
 
   return (
     <>
-      <Surface style={{ backgroundColor: "#226622" }}>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
         <Text
           variant="headlineSmall"
           style={{
             textAlign: "justify",
             margin: 10,
-            color: "#BBBBBB",
+            color: "#FFFFFF",
           }}
         >
           Checkin

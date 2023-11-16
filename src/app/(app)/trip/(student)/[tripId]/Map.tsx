@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Location from "expo-location";
-import { Surface, Text } from "react-native-paper";
+import { Surface, Text, useTheme } from "react-native-paper";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import Loading from "@/components/global/Loading";
@@ -35,6 +35,8 @@ export default function Map() {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+
+  const theme = useTheme();
 
   React.useEffect(() => {
     (async () => {
@@ -73,13 +75,13 @@ export default function Map() {
 
   return (
     <>
-      <Surface style={{ backgroundColor: "#226622" }}>
+      <Surface style={{ backgroundColor: theme.colors.primary }}>
         <Text
           variant="headlineSmall"
           style={{
             textAlign: "justify",
             margin: 10,
-            color: "#BBBBBB",
+            color: "#FFFFFF",
           }}
         >
           Useful locations
