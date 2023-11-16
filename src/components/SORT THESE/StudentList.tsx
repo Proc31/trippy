@@ -4,7 +4,7 @@ import { Checkbox } from "react-native-paper";
 import theme from "../../utils/theme";
 
 export default function StudentList({
-  // title,
+  title,
   checkedItems,
   setCheckedItems,
   students,
@@ -23,7 +23,7 @@ export default function StudentList({
   };
   return (
     <ScrollView style={theme.listContainer}>
-      {/* {title} */}
+      {title}
       {students.map((student, index) => (
         <View key={index + 43} style={theme.checkboxContainer}>
           <Checkbox

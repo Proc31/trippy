@@ -67,10 +67,6 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
 
   return (
     <ScrollView>
-      <Text variant="headlineMedium" style={{ margin: 6, textAlign: "center" }}>
-        Trip Description
-      </Text>
-
       <View style={{ padding: 16 }}>
         <TextInput
           label="Trip Name"

@@ -22,7 +22,7 @@ export default function InviteStudents() {
   const [invited, setInvited] = useState([]);
   return [
     <StudentList
-      // title={<Text style={theme.listHeader}>Invite Students</Text>}
+      title={<Text style={theme.listHeader}>Invite Students</Text>}
       students={students}
       checkedItems={checkedItems}
       setCheckedItems={setCheckedItems}
