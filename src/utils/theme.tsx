@@ -47,7 +47,6 @@ const theme = {
     width: "100%",
     padding: 5,
     paddingLeft: 20,
-    color: "white",
   },
   // #09131B
   tripTitle: {
