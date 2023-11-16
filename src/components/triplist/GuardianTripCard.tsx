@@ -3,23 +3,50 @@ import { Card, Button, Text, Title, Subheading } from "react-native-paper";
 import InventoryScreen from "@/components/inventory/InventoryScreen";
 import { router } from "expo-router";
 import theme from "@/utils/theme";
+import { useEffect, useState } from "react";
+import { getSingleTrip } from "@/utils/utils";
 
 const GuardianTripCard = ({
   tripId,
-  tripDetails,
   handleEditTrip,
   handleDeleteTrip,
   userRole,
 }) => {
+  const [tripDetails, setTripDetails] = useState("");
+  useEffect(() => {
+    getSingleTrip(tripId).then((data) => {
+      if (!data) return;
+      setTripDetails(data);
+    });
+  }, []);
+
+  console.log(tripDetails);
   return (
     <Card style={theme.tripCard}>
       <Card.Content>
         <Title style={theme.tripTitle}>{tripDetails.name}</Title>
-        <Text variant="titleMedium">{tripDetails.date}</Text>
-        <Subheading style={{ color: "blue" }}>
+        <Text variant="titleMedium" style={{ fontSize: 20 }}>
+          On: {tripDetails.date}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          Consent by: {tripDetails.consent_deadline}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+          Fee: £{tripDetails.cost}
+        </Text>
+        <Subheading style={{ color: "blue", fontSize: 20 }}>
           {tripDetails.location}
         </Subheading>
-        <Text variant="bodyMedium" style={theme.tripDesc}>
+        <Text
+          variant="bodyMedium"
+          style={{
+            fontSize: 24,
+            color: "black",
+            lineHeight: 30,
+            marginBottom: 30,
+            marginTop: 30,
+          }}
+        >
           {tripDetails.description}
         </Text>
       </Card.Content>
