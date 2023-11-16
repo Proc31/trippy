@@ -76,7 +76,7 @@ export default function AppLayout() {
 				<Tabs.Screen
 					name="EditStudents"
 					options={{
-						tabBarLabel: 'Edit',
+						tabBarLabel: 'Students',
 						tabBarIcon: ({ focused, color, size }) => {
 							return (
 								<MaterialIcons
