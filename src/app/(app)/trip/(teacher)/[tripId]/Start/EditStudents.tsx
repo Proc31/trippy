@@ -14,6 +14,7 @@ import theme from "@/utils/theme";
 
 export default function EditStudents() {
   const [students, setStudents] = useState([]);
+  const [consentInfo, setConsentInfo] = useState([])
   //TODO this needs to be changed to get the trip id from the user
   const [trip, setTrip] = useState("");
   const { tripId } = useGlobalSearchParams();
@@ -24,6 +25,10 @@ export default function EditStudents() {
         const trip = await getSingleTrip(tripId);
         setTrip(trip);
         const tripStudents = await getTripStudents(tripId);
+
+        if(tripStudents) {
+          setConsentInfo(tripStudents)
+        }
         const firstKeys = tripStudents.map((obj) => Object.keys(obj)[0]);
         const studentData = await getMultipleStudents(firstKeys);
         setStudents(studentData);
@@ -37,8 +42,9 @@ export default function EditStudents() {
   const [indexToRemove, setIndexes] = useState([]);
   return [
     <StudentList
-      title={<Text style={theme.listHeader}>Remove Students</Text>}
+      title={<Text style={theme.listHeader}>Student List</Text>}
       students={students}
+      consentInfo={consentInfo}
       checkedItems={checkedItems}
       setCheckedItems={setCheckedItems}
     />,

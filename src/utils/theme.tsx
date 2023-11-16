@@ -28,6 +28,11 @@ const theme = {
     alignItems: "center",
     marginBottom: 12,
   },
+  checkboxContent: {
+    flexDirection: "row",
+    alignItems: "center", 
+    paddingLeft: 16, 
+  },
   listText: {
     fontFamily: "Poetsen One",
     marginLeft: 8,
@@ -37,6 +42,7 @@ const theme = {
     height: "100%",
     width: "100%",
     padding: 5,
+    paddingLeft: 20,
     color: "white",
   },
   // #09131B
