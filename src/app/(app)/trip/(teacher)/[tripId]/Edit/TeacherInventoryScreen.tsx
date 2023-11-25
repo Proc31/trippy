@@ -298,9 +298,9 @@ const TeacherInventoryScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <Text variant="headlineMedium" style={{ margin: 6, textAlign: "center" }}>
+      {/* <Text variant="headlineMedium" style={{ margin: 6, textAlign: "center" }}>
         Inventory
-      </Text>
+      </Text> */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{ margin: 40 }}>
           <View

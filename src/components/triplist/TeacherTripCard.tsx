@@ -7,7 +7,7 @@ import {
   Subheading,
   Icon,
 } from "react-native-paper";
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 import TripEditForm from "./EditTripForm";
 import { router } from "expo-router";
 import theme from "@/utils/theme";
@@ -52,12 +52,13 @@ const TeacherTripCard = ({
   return (
     <Card style={theme.tripCard}>
       <Card.Content>
-        <Title style={theme.tripTitle}>{tripDetails.name}</Title>
-        <Text variant="titleMedium">{tripDetails.date}</Text>
-        <Subheading style={{ color: "blue" }}>
-          {tripDetails.location}
-        </Subheading>
-        <Text variant="bodyMedium" style={theme.tripDesc}>
+      <Title style={theme.tripTitle}>{tripDetails.name}</Title>
+        <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 5}}>
+          <Subheading >{tripDetails.location}</Subheading>
+          <Subheading>{tripDetails.date}</Subheading>
+        </View>
+
+        <Text style={theme.tripDesc}>
           {tripDetails.description}
         </Text>
       </Card.Content>

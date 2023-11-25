@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Card, Button, Text, Title, Subheading } from "react-native-paper";
+import { View } from "react-native";
 import InventoryScreen from "@/components/inventory/InventoryScreen";
 import { router } from "expo-router";
 import theme from "@/utils/theme";
@@ -25,27 +26,22 @@ const GuardianTripCard = ({
     <Card style={theme.tripCard}>
       <Card.Content>
         <Title style={theme.tripTitle}>{tripDetails.name}</Title>
-        <Text variant="titleMedium" style={{ fontSize: 20 }}>
-          On: {tripDetails.date}
-        </Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          Consent by: {tripDetails.consent_deadline}
-        </Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          Fee: £{tripDetails.cost}
-        </Text>
-        <Subheading style={{ color: "blue", fontSize: 20 }}>
-          {tripDetails.location}
-        </Subheading>
+        <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 5}}>
+          <Subheading >{tripDetails.location}</Subheading>
+          <Subheading>{tripDetails.date}</Subheading>
+        </View>
+
+          <View style={{paddingTop: 5}}>
+            <Text style={theme.tripDetails}>
+              Consent by: {tripDetails.consent_deadline}
+            </Text>
+            <Text style={theme.tripDetails}>
+              Fee: £{tripDetails.cost}
+            </Text>
+          </View>
+
         <Text
-          variant="bodyMedium"
-          style={{
-            fontSize: 24,
-            color: "black",
-            lineHeight: 30,
-            marginBottom: 30,
-            marginTop: 30,
-          }}
+          style={theme.tripDesc}
         >
           {tripDetails.description}
         </Text>

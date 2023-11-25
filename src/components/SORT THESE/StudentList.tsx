@@ -28,19 +28,18 @@ export default function StudentList({
   return (
     <ScrollView style={theme.listContainer}>
       {title}
-      <Text style={{ color: 'black', fontSize: 18 }}>Remove</Text>
       {students.map((student, index) => {
         let hasConsented = false;
         if(consentInfo) {
-          hasConsented = consentInfo[index][students[index].id].hasOwnProperty('consented')
+          const studentId = students[index].id
+          hasConsented = consentInfo[index][studentId].hasOwnProperty('consented')
         }
       
         return (
           <View key={index + 43} style={theme.checkboxContainer}>
             <View style={theme.checkboxContent}>
               <Checkbox
-                uncheckedColor="#2a2c41"
-                color="white"
+                // uncheckedColor="#2a2c41"
                 key={index + 100}
                 status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
                 onPress={() => handleCheckboxChange(student.id)}
@@ -49,7 +48,8 @@ export default function StudentList({
             <Text key={index + 299} style={theme.listText}>
               {student.first_name + " " + student.surname}
             </Text>
-            {hasConsented?             <MaterialIcons
+            {hasConsented?             
+            <MaterialIcons
               style={{
                 position: 'absolute',
                 top: 8,
