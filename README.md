@@ -3,23 +3,24 @@
 
 Trippy is an innovative school trip app designed by function force 6 to streamline the planning, organization, and communication involved in educational outings. It fosters a collaborative environment between students, teachers, and guardians, ensuring a safe and enjoyable experience for everyone involved.
 
-Key Features:
 
-    Trip Invitations:
-        Teachers can create and send trip invitations to students, providing details about the destination, purpose, and schedule.
-        Students receive notifications about upcoming trips and can view trip details within the app.
+## Key Features
 
-    Map Integration:
-        The app includes map integration to showcase points of interest and important locations during the trip.
-        Teachers can mark key spots, historical sites, and educational points on the map for students to explore.
+#### Trip Invitations:
+- Teachers can create and send trip invitations to students, providing details about the destination, purpose, and schedule.
+- Students receive notifications about upcoming trips and can view trip details within the app.
 
-    QR Code Scanning:
-        For efficient headcounts and attendance tracking, the app features QR code scanning.
-        Teachers can generate unique QR codes for each student to scan upon arrival and departure, ensuring accurate headcounts.
+#### Map Integration:
+- The app includes map integration to showcase points of interest and important locations during the trip.
+- Teachers can mark key spots, historical sites, and educational points on the map for students to explore.
 
-    Guardian Involvement:
-        Guardians receive trip invitations and can view comprehensive information about the upcoming excursion.
-        The app allows guardians to provide electronic consent for their child's participation in the trip.
+#### QR Code Scanning:
+- For efficient headcounts and attendance tracking, the app features QR code scanning.
+- Teachers can generate unique QR codes for each student to scan upon arrival and departure, ensuring accurate headcounts.
+
+#### Guardian Involvement:
+- Guardians receive trip invitations and can view comprehensive information about the upcoming excursion.
+- The app allows guardians to provide electronic consent for their child's participation in the trip.
 
 
 
