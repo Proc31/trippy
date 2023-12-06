@@ -44,8 +44,10 @@
     "expo-font": "~11.4.0",
     "expo-blur": "~12.4.1",
     "expo-location": "~16.1.0",
-    "react-native-maps": "1.7.1"
-
+    "react-native-maps": "1.7.1",
+    "react-native-web": "~0.19.6",
+    "react-dom": "18.2.0",
+    "@expo/webpack-config": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

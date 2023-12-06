@@ -13,10 +13,14 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
 
   useEffect(() => {
     getSingleTrip(tripId).then((existingTrip) => {
-      setTripName(existingTrip.name),
-        setLocation(existingTrip.location),
-        setCost(existingTrip.cost),
-        setDescription(existingTrip.description);
+      setTripName(existingTrip.name);
+      setLocation(existingTrip.location);
+      setCost(existingTrip.cost);
+      setDescription(existingTrip.description);
+      const tripDate = new Date (existingTrip.date)
+      setDate(tripDate)
+      const tripConsent = new Date (existingTrip.consent_deadline)
+      setConsentDate(tripConsent)
     });
   }, []);
 
@@ -38,8 +42,8 @@ const EditTripForm = ({ onSubmit, onCancel, onTripIdChange }) => {
         location: location,
         cost: cost,
         description: description,
-        date: date.toLocaleString().split(",")[0],
-        consent_deadline: consentDate.toLocaleString().split(",")[0],
+        date: date.toISOString(),
+        consent_deadline: consentDate.toISOString(),
         organiser: id.id,
         school: "1",
         status: "planning",

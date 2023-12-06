@@ -6,7 +6,7 @@ import Header from "@/components/global/Header";
 
 export default function AppLayout() {
   const { session, isLoading, signOut } = useSession();
-  
+  console.log("layout")
 
   if (isLoading) {
     return <Loading />;

@@ -2,6 +2,7 @@ import { Button } from 'react-native-paper';
 import React from 'react';
 import { View } from 'react-native';
 import RemoveStudentBtn from './RemoveStudentBtn';
+import theme from '@/utils/theme';
 import { addInventoryToStudent, addStudentsToTrip, getSingleTrip } from '@/utils/utils';
 import { useGlobalSearchParams } from 'expo-router';
 
@@ -9,7 +10,10 @@ export default function SendStudentInvites({
   invited,
   checkedItems,
   setCheckedItems,
+  tripStudents,
+  setTripStudents,
   students,
+  setModalVisible,
 }) {
 	const {tripId} = useGlobalSearchParams()
   
@@ -27,8 +31,9 @@ export default function SendStudentInvites({
     });
     
 		setCheckedItems([]);
-		//need to get the trip and tripId from context!!!!!!!!!!!111111
-		addStudentsToTrip(invitedStudentIds, tripId);
+    setTripStudents([...tripStudents, invitedStudentIds])
+    addStudentsToTrip(invitedStudentIds, tripId);
+    setModalVisible(true)
 
 		
 	}
@@ -44,6 +49,7 @@ export default function SendStudentInvites({
     >
       <Button
         style={{ height: 42, width: "30%", marginBottom: 5 }}
+        textColor= {theme.buttonText.color}
         mode="contained"
         icon={"plus-thick"}
         onPress={handleSubmit}

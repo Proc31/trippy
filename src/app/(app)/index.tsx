@@ -47,6 +47,7 @@ export default function Home() {
           flex: 1,
           alignItems: "center",
           justifyContent: "center",
+          backgroundColor: "#F4F4F4"
         }}
       >
         <TripList id={user.id} role={user.role} child={user.child} />

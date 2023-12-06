@@ -12,21 +12,23 @@ const theme = {
   //   primary: "Glacial Indifference",
   // },
   listHeader: {
-    fontFamily: "Poetsen One",
+    fontFamily: "Glacial Indifference", 
     textAlign: "center",
-    fontSize: 32,
+    paddingVertical: 8,
+    fontSize: 26,
     textDecorationLine: "underline",
     color: "black",
-    marginBottom: 20,
+
+
   },
   listContainer: {
     flex: 1,
     marginHorizontal: 16,
-    marginVertical: 32,
+    marginVertical: 10,
     backgroundColor: "#ffffff",
     borderRadius: 10,
-    borderColor: "#28a745",
-    borderWidth: 4,
+    // borderColor: "#28a745",
+    // borderWidth: 4,
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -42,21 +44,22 @@ const theme = {
     paddingLeft: 16, 
   },
   listText: {
-    fontFamily: "Glacial Indifference",
+    fontFamily: "Phitra Handwritten",
     marginLeft: 8,
-    fontSize: 28,
+    fontSize: 24,
     borderStyle: "solid",
     height: "100%",
     width: "100%",
-    padding: 5,
+    padding: 0,
     paddingLeft: 20,
   },
   // #09131B
   tripTitle: {
     fontSize: 32,
-    fontFamily: "Poetsen One",
+    fontFamily: "Glacial Indifference", 
     color: "#09131B",
     textAlign: "center",
+    paddingBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: "#28a745",
   },
@@ -69,16 +72,15 @@ const theme = {
   },
   tripDetails: {
     fontSize: 16,
-    paddingLeft: 50,
   },
   tripDesc: {
-    fontFamily: "Glacial Indifference",
+    fontFamily: "Glacial Indifference", 
     fontSize: 20,
-    paddingTop: 10,
+    paddingTop: 15,
     paddingBottom: 10,
     color: "black",
   },
-  buttonText: { color: "white", fontSize: 20, fontFamily: "Poetsen One" },
+  buttonText: { color: "white", fontSize: 20, fontWeight: "bold" /*fontFamily: "Poetsen One"*/ },
   tripTeacherButtons: {
     flex: 1,
     height: 60,
@@ -91,8 +93,8 @@ const theme = {
     margin: 16,
     padding: 20,
     backgroundColor: "white",
-    borderColor: "#28a745",
-    borderWidth: 4,
+    // borderColor: "#28a745",
+    // borderWidth: 4,
   },
 
 };

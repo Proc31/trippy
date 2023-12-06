@@ -16,8 +16,8 @@ export default function Root() {
 
 	const [fontsLoaded, fontError] = useFonts({
 		'Poetsen One': require('../assets/fonts/PoetsenOne-Regular.ttf'),
+		'Phitra Handwritten': require('../assets/fonts/PhitradesignHandwrittenThin.ttf'),
 		'Glacial Indifference': require('../assets/fonts/GlacialIndifference-Regular.otf'),
-		'Glacial Indifference-Bold': require('../assets/fonts/GlacialIndifference-Bold.otf'),
 
 	});
 	React.useEffect(() => {

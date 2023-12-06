@@ -20,6 +20,7 @@ const TeacherTripCard = ({
   handleDeleteTrip,
   userRole,
 }) => {
+  const readableDate = new Date(tripDetails.date).toLocaleString("en-GB", {day: 'numeric', month: 'numeric', year: 'numeric'})
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEditForm = () => {
@@ -55,7 +56,7 @@ const TeacherTripCard = ({
       <Title style={theme.tripTitle}>{tripDetails.name}</Title>
         <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 5}}>
           <Subheading >{tripDetails.location}</Subheading>
-          <Subheading>{tripDetails.date}</Subheading>
+          <Subheading>{readableDate}</Subheading>
         </View>
 
         <Text style={theme.tripDesc}>

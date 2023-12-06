@@ -14,8 +14,9 @@ import theme from "@/utils/theme";
 
 export default function EditStudents() {
   const [students, setStudents] = useState([]);
-  const [consentInfo, setConsentInfo] = useState([])
-  //TODO this needs to be changed to get the trip id from the user
+  const [consentInfo, setConsentInfo] = useState(null)
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [indexToRemove, setIndexes] = useState([]);
   const [trip, setTrip] = useState("");
   const { tripId } = useGlobalSearchParams();
 
@@ -26,20 +27,25 @@ export default function EditStudents() {
         setTrip(trip);
         const tripStudents = await getTripStudents(tripId);
 
-        if(tripStudents) {
-          setConsentInfo(tripStudents)
-        }
+
         const firstKeys = tripStudents.map((obj) => Object.keys(obj)[0]);
         const studentData = await getMultipleStudents(firstKeys);
         setStudents(studentData);
+        const consentLookUpObject = tripStudents.reduce((acc, curr) => {
+          const key = Object.keys(curr)[0]; 
+          acc[key] = curr[key]; 
+          return acc;
+        }, {});
+        setConsentInfo(consentLookUpObject)
+          
+        
       } catch (err) {
         console.error(err);
       }
     };
     fetchData();
   }, []);
-  const [checkedItems, setCheckedItems] = useState([]);
-  const [indexToRemove, setIndexes] = useState([]);
+
   return [
     <Surface style={{ backgroundColor: theme.colors.primary }}>
       <Text
@@ -63,10 +69,11 @@ export default function EditStudents() {
       setCheckedItems={setCheckedItems}
     />,
     <RemoveStudentBtn
-      setStudents={setStudents}
       checkedItems={checkedItems}
       students={students}
-      setCheckedItems={setCheckedItems}
+      setStudents={setStudents}
+      consentInfo={consentInfo}
+      setConsentInfo={setConsentInfo}
       trip={tripId}
     />,
   ];

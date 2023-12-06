@@ -4,10 +4,12 @@ import TeacherTripCard from "./TeacherTripCard";
 import AddTripCard from "./AddTripcard";
 import { getTrips, getStudentsTrips, deleteTrip } from "@/utils/utils";
 import GuardianTripCard from "./GuardianTripCard";
+import Loading from "../global/Loading";
 
 const TripList = ({ id, role, child }) => {
   const [userRole, setUserRole] = useState();
   const [trips, setTrips] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   const handleEditTrip = (editedTrip) => {
     //TODO: ui is in place functionality not implemented.
@@ -21,22 +23,26 @@ const TripList = ({ id, role, child }) => {
 
   useEffect(() => {
     setUserRole(role);
+    setLoading(true);
+
+    let fetchTripsPromise;
+
     if (role === "student") {
-      getStudentsTrips(id).then((trips) => {
-        setTrips(trips);
-      });
+      fetchTripsPromise = getStudentsTrips(id);
+    } else if (role === "teacher") {
+      fetchTripsPromise = getTrips();
+    } else if (role === "guardian") {
+      fetchTripsPromise = getStudentsTrips(child);
     }
-    if (role === "teacher") {
-      getTrips().then((trips) => {
-        setTrips(trips);
-      });
-    }
-    if (role === "guardian") {
-      getStudentsTrips(child).then((trips) => {
-        setTrips(trips);
-      });
-    }
-  }, [id]);
+
+    fetchTripsPromise
+      .then((trips) => setTrips(trips))
+      .finally(() => setLoading(false));
+  }, [id, role, child]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
