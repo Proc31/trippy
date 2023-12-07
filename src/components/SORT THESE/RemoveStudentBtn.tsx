@@ -8,11 +8,12 @@ import { useGlobalSearchParams } from "expo-router";
 const database = getDatabase();
 
 function RemoveStudentBtn({
-  setCheckedItems,
   checkedItems,
   students,
   trip,
   setStudents,
+  consentInfo,
+  setConsentInfo,
 }) {
   function handleSubmit() {
     const studentsToDelete = students.filter((student) =>
@@ -24,9 +25,13 @@ function RemoveStudentBtn({
         setStudents(
           students.filter((student) => !studentsToDelete.includes(student)),
         );
+        setConsentInfo(
+          consentInfo.filter((obj) => !obj.hasOwnProperty(student))
+          )
       });
     });
   }
+
   return (
     <View
       style={{

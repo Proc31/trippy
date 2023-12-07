@@ -1,16 +1,19 @@
-import React, { useState, useCallback } from "react";
-import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
+import React from "react";
+import { Text, View, ScrollView } from "react-native";
 import { Checkbox } from "react-native-paper";
 import theme from "../../utils/theme";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from '@expo/vector-icons';
+
+
 
 export default function StudentList({
-  title,
+  students,
+  tripStudents,
+  consentInfo,
   checkedItems,
   setCheckedItems,
-  students,
-  consentInfo,
 }) {
+
   const handleCheckboxChange = (id) => {
     const currentIndex = checkedItems.indexOf(id);
     const newCheckedItems = [...checkedItems];
@@ -23,50 +26,45 @@ export default function StudentList({
 
     setCheckedItems(newCheckedItems); //this resets the checked items on the ui
   };
-
+  
   return (
-    <ScrollView style={theme.listContainer}>
-      {title}
-      <Text style={{ color: "black", fontSize: 18 }}>Remove</Text>
-      {students.map((student, index) => {
-        let hasConsented = false;
-        if (consentInfo) {
-          hasConsented =
-            consentInfo[index][students[index].id].hasOwnProperty("consented");
-        }
+      <ScrollView style={theme.listContainer}>
+        {students.map((student, index) => {
+          const studentId = students[index].id
 
-        return (
-          <View key={index + 43} style={theme.checkboxContainer}>
-            <View style={theme.checkboxContent}>
-              <Checkbox
-                uncheckedColor="black"
-                color="#28a745"
-                key={index + 100}
-                status={
-                  checkedItems.includes(student.id) ? "checked" : "unchecked"
-                }
-                onPress={() => handleCheckboxChange(student.id)}
-              />
-            </View>
-            <Text key={index + 299} style={theme.listText}>
-              {student.first_name + " " + student.surname}
-            </Text>
-            {hasConsented ? (
+          let hasConsentedOrInvited = false; // consented is on path teacher => start => EditStudents => sudentList // invited is teacher => Edit => InviteStudents => Studentlist
+          if(consentInfo) { // consented
+            hasConsentedOrInvited = consentInfo[studentId].hasOwnProperty('consented')
+          }
+          if(tripStudents) { // invited
+            hasConsentedOrInvited = (tripStudents.findIndex((id) => id === student.id) !== -1)
+          }
+          
+          return (
+            <View key={index + 43} style={theme.checkboxContainer}>
+              <View style={theme.checkboxContent}>
+                <Checkbox
+                  key={index + 100}
+                  status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
+                  onPress={() => handleCheckboxChange(student.id)}
+                  />
+              </View>
+              <Text key={index + 299} style={theme.listText}>
+                {student.first_name + " " + student.surname}
+              </Text>
+              {hasConsentedOrInvited?             
               <MaterialIcons
-                style={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  paddingRight: 5,
-                }}
-                name="check-circle"
-                size={24}
-                color="green"
-              />
-            ) : null}
-          </View>
-        );
-      })}
-    </ScrollView>
+              style={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                paddingRight: 5
+              }}
+              name="check-circle" size={24} color="green"
+              /> : null}
+            </View>
+          );
+        })}
+      </ScrollView>
   );
 }

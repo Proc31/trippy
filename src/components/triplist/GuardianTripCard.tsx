@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Card, Button, Text, Title, Subheading } from "react-native-paper";
-import InventoryScreen from "@/components/inventory/InventoryScreen";
+import { View } from "react-native";
 import { router } from "expo-router";
 import theme from "@/utils/theme";
 import { useEffect, useState } from "react";
@@ -13,39 +13,55 @@ const GuardianTripCard = ({
   userRole,
 }) => {
   const [tripDetails, setTripDetails] = useState("");
+
   useEffect(() => {
     getSingleTrip(tripId).then((data) => {
       if (!data) return;
 
       setTripDetails(data);
+
+
     });
   }, []);
+
+  const readableDate = tripDetails? new Date(tripDetails.date).toLocaleString("en-GB", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    })
+  : "..."; 
+
+const readableConsentDate = tripDetails? new Date(tripDetails.consent_deadline).toLocaleString("en-GB", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    })
+  : "...";
+
 
   return (
     <Card style={theme.tripCard}>
       <Card.Content>
         <Title style={theme.tripTitle}>{tripDetails.name}</Title>
-        <Text variant="titleMedium" style={{ fontSize: 20 }}>
-          On: {tripDetails.date}
-        </Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          Consent by: {tripDetails.consent_deadline}
-        </Text>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          Fee: £{tripDetails.cost}
-        </Text>
-        <Subheading style={{ color: "blue", fontSize: 20 }}>
-          {tripDetails.location}
-        </Subheading>
+        <View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", paddingTop: 5, marginBottom:5}}>
+          <Subheading style={{fontWeight: "bold", fontFamily: 'Davys Crappy Writ'}}>{tripDetails.location}</Subheading>
+          <Subheading style={{fontWeight: "bold"}}>{readableDate}</Subheading>
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
+        <View style={{ flex: 1, backgroundColor: "#E1F1FF", borderRadius: 10, padding: 5, marginRight:10, alignItems: 'center', justifyContent: 'center'  }}>
+          <Text style={theme.tripDetails}>Consent by</Text>
+          <Text style={[theme.tripDetails, { fontSize: 18}]}> {readableConsentDate} </Text>
+        </View>
+
+        <View style={{ flex: 1, backgroundColor: '#E1F1FF', borderRadius: 10, padding: 10, marginLeft:10, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={[theme.tripDetails, { fontSize: 18 }]}>£{tripDetails.cost}</Text>
+
+        </View>
+        </View>
+
         <Text
-          variant="bodyMedium"
-          style={{
-            fontSize: 24,
-            color: "black",
-            lineHeight: 30,
-            marginBottom: 30,
-            marginTop: 30,
-          }}
+          style={theme.tripDesc}
         >
           {tripDetails.description}
         </Text>
