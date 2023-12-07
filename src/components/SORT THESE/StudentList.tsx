@@ -4,6 +4,8 @@ import { Checkbox } from "react-native-paper";
 import theme from "../../utils/theme";
 import { MaterialIcons } from '@expo/vector-icons';
 
+
+
 export default function StudentList({
   students,
   tripStudents,
@@ -65,4 +67,4 @@ export default function StudentList({
         })}
       </ScrollView>
   );
-    }
+}
