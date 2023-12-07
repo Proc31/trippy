@@ -57,8 +57,8 @@ export default function InviteStudents() {
       <StudentList
         students={students}
         tripStudents={tripStudents}
-        checkedItems={checkedItems}
         consentInfo={consentInfo}
+        checkedItems={checkedItems}
         setCheckedItems={setCheckedItems}
         />
       <SendStudentInvites

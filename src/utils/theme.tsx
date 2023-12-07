@@ -8,9 +8,7 @@ const theme = {
     primary: "#28a745", // Green
   },
   fontFamily: "Poetsen One",
-  // fonts: {
-  //   primary: "Glacial Indifference",
-  // },
+
   listHeader: {
     fontFamily: "Glacial Indifference", 
     textAlign: "center",
@@ -47,7 +45,6 @@ const theme = {
     fontFamily: "Phitra Handwritten",
     marginLeft: 8,
     fontSize: 24,
-    borderStyle: "solid",
     height: "100%",
     width: "100%",
     padding: 0,

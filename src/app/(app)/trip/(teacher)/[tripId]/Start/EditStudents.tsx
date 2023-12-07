@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import StudentList from "@/components/SORT THESE/StudentList";
 import RemoveStudentBtn from "@/components/SORT THESE/RemoveStudentBtn";
 import { useGlobalSearchParams } from "expo-router";
-
 import {
   getMultipleStudents,
   getSingleTrip,
   getTripStudents,
 } from "@/utils/utils";
+
 import { set } from "yaml/dist/schema/yaml-1.1/set";
 import theme from "@/utils/theme";
 
@@ -36,15 +36,15 @@ export default function EditStudents() {
           acc[key] = curr[key]; 
           return acc;
         }, {});
-        setConsentInfo(consentLookUpObject)
-          
-        
-      } catch (err) {
+        setConsentInfo(consentLookUpObject) 
+      } 
+      catch (err) {
         console.error(err);
       }
     };
     fetchData();
   }, []);
+
 
   return [
     <Surface style={{ backgroundColor: theme.colors.primary }}>

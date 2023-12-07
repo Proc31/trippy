@@ -1,20 +1,20 @@
-import React, { useState, useCallback } from "react";
-import { StyleSheet, Text, View, Button, ScrollView } from "react-native";
+import React from "react";
+import { Text, View, ScrollView } from "react-native";
 import { Checkbox } from "react-native-paper";
 import theme from "../../utils/theme";
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function StudentList({
-  checkedItems,
-  setCheckedItems,
   students,
   tripStudents,
   consentInfo,
+  checkedItems,
+  setCheckedItems,
 }) {
+
   const handleCheckboxChange = (id) => {
     const currentIndex = checkedItems.indexOf(id);
     const newCheckedItems = [...checkedItems];
-
 
     if (currentIndex === -1) {
       newCheckedItems.push(id);
@@ -23,7 +23,6 @@ export default function StudentList({
     }
 
     setCheckedItems(newCheckedItems); //this resets the checked items on the ui
-    console.log(checkedItems)
   };
   
   return (
@@ -31,11 +30,11 @@ export default function StudentList({
         {students.map((student, index) => {
           const studentId = students[index].id
 
-          let hasConsentedOrInvited = false; // this depends on whether this studentList is being rendered on invite or edit screen
-          if(consentInfo) {
+          let hasConsentedOrInvited = false; // consented is on path teacher => start => EditStudents => sudentList // invited is teacher => Edit => InviteStudents => Studentlist
+          if(consentInfo) { // consented
             hasConsentedOrInvited = consentInfo[studentId].hasOwnProperty('consented')
           }
-          if(tripStudents) {
+          if(tripStudents) { // invited
             hasConsentedOrInvited = (tripStudents.findIndex((id) => id === student.id) !== -1)
           }
           
@@ -43,7 +42,6 @@ export default function StudentList({
             <View key={index + 43} style={theme.checkboxContainer}>
               <View style={theme.checkboxContent}>
                 <Checkbox
-                  // uncheckedColor="#2a2c41"
                   key={index + 100}
                   status={checkedItems.includes(student.id) ? "checked" : "unchecked"}
                   onPress={() => handleCheckboxChange(student.id)}
